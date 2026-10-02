@@ -91,22 +91,23 @@ class RadiationOncologistAgent:
             f"- Circulating Biomarkers: PSA={markers.psa_ng_ml}, CEA={markers.cea_ng_ml}, CA-125={markers.ca125_u_ml}, ctDNA={markers.ctdna_status}.\n"
             f"- Surveillance Adherence: {'Strictly Adherent' if adherent else 'Lapsed / Non-adherent'}.\n"
             f"- Calculated Locoregional/Biomarker Baseline Risk: {final_risk}%.\n\n"
-            f"In 2-3 concise, authoritative sentences in your professional clinical voice, state your radiation oncology assessment. "
-            f"Address positive margins vs field coverage, tumor marker kinetics, and state your specific radiation or surveillance imaging recommendation. Do not use fictional human names or academic degrees."
+            f"In exactly 2 concise clinical sentences (under 40 words total), state your radiation oncology assessment. "
+            f"Address margin coverage, tumor marker kinetics, and field sterilization. "
+            f"CRITICAL: Do NOT use markdown asterisks (**), bolding, or fictional human names. Plain clinical text only."
         )
 
+        from src.utils.llm_client import clean_markdown_artifacts
+
         try:
-            llm_text = self.llm_client.generate(prompt)
-            if llm_text and len(llm_text.strip()) > 30:
-                reasoning = llm_text.strip()
+            llm_text = self.llm_client.generate(prompt, max_output_tokens=350)
+            if llm_text and len(llm_text.strip()) > 20:
+                reasoning = clean_markdown_artifacts(llm_text)
             else:
                 raise ValueError("Empty LLM output")
         except Exception:
-            reasoning = (
-                f"From a radiation and biomarker surveillance perspective, assessed relapse risk is {final_risk}%. "
-                f"Key inputs include radiation field delivery ({'completed' if rad else 'none'}), "
-                f"serum tumor markers (PSA={markers.psa_ng_ml}, CEA={markers.cea_ng_ml}, CA-125={markers.ca125_u_ml}), "
-                f"and surveillance protocol adherence ({'adherent' if adherent else 'non-adherent'})."
+            reasoning = clean_markdown_artifacts(
+                f"Radiation oncology evaluates recurrence risk at {final_risk}% based on prior field delivery and circulating antigen trends. "
+                f"We advise targeted stereotactic bed sterilization and close cross-sectional surveillance."
             )
 
         opinion = TumorBoardAgentOpinion(
@@ -114,8 +115,8 @@ class RadiationOncologistAgent:
             specialist_name=self.specialist_name,
             assessed_relapse_risk_pct=final_risk,
             reasoning=reasoning,
-            key_concerns=concerns,
-            recommended_interventions=interventions
+            key_concerns=[clean_markdown_artifacts(c) for c in concerns],
+            recommended_interventions=[clean_markdown_artifacts(i) for i in interventions]
         )
 
         trace = AgentTraceLog(
@@ -133,6 +134,7 @@ class RadiationOncologistAgent:
         surg_opinion: TumorBoardAgentOpinion
     ) -> str:
         """Round 2: Evaluates medical and surgical oncology assertions, offering stereotactic radiation and surveillance counter-arguments."""
+        from src.utils.llm_client import clean_markdown_artifacts
         margin = history.procedures.surgical_margin
         ctdna = history.biomarkers.ctdna_status
 
@@ -141,27 +143,25 @@ class RadiationOncologistAgent:
             f"Medical Oncology Agent argued: '{med_opinion.reasoning}' (Assessed risk: {med_opinion.assessed_relapse_risk_pct}%).\n"
             f"Surgical Oncology Agent argued: '{surg_opinion.reasoning}' (Assessed risk: {surg_opinion.assessed_relapse_risk_pct}%).\n"
             f"Patient margin is '{margin}', ctDNA status: '{ctdna}'.\n\n"
-            f"Provide your radiation oncology cross-rebuttal. "
-            f"If Surgical Oncology pushes for invasive re-excision, argue why stereotactic body radiotherapy (SBRT) or image-guided radiotherapy (IGRT) to the tumor bed provides equivalent local sterilization without surgical delay to systemic therapy. "
-            f"If Medical Oncology wants to omit local therapy entirely for chemo/TKI, argue why gross/microscopic residual margins require definitive field sterilization to prevent seeding. "
-            f"Speak directly and authoritatively in 2-3 sentences. Do not use fictional human names or degrees."
+            f"In exactly 1-2 brief sentences (under 30 words total), state your radiation cross-rebuttal. "
+            f"State your position on stereotactic radiation versus surgery or systemic delays. "
+            f"CRITICAL: Do NOT use markdown asterisks (**) or bolding. Plain text only."
         )
 
         try:
-            res = self.llm_client.generate(prompt)
-            if res and len(res.strip()) > 30:
-                return res.strip()
+            res = self.llm_client.generate(prompt, max_output_tokens=250)
+            if res and len(res.strip()) > 20:
+                return clean_markdown_artifacts(res)
         except Exception:
             pass
 
         if margin in ["R1", "R2"]:
-            return (
-                f"Surgical re-operation carries avoidable morbidity and risks delaying needed systemic therapies. "
-                f"Image-guided stereotactic radiotherapy (SBRT) to the {margin} operative bed delivers definitive ablative doses with minimal tissue toxicity, "
-                f"allowing concurrent or prompt initiation of systemic targeted agents."
+            return clean_markdown_artifacts(
+                f"Stereotactic body radiotherapy (SBRT) to the {margin} bed provides definitive local ablation "
+                f"without surgical morbidity or systemic therapy delays."
             )
-        return (
-            f"Radiation oncology concurs that with clear surgical margins, focal radiotherapy is not indicated. "
-            f"We advise adherence to serial imaging surveillance alongside medical oncology's circulating biomarker tracking."
+        return clean_markdown_artifacts(
+            "With clear surgical margins, focal radiotherapy is not indicated. "
+            "We advise structured cross-sectional imaging alongside circulating biomarker tracking."
         )
 

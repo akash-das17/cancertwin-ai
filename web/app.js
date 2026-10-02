@@ -48,6 +48,11 @@ let currentProfile = {
 };
 
 let lastSimulationReport = null;
+
+function stripAsterisks(text) {
+  if (!text || typeof text !== "string") return text || "";
+  return text.replace(/\*\*/g, "").replace(/\*/g, "").replace(/#{1,6}\s/g, "").trim();
+}
 let activeChartCancer = "Lung";
 let currentActiveView = "viewPrevention";
 
@@ -998,11 +1003,11 @@ function renderRecommendations(recs, source = "live") {
             </a>
           ` : ''}
         </div>
-        <div class="rec-title">${r.title}</div>
-        <div class="rec-text">${r.recommendation}</div>
+        <div class="rec-title">${stripAsterisks(r.title)}</div>
+        <div class="rec-text">${stripAsterisks(r.recommendation)}</div>
         <div class="rec-meta-row">
-          <span><strong>Interval:</strong> ${r.action_interval}</span>
-          <span class="rec-impact">${r.impact_estimate}</span>
+          <span><strong>Interval:</strong> ${stripAsterisks(r.action_interval)}</span>
+          <span class="rec-impact">${stripAsterisks(r.impact_estimate)}</span>
         </div>
       </div>
     `;
@@ -1498,6 +1503,24 @@ window.handleAppraiseTrial = async function(cardId, btn) {
 };
 
 function renderTumorBoardResult(res) {
+  if (!res) return;
+  res.adjudication_rationale = stripAsterisks(res.adjudication_rationale);
+  res.consensus_summary = stripAsterisks(res.consensus_summary);
+  if (res.key_debate_points) res.key_debate_points = res.key_debate_points.map(stripAsterisks);
+  if (res.action_plan) res.action_plan = res.action_plan.map(stripAsterisks);
+  if (res.agent_opinions) {
+    res.agent_opinions.forEach(op => {
+      op.reasoning = stripAsterisks(op.reasoning);
+      if (op.key_concerns) op.key_concerns = op.key_concerns.map(stripAsterisks);
+      if (op.recommended_interventions) op.recommended_interventions = op.recommended_interventions.map(stripAsterisks);
+    });
+  }
+  if (res.debate_transcript) {
+    res.debate_transcript.forEach(m => {
+      m.content = stripAsterisks(m.content);
+    });
+  }
+
   el.tumorBoardStatusBadge.textContent = `${res.risk_tier}`;
 
   const specialistCardsHtml = res.agent_opinions.map(op => {
@@ -1898,9 +1921,11 @@ function renderSimulationReport(report) {
   });
 
   // Clinical Narrative & Behavioral Safety Staging
-  let narrativeHtml = `<p>${report.clinical_narrative}</p>`;
+  const cleanNarrative = stripAsterisks(report.clinical_narrative);
+  let narrativeHtml = `<p>${cleanNarrative}</p>`;
   if (report.feasibility_audit) {
     const f = report.feasibility_audit;
+    const cleanCritique = stripAsterisks(f.clinical_critique);
     narrativeHtml += `
       <div style="margin-top: 1rem; padding: 0.85rem; background: #f8fafc; border-left: 3.5px solid #6366f1; border-radius: 4px; font-size: 0.8rem;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.4rem; flex-wrap:wrap; gap:0.4rem;">
@@ -1909,7 +1934,7 @@ function renderSimulationReport(report) {
             Friction: ${f.friction_score}/10 &bull; ${f.feasibility_tier}
           </span>
         </div>
-        <p style="margin: 0 0 0.5rem 0; color: #334155; font-style: italic;">"${f.clinical_critique}"</p>
+        <p style="margin: 0 0 0.5rem 0; color: #334155; font-style: italic;">"${cleanCritique}"</p>
         ${f.contraindications && f.contraindications.length > 0 ? `
           <div style="color: #dc2626; margin-bottom: 0.4rem; background: #fee2e2; padding: 0.35rem 0.5rem; border-radius: 4px;">
             ${f.contraindications.map(c => `<div>⚠️ <strong>Contraindication Guardrail:</strong> ${c}</div>`).join("")}
@@ -2446,7 +2471,7 @@ function renderTherapeuticSimulationResult(data) {
 
   // 3. Clinical Recommendation
   if (el.therapeuticRecText) {
-    el.therapeuticRecText.innerHTML = `<strong>Board Protocol:</strong> ${data.clinical_recommendation}`;
+    el.therapeuticRecText.innerHTML = `<strong>Board Protocol:</strong> ${stripAsterisks(data.clinical_recommendation)}`;
   }
 
   // 4. Render DDI Cards

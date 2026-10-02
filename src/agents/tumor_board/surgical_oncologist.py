@@ -62,21 +62,23 @@ class SurgicalOncologistAgent:
             f"- Surgery Performed: {'Yes' if surgery else 'No'}.\n"
             f"- Surgical Resection Margin: {margin} ({'Microscopically Positive' if margin == 'R1' else 'Macroscopic Residual' if margin == 'R2' else 'Clear Margins'}).\n"
             f"- Calculated Locoregional Risk Baseline: {final_risk}%.\n\n"
-            f"In 2-3 concise, authoritative sentences in your professional surgical voice, state your operative assessment. "
-            f"Focus on anatomic margin clearance, risk of local tumor bed recurrence vs re-excision feasibility, and regional nodal surveillance. Do not use fictional human names or academic degrees."
+            f"In exactly 2 concise clinical sentences (under 40 words total), state your surgical assessment. "
+            f"Focus on anatomic margin clearance, risk of local recurrence vs re-excision feasibility, and nodal surveillance. "
+            f"CRITICAL: Do NOT use markdown asterisks (**), bolding, or fictional human names. Plain clinical text only."
         )
 
+        from src.utils.llm_client import clean_markdown_artifacts
+
         try:
-            llm_text = self.llm_client.generate(prompt)
-            if llm_text and len(llm_text.strip()) > 30:
-                reasoning = llm_text.strip()
+            llm_text = self.llm_client.generate(prompt, max_output_tokens=350)
+            if llm_text and len(llm_text.strip()) > 20:
+                reasoning = clean_markdown_artifacts(llm_text)
             else:
                 raise ValueError("Empty LLM output")
         except Exception:
-            reasoning = (
-                f"From a surgical and pathology standpoint, local recurrence probability is {final_risk}%. "
-                f"The primary operative determinant is margin clearance ({margin}), alongside surgical completion ({'performed' if surgery else 'unperformed'}) "
-                f"and regional lymphatic burden associated with {stage} {cancer}."
+            reasoning = clean_markdown_artifacts(
+                f"Surgical oncology assesses a locoregional recurrence risk of {final_risk}% based on {margin} surgical margin clearance. "
+                f"Our anatomical priority is regional nodal surveillance with re-excision considered only if margins remain unsterilized."
             )
 
         opinion = TumorBoardAgentOpinion(
@@ -84,8 +86,8 @@ class SurgicalOncologistAgent:
             specialist_name=self.specialist_name,
             assessed_relapse_risk_pct=final_risk,
             reasoning=reasoning,
-            key_concerns=concerns,
-            recommended_interventions=interventions
+            key_concerns=[clean_markdown_artifacts(c) for c in concerns],
+            recommended_interventions=[clean_markdown_artifacts(i) for i in interventions]
         )
 
         trace = AgentTraceLog(
@@ -103,6 +105,7 @@ class SurgicalOncologistAgent:
         rad_opinion: TumorBoardAgentOpinion
     ) -> str:
         """Round 2: Directly evaluates medical and radiation oncology positions and provides surgical counter-arguments."""
+        from src.utils.llm_client import clean_markdown_artifacts
         margin = history.procedures.surgical_margin
         ctdna = history.biomarkers.ctdna_status
 
@@ -111,27 +114,25 @@ class SurgicalOncologistAgent:
             f"Medical Oncology Agent argued: '{med_opinion.reasoning}' (Assessed risk: {med_opinion.assessed_relapse_risk_pct}%).\n"
             f"Radiation Oncology Agent argued: '{rad_opinion.reasoning}' (Assessed risk: {rad_opinion.assessed_relapse_risk_pct}%).\n"
             f"Patient margin is '{margin}', ctDNA status: '{ctdna}'.\n\n"
-            f"Provide your surgical cross-rebuttal. "
-            f"If margin is R1/R2, defend why leaving macroscopic or microscopic tumor cells in the operative bed creates a hypoxic sanctuary site that systemic chemotherapy alone cannot sterilize. "
-            f"Explain whether re-excision is technically achievable or if radiation tumor bed boost is acceptable to avoid surgical morbidity. "
-            f"Speak directly and authoritatively in 2-3 sentences. Do not use fictional human names or degrees."
+            f"In exactly 1-2 brief sentences (under 30 words total), state your surgical cross-rebuttal. "
+            f"State your position on margin control versus systemic delays. "
+            f"CRITICAL: Do NOT use markdown asterisks (**) or bolding. Plain text only."
         )
 
         try:
-            res = self.llm_client.generate(prompt)
-            if res and len(res.strip()) > 30:
-                return res.strip()
+            res = self.llm_client.generate(prompt, max_output_tokens=250)
+            if res and len(res.strip()) > 20:
+                return clean_markdown_artifacts(res)
         except Exception:
             pass
 
         if margin in ["R1", "R2"]:
-            return (
-                f"Microscopically positive margins ({margin}) cannot simply be ignored in favor of systemic therapy. "
-                f"Residual tumor beds are poorly vascularized and create a sanctuary site where clonal resistance emerges. "
-                f"If re-excision is omitted to avoid systemic therapy delays, high-dose stereotactic radiation bed boost must be guaranteed."
+            return clean_markdown_artifacts(
+                f"Microscopically positive margins ({margin}) require definitive bed sterilization. "
+                f"If re-excision is omitted to avoid systemic delays, targeted stereotactic radiation must be delivered."
             )
-        return (
-            f"With clear R0 surgical margins achieved, our primary anatomical objective is complete. "
-            f"We concur with prioritizing systemic surveillance and non-invasive cross-sectional monitoring of regional basins."
+        return clean_markdown_artifacts(
+            "With clear R0 surgical margins achieved, our primary anatomical objective is complete. "
+            "We concur with prioritizing systemic surveillance and cross-sectional monitoring."
         )
 

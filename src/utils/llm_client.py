@@ -22,6 +22,25 @@ def cap_input_tokens(text: str, max_tokens: int) -> Tuple[str, int]:
     new_tokens = estimate_tokens(truncated_text)
     return truncated_text, new_tokens
 
+def clean_markdown_artifacts(text: Optional[str]) -> str:
+    """Strips all markdown bold/italic asterisks, hash headers, and normalizes typography."""
+    if not text:
+        return ""
+    import re
+    # Remove markdown bold/italic asterisks (**, *, ***)
+    cleaned = text.replace("**", "").replace("*", "")
+    # Remove leading markdown headers (e.g., '### Heading' or '# Title')
+    cleaned = re.sub(r"^#{1,6}\s*", "", cleaned, flags=re.MULTILINE)
+    # Remove markdown bullet hyphens or bullets at start of lines (- , • )
+    cleaned = re.sub(r"^\s*[-•]\s*", "", cleaned, flags=re.MULTILINE)
+    # Normalize unicode non-breaking hyphens and dashes to standard hyphens
+    cleaned = cleaned.replace("\u2011", "-").replace("\u2013", "-").replace("\u2014", "-")
+    # Normalize unicode smart quotes and spaces
+    cleaned = cleaned.replace("\u2018", "'").replace("\u2019", "'").replace("\u201c", '"').replace("\u201d", '"')
+    cleaned = cleaned.replace("\u202f", " ").replace("\u00a0", " ")
+    cleaned = cleaned.replace("\u2248", "~").replace("\u2265", ">=").replace("\u2264", "<=")
+    return cleaned.strip()
+
 class LLMClient:
     """Real-time LLM Client with explicit input and output token controls."""
 
@@ -69,14 +88,18 @@ class LLMClient:
         # Strictly enforce Input Token budget
         safe_prompt, actual_input_tokens = cap_input_tokens(prompt, input_budget)
 
+        raw_text = ""
         if self.provider == "gemini":
-            return self._call_gemini(safe_prompt, system_instruction, output_budget, temp)
+            raw_text = self._call_gemini(safe_prompt, system_instruction, output_budget, temp)
         elif self.provider == "openai":
-            return self._call_openai(safe_prompt, system_instruction, output_budget, temp)
+            raw_text = self._call_openai(safe_prompt, system_instruction, output_budget, temp)
         elif self.provider in ("groq", "grok"):
-            return self._call_groq(safe_prompt, system_instruction, output_budget, temp)
+            raw_text = self._call_groq(safe_prompt, system_instruction, output_budget, temp)
         else:
             return ""
+
+        # Remove stray markdown bold asterisks (**) and clean formatting
+        return clean_markdown_artifacts(raw_text)
 
     def _call_gemini(
         self,
@@ -187,6 +210,8 @@ class LLMClient:
             "temperature": temperature,
             "max_tokens": max_output_tokens
         }
+        if "openai" in self.model or "oss" in self.model or "gpt" in self.model:
+            payload["reasoning_effort"] = "low"
 
         import time
         max_retries = 3
@@ -197,8 +222,15 @@ class LLMClient:
                     data = response.json()
                     return data["choices"][0]["message"]["content"].strip()
                 elif response.status_code in (429, 503) and attempt < max_retries - 1:
-                    print(f"[LLMClient Groq] Status {response.status_code}. Retrying in 1.5s (attempt {attempt + 1}/{max_retries})...")
-                    time.sleep(1.5)
+                    retry_wait = 2.5
+                    try:
+                        retry_after = response.headers.get("retry-after")
+                        if retry_after:
+                            retry_wait = max(2.0, float(retry_after))
+                    except Exception:
+                        pass
+                    print(f"[LLMClient Groq] Rate limit ({response.status_code}). Pausing {retry_wait}s to refill tokens (attempt {attempt + 1}/{max_retries})...")
+                    time.sleep(retry_wait)
                     continue
                 else:
                     print(f"[LLMClient Groq Error] Status {response.status_code}: {response.text}")

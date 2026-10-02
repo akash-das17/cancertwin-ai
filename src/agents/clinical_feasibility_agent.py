@@ -70,21 +70,22 @@ class ClinicalFeasibilityAndSafetyAgent(BaseAgent):
             f"- Friction Score: {audit['feasibility_friction_score']}/10 ({audit['feasibility_tier']})\n"
             f"- Friction Drivers: {', '.join(audit['friction_factors']) if audit['friction_factors'] else 'None'}\n"
             f"- Contraindications: {', '.join(audit['contraindications']) if audit['contraindications'] else 'None'}\n\n"
-            f"In 2-3 concise sentences in an expert behavioral and medical safety voice, state your clinical critique. "
-            f"Highlight why a staged execution (Phase 1 vs Phase 2) prevents behavioral abandonment and protects patient safety. "
-            f"Do not use fictional human names or academic degrees."
+            f"In exactly 2 concise sentences (under 45 words total), state your clinical critique. "
+            f"Highlight why staged execution (Phase 1 vs Phase 2) prevents behavioral abandonment. "
+            f"CRITICAL: Do NOT use markdown asterisks (**) or fictional human names. Plain clinical text only."
         )
 
+        from src.utils.llm_client import clean_markdown_artifacts
+
         try:
-            critique = self.llm_client.generate(prompt)
-            if not critique or len(critique.strip()) < 30:
+            critique = self.llm_client.generate(prompt, max_output_tokens=350)
+            if not critique or len(critique.strip()) < 20:
                 raise ValueError("Empty LLM output")
-            critique_text = critique.strip()
+            critique_text = clean_markdown_artifacts(critique)
         except Exception:
-            critique_text = (
-                f"The proposed plan represents a transformative risk reduction but carries a friction score of {audit['feasibility_friction_score']}/10. "
-                f"Attempting simultaneous nicotine cessation, rapid BMI reduction, and aggressive exercise escalation induces high relapse rates. "
-                f"Staging interventions into Phase 1 (tobacco stabilization and baseline screenings) and Phase 2 (progressive metabolic consolidation) maximizes long-term adherence."
+            critique_text = clean_markdown_artifacts(
+                f"The proposed plan carries a behavioral friction score of {audit['feasibility_friction_score']}/10 ({audit['feasibility_tier']}). "
+                f"Staging interventions into Phase 1 stabilization and Phase 2 metabolic consolidation prevents behavioral burnout and maximizes adherence."
             )
 
         self.log(

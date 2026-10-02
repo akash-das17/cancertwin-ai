@@ -86,21 +86,23 @@ class MedicalOncologistAgent:
             f"- Current Medications: '{meds}'.\n"
             f"- Genomic Alterations: '{genomics or 'None reported'}'.\n"
             f"- Calculated Systemic Hazard Baseline: {final_risk}%.\n\n"
-            f"In 2-3 concise, authoritative sentences in your professional clinical voice, state your medical oncology evaluation. "
-            f"Address systemic micrometastatic risk based on ctDNA kinetics and specify your targeted systemic recommendation. Do not use any fictional human names or academic degrees."
+            f"In exactly 2 concise clinical sentences (under 40 words total), state your medical oncology evaluation. "
+            f"Address systemic micrometastatic risk based on ctDNA kinetics and specify your targeted systemic recommendation. "
+            f"CRITICAL: Do NOT use markdown asterisks (**), bolding, or fictional human names. Plain clinical text only."
         )
 
+        from src.utils.llm_client import clean_markdown_artifacts
+
         try:
-            llm_text = self.llm_client.generate(prompt)
-            if llm_text and len(llm_text.strip()) > 30:
-                reasoning = llm_text.strip()
+            llm_text = self.llm_client.generate(prompt, max_output_tokens=350)
+            if llm_text and len(llm_text.strip()) > 20:
+                reasoning = clean_markdown_artifacts(llm_text)
             else:
                 raise ValueError("Empty LLM output")
         except Exception:
-            reasoning = (
+            reasoning = clean_markdown_artifacts(
                 f"From a medical oncology perspective, this {stage} {cancer} presentation carries a calculated 5-year systemic relapse risk of {final_risk}%. "
-                f"Key systemic prognostic variables include circulating ctDNA status ({ctdna}), chemotherapy delivery ({'completed' if chemo else 'omitted'}), "
-                f"and an ongoing disease-free interval of {years:.1f} years."
+                f"We prioritize ctDNA ({ctdna}) surveillance and targeted systemic coverage over local interventions."
             )
 
         opinion = TumorBoardAgentOpinion(
@@ -108,8 +110,8 @@ class MedicalOncologistAgent:
             specialist_name=self.specialist_name,
             assessed_relapse_risk_pct=final_risk,
             reasoning=reasoning,
-            key_concerns=concerns,
-            recommended_interventions=interventions
+            key_concerns=[clean_markdown_artifacts(c) for c in concerns],
+            recommended_interventions=[clean_markdown_artifacts(i) for i in interventions]
         )
 
         trace = AgentTraceLog(
@@ -127,35 +129,35 @@ class MedicalOncologistAgent:
         rad_opinion: TumorBoardAgentOpinion
     ) -> str:
         """Round 2: Directly reviews surgical and radiation arguments and provides an unvarnished cross-rebuttal."""
+        from src.utils.llm_client import clean_markdown_artifacts
         ctdna = history.biomarkers.ctdna_status.lower()
         margin = history.procedures.surgical_margin
         genomics = history.biomarkers.genomic_alterations or "None"
 
         prompt = (
             f"You are the {self.specialist_name} at an active Tumor Board cross-debate.\n"
-            f"Surgical Oncology Agent argued: '{surg_opinion.reasoning}' (Assessed risk: {surg_opinion.assessed_relapse_risk_pct}%, Concerns: {surg_opinion.key_concerns}).\n"
+            f"Surgical Oncology Agent argued: '{surg_opinion.reasoning}' (Assessed risk: {surg_opinion.assessed_relapse_risk_pct}%).\n"
             f"Radiation Oncology Agent argued: '{rad_opinion.reasoning}' (Assessed risk: {rad_opinion.assessed_relapse_risk_pct}%).\n"
-            f"Patient has ctDNA status: '{ctdna}' and surgical margin: '{margin}', alteration: '{genomics}'.\n\n"
-            f"Provide your direct cross-examination rebuttal to Surgical and Radiation Oncology. "
-            f"If Surgical Oncology advocates re-operation for positive margins while ctDNA is positive, challenge them on why delaying systemic therapy for wound healing carries lethal micrometastatic risk. "
-            f"Speak directly and authoritatively in 2-3 sentences. Do not use fictional human names or degrees."
+            f"Patient ctDNA status: '{ctdna}', margin: '{margin}', genomic alteration: '{genomics}'.\n\n"
+            f"In exactly 1-2 brief sentences (under 30 words total), state your direct rebuttal to Surgical and Radiation Oncology. "
+            f"Challenge delaying systemic therapy for local procedures when ctDNA is active. "
+            f"CRITICAL: Do NOT use markdown asterisks (**) or bolding. Plain text only."
         )
 
         try:
-            res = self.llm_client.generate(prompt)
-            if res and len(res.strip()) > 30:
-                return res.strip()
+            res = self.llm_client.generate(prompt, max_output_tokens=250)
+            if res and len(res.strip()) > 20:
+                return clean_markdown_artifacts(res)
         except Exception:
             pass
 
         if ctdna == "positive" and margin in ["R1", "R2"]:
-            return (
-                f"Surgical re-excision of the {margin} margin must not take priority over systemic control when ctDNA is actively positive. "
-                f"Re-operation imposes an 8-week wound healing recovery window during which untreated systemic micrometastases will progress. "
-                f"Immediate systemic targeted therapy must take precedence, with margin control addressed via non-invasive stereotactic radiation boost."
+            return clean_markdown_artifacts(
+                f"Surgical re-excision of {margin} margins cannot delay systemic therapy when ctDNA is positive. "
+                f"Immediate systemic targeted therapy must take precedence over prolonged wound healing."
             )
-        return (
-            f"From the systemic perspective, our primary therapeutic window is targeting circulating micrometastases before radiological relapse occurs. "
-            f"Local modalities must be sequenced to avoid interrupting or delaying systemic therapeutic coverage."
+        return clean_markdown_artifacts(
+            "Targeting circulating micrometastases before radiographic recurrence is paramount. "
+            "Local interventions must not interrupt active systemic therapy."
         )
 

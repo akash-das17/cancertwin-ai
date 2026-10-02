@@ -5,14 +5,13 @@ from src.models.patient import PatientProfile
 from src.models.risk_report import PreSimulationRecommendationItem
 
 COORDINATOR_SYSTEM_PROMPT = """You are CancerTwin AI — an advanced Clinical Oncology Digital Twin coordinator.
-Your objective is to ingest an individual's digital twin state, analyze baseline 5-cancer risks using evidence from ChromaDB, and synthesize counterfactual What-If intervention projections.
+Your objective is to synthesize concise, high-impact counterfactual What-If intervention projections.
 
 Clinical Directives:
-- Maintain clear, clinical, objective, and empathetic communication.
-- Cite specific clinical guidelines (USPSTF, NCCN, WCRF, IARC) and hazard ratios.
-- Clearly separate baseline vulnerabilities from modifiable risk reductions.
-- Emphasize that digital twin projections are decision-support estimates and do not replace personalized physician care.
-- Structure your response into a cohesive, paragraph-length clinical executive summary.
+- Write in a brief, cohesive, single-paragraph clinical executive summary (under 75 words).
+- Mention the primary baseline cancer vulnerability and modifiable risk reduction.
+- Ground your recommendation in established oncology guidelines (USPSTF, NCCN, WCRF).
+- CRITICAL: Never use markdown bolding asterisks (**) or bullet points. Output clean, continuous clinical text only.
 """
 
 def build_pre_simulation_recommendations(profile: PatientProfile, assessments: dict) -> List[PreSimulationRecommendationItem]:
@@ -169,6 +168,8 @@ def build_pre_simulation_recommendations(profile: PatientProfile, assessments: d
 
     return recs
 
+from src.utils.llm_client import llm_client, clean_markdown_artifacts
+
 def generate_clinical_narrative(patient_summary: dict, assessment_results: dict, interventions_applied: dict) -> str:
     """Generates an evidence-grounded clinical narrative using real-time LLM inference (with fallback)."""
     age = patient_summary.get("age", 50)
@@ -189,7 +190,7 @@ def generate_clinical_narrative(patient_summary: dict, assessment_results: dict,
     if interventions_applied.get("target_exercise_hours_week"):
         applied_actions.append(f"increasing aerobic exercise to {interventions_applied['target_exercise_hours_week']}h/wk")
     if interventions_applied.get("adhere_recommended_screening"):
-        applied_actions.append("adhering strictly to guideline-directed cancer screening protocols (LDCT, colonoscopy, mammography, Pap/HPV, PSA)")
+        applied_actions.append("adhering to screening protocols")
     if interventions_applied.get("hpv_catchup_vaccine"):
         applied_actions.append("9-valent HPV catch-up vaccination")
     if interventions_applied.get("indoor_hepa_pm25_mitigation"):
@@ -197,24 +198,24 @@ def generate_clinical_narrative(patient_summary: dict, assessment_results: dict,
 
     interventions_str = ", ".join(applied_actions) if applied_actions else "lifestyle optimization and routine surveillance"
 
-    user_prompt = f"""Synthesize a personalized oncology digital twin assessment for:
-- Patient Profile: {age}-year-old {sex}, Baseline Health Index: {patient_summary.get('health_score', 80)}/100
-- 5-Cancer Baseline vs Counterfactual Risks:
-{assessment_results}
-- Interventions Applied in Counterfactual Simulation:
-{interventions_applied}
+    user_prompt = (
+        f"In exactly 2 concise clinical sentences (under 50 words total), synthesize this patient report:\n"
+        f"- Patient: {age}-year-old {sex}, Health Index: {patient_summary.get('health_score', 80)}/100.\n"
+        f"- Primary Vulnerability: {highest_risk_cancer.capitalize() if highest_risk_cancer else 'General'} cancer ({max_risk:.1f}% 10-year risk).\n"
+        f"- Simulated Interventions: {interventions_str}.\n"
+        f"State the primary risk, the projected risk reduction from the interventions, and the immediate guideline priority. "
+        f"CRITICAL: Do NOT use markdown asterisks (**), bolding, bullet points, or titles. Plain clinical text only."
+    )
 
-Produce an authoritative, compassionate clinical executive summary highlighting the primary vulnerability ({highest_risk_cancer} at {max_risk}%), the impact of {interventions_str}, and the clinical evidence supporting these preventive risk reductions across all 5 oncologic axes."""
-
-    llm_output = llm_client.generate(prompt=user_prompt, system_instruction=COORDINATOR_SYSTEM_PROMPT)
-    if llm_output:
-        return llm_output
+    try:
+        llm_output = llm_client.generate(prompt=user_prompt, system_instruction=COORDINATOR_SYSTEM_PROMPT, max_output_tokens=450)
+        if llm_output and len(llm_output.strip()) > 25:
+            return clean_markdown_artifacts(llm_output)
+    except Exception:
+        pass
 
     narrative = (
-        f"CancerTwin Profile for {age}-year-old {sex}: Baseline risk assessment demonstrates a primary vulnerability "
-        f"in {highest_risk_cancer} cancer ({max_risk:.1f}% 10-year cumulative risk). "
-        f"Under the simulated What-If counterfactual scenario incorporating {interventions_str}, "
-        f"substantial risk attenuation is projected across multiple oncologic axes. "
-        f"These counterfactual trajectories are substantiated by guideline recommendations retrieved from our clinical knowledge base."
+        f"CancerTwin Profile for {age}-year-old {sex}: Baseline risk demonstrates primary vulnerability in {highest_risk_cancer} cancer ({max_risk:.1f}% 10-year risk). "
+        f"Simulating {interventions_str} achieves decisive multi-organ risk attenuation in accordance with established oncology guidelines."
     )
-    return narrative
+    return clean_markdown_artifacts(narrative)
