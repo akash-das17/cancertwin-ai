@@ -2371,6 +2371,46 @@ input[type="range"] {
 }
 
 /* ==========================================================
+   Dedicated Independent Specialist Opinions Section
+   ========================================================== */
+.tb-specialists-section {
+  margin-top: 2.25rem;
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.tb-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.15rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid var(--border-light);
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tb-section-header h5 {
+  font-family: var(--font-heading);
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tb-section-header .panel-subtitle-desc {
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+  margin-top: 0.2rem;
+}
+
+/* ==========================================================
    VIEW 5 / TAB 4: Dedicated Therapeutic & Toxicity Simulator (Hidden per user request, code preserved)
    ========================================================== */
 #tabTherapeuticSim,

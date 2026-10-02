@@ -1794,9 +1794,27 @@ function renderTumorBoardResult(res) {
     <!-- Live Multidisciplinary Debate Transcript (LangGraph Cycle) -->
     ${transcriptHtml}
 
-    <!-- Specialist Opinion Cards -->
-    <div class="specialists-grid">
-      ${specialistCardsHtml}
+    <!-- Dedicated Section: Independent Specialist Clinical Appraisals & Organ Opinions -->
+    <div class="tb-specialists-section">
+      <div class="tb-section-header">
+        <div class="panel-title-wrap">
+          <svg class="panel-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <div>
+            <h5>Independent Specialist Clinical Appraisals & Organ Opinions</h5>
+            <p class="panel-subtitle-desc">Distinct clinical rationales, recurrence risk percentages, and organ-specific concerns assessed by Medical, Surgical, and Radiation Oncology</p>
+          </div>
+        </div>
+        <span class="badge badge-accent">3 Specialist Appraisals</span>
+      </div>
+
+      <div class="specialists-grid">
+        ${specialistCardsHtml}
+      </div>
     </div>
 
     <!-- Autonomous Multi-Agent Deliberation & Appraisal Traces -->

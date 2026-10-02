@@ -4,7 +4,7 @@ from typing import Optional, List
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, Response
 from pydantic import BaseModel
 
 from src.config import settings, WEB_DIR
@@ -240,3 +240,10 @@ async def serve_index():
     if index_file.exists():
         return FileResponse(str(index_file))
     return {"message": "CancerTwin AI API is online. UI files not found."}
+
+@app.get("/favicon.ico")
+async def serve_favicon():
+    logo_file = WEB_DIR / "logo.png"
+    if logo_file.exists():
+        return FileResponse(str(logo_file), media_type="image/png")
+    return Response(status_code=204)
