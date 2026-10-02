@@ -27,10 +27,12 @@ class Settings(BaseModel):
     chroma_collection_name: str = os.getenv("CHROMA_COLLECTION_NAME", "oncology_guidelines")
     
     # LLM Provider & Model Selection
-    llm_provider: str = os.getenv("LLM_PROVIDER", "gemini")  # 'gemini', 'openai', 'mock'
+    llm_provider: str = os.getenv("LLM_PROVIDER", "groq")  # 'groq', 'gemini', 'openai', 'mock'
+    groq_api_key: str = os.getenv("GROQ_API_KEY", "")
+    groq_base_url: str = os.getenv("GROQ_BASE_URL", "https://api.groq.com/openai/v1")
     gemini_api_key: str = os.getenv("GEMINI_API_KEY", "")
     openai_api_key: str = os.getenv("OPENAI_API_KEY", "")
-    llm_model: str = os.getenv("LLM_MODEL", "gemini-flash-latest")
+    llm_model: str = os.getenv("LLM_MODEL", "openai/gpt-oss-120b")
     
     # Explicit Token Budgeting Controls
     llm_max_input_tokens: int = int(os.getenv("LLM_MAX_INPUT_TOKENS", "2048"))

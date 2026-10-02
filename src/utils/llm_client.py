@@ -45,6 +45,8 @@ class LLMClient:
             self.api_key = api_key or settings.gemini_api_key
         elif self.provider == "openai":
             self.api_key = api_key or settings.openai_api_key
+        elif self.provider in ("groq", "grok"):
+            self.api_key = api_key or settings.groq_api_key
         else:
             self.api_key = ""
 
@@ -71,6 +73,8 @@ class LLMClient:
             return self._call_gemini(safe_prompt, system_instruction, output_budget, temp)
         elif self.provider == "openai":
             return self._call_openai(safe_prompt, system_instruction, output_budget, temp)
+        elif self.provider in ("groq", "grok"):
+            return self._call_groq(safe_prompt, system_instruction, output_budget, temp)
         else:
             return ""
 
@@ -157,6 +161,55 @@ class LLMClient:
         except Exception as e:
             print(f"[LLMClient OpenAI Exception]: {e}")
             return ""
+
+    def _call_groq(
+        self,
+        prompt: str,
+        system_instruction: Optional[str],
+        max_output_tokens: int,
+        temperature: float
+    ) -> str:
+        """Calls Groq Chat Completion API with exact token capping."""
+        url = f"{settings.groq_base_url.rstrip('/')}/chat/completions"
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json"
+        }
+
+        messages = []
+        if system_instruction:
+            messages.append({"role": "system", "content": system_instruction})
+        messages.append({"role": "user", "content": prompt})
+
+        payload = {
+            "model": self.model,
+            "messages": messages,
+            "temperature": temperature,
+            "max_tokens": max_output_tokens
+        }
+
+        import time
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                response = requests.post(url, json=payload, headers=headers, timeout=30)
+                if response.status_code == 200:
+                    data = response.json()
+                    return data["choices"][0]["message"]["content"].strip()
+                elif response.status_code in (429, 503) and attempt < max_retries - 1:
+                    print(f"[LLMClient Groq] Status {response.status_code}. Retrying in 1.5s (attempt {attempt + 1}/{max_retries})...")
+                    time.sleep(1.5)
+                    continue
+                else:
+                    print(f"[LLMClient Groq Error] Status {response.status_code}: {response.text}")
+                    return ""
+            except Exception as e:
+                if attempt < max_retries - 1:
+                    time.sleep(1.5)
+                    continue
+                print(f"[LLMClient Groq Exception]: {e}")
+                return ""
+        return ""
 
 llm_client = LLMClient()
 
