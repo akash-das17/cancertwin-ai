@@ -1090,9 +1090,144 @@ function renderLocalRecommendationsFallback() {
 // -------------------------------------------------------------
 // Virtual Tumor Board Debate Engine (Point 2 - Redesigned Clean Gauge)
 // -------------------------------------------------------------
+let tbDeliberationInterval = null;
+
+function setTumorBoardLoading(loading) {
+  if (loading) {
+    if (el.btnRunTumorBoard) {
+      el.btnRunTumorBoard.disabled = true;
+      el.btnRunTumorBoard.dataset.origHtml = el.btnRunTumorBoard.innerHTML;
+      el.btnRunTumorBoard.innerHTML = `
+        <svg class="spin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18">
+          <circle cx="12" cy="12" r="10" stroke-opacity="0.25" stroke="currentColor"></circle>
+          <path d="M4 12a8 8 0 018-8v8H4z" fill="currentColor"></path>
+        </svg>
+        <span>Deliberating (3 Agents Convened)...</span>
+      `;
+    }
+
+    if (el.tumorBoardStatusBadge) {
+      el.tumorBoardStatusBadge.textContent = "Deliberating (Round 1/3)...";
+      el.tumorBoardStatusBadge.className = "badge badge-accent badge-pulsing";
+    }
+
+    if (el.tumorBoardArena) {
+      el.tumorBoardArena.innerHTML = `
+        <div class="tb-chamber-loader">
+          <div class="tb-chamber-header">
+            <div class="tb-live-beacon">
+              <span class="beacon-wave"></span>
+              <span class="beacon-core"></span>
+            </div>
+            <div>
+              <h4 class="tb-chamber-title">Multidisciplinary Virtual Tumor Board in Session</h4>
+              <p class="tb-chamber-sub" id="tbChamberPhase">Convening 3 Autonomous Oncology Specialists & Supervisor...</p>
+            </div>
+          </div>
+
+          <div class="tb-chamber-agents">
+            <div class="chamber-agent-card agent-med-pulse">
+              <div class="agent-avatar-badge med-bg">Dr. C</div>
+              <div class="agent-chamber-info">
+                <div class="agent-name-row">
+                  <strong>Dr. Chen &bull; Medical Oncology</strong>
+                  <span class="agent-role-pill pill-med">Systemic Rx</span>
+                </div>
+                <p class="agent-chamber-status" id="tbStatusMed">Evaluating recurrence biology, ctDNA dynamics & systemic chemotherapy...</p>
+              </div>
+              <div class="agent-typing-indicator"><span></span><span></span><span></span></div>
+            </div>
+
+            <div class="chamber-agent-card agent-surg-pulse">
+              <div class="agent-avatar-badge surg-bg">Dr. V</div>
+              <div class="agent-chamber-info">
+                <div class="agent-name-row">
+                  <strong>Dr. Vance &bull; Surgical Oncology</strong>
+                  <span class="agent-role-pill pill-surg">Margin Control</span>
+                </div>
+                <p class="agent-chamber-status" id="tbStatusSurg">Assessing surgical resection margins, lymphadenectomy & re-excision...</p>
+              </div>
+              <div class="agent-typing-indicator"><span></span><span></span><span></span></div>
+            </div>
+
+            <div class="chamber-agent-card agent-rad-pulse">
+              <div class="agent-avatar-badge rad-bg">Dr. M</div>
+              <div class="agent-chamber-info">
+                <div class="agent-name-row">
+                  <strong>Dr. Al-Mansoor &bull; Radiation Oncology</strong>
+                  <span class="agent-role-pill pill-rad">Field / SBRT</span>
+                </div>
+                <p class="agent-chamber-status" id="tbStatusRad">Reviewing radiation boost feasibility & intense surveillance cadence...</p>
+              </div>
+              <div class="agent-typing-indicator"><span></span><span></span><span></span></div>
+            </div>
+          </div>
+
+          <div class="tb-rounds-stepper">
+            <div class="round-step active" id="tbRound1">
+              <span class="step-num">1</span>
+              <span class="step-label">Round 1: Initial Proposals</span>
+            </div>
+            <div class="step-connector" id="tbConn1"></div>
+            <div class="round-step" id="tbRound2">
+              <span class="step-num">2</span>
+              <span class="step-label">Round 2: Cross-Agent Debate</span>
+            </div>
+            <div class="step-connector" id="tbConn2"></div>
+            <div class="round-step" id="tbRound3">
+              <span class="step-num">3</span>
+              <span class="step-label">Supervisor Consensus</span>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const startTime = Date.now();
+      clearInterval(tbDeliberationInterval);
+      tbDeliberationInterval = setInterval(() => {
+        const elapsed = Date.now() - startTime;
+        const phaseEl = document.getElementById("tbChamberPhase");
+        const r1 = document.getElementById("tbRound1");
+        const r2 = document.getElementById("tbRound2");
+        const r3 = document.getElementById("tbRound3");
+        const conn1 = document.getElementById("tbConn1");
+        const conn2 = document.getElementById("tbConn2");
+
+        if (elapsed < 2400) {
+          if (phaseEl) phaseEl.textContent = "Round 1: Specialists formulating initial independent relapse risk assessments...";
+          if (el.tumorBoardStatusBadge) el.tumorBoardStatusBadge.textContent = "Deliberating (Round 1/3)...";
+          if (r1) r1.classList.add("active");
+        } else if (elapsed < 5200) {
+          if (phaseEl) phaseEl.textContent = "Round 2: Specialists engaging in cross-peer rebuttal, critique & margin debate...";
+          if (el.tumorBoardStatusBadge) el.tumorBoardStatusBadge.textContent = "Deliberating (Round 2/3)...";
+          if (r1) { r1.classList.remove("active"); r1.classList.add("completed"); }
+          if (conn1) conn1.classList.add("active");
+          if (r2) r2.classList.add("active");
+        } else {
+          if (phaseEl) phaseEl.textContent = "Round 3: Tumor Board Supervisor adjudicating consensus & multimodal action plan...";
+          if (el.tumorBoardStatusBadge) el.tumorBoardStatusBadge.textContent = "Adjudicating Consensus (Round 3/3)...";
+          if (r2) { r2.classList.remove("active"); r2.classList.add("completed"); }
+          if (conn2) conn2.classList.add("active");
+          if (r3) r3.classList.add("active");
+        }
+      }, 700);
+    }
+  } else {
+    clearInterval(tbDeliberationInterval);
+    if (el.btnRunTumorBoard) {
+      el.btnRunTumorBoard.disabled = false;
+      if (el.btnRunTumorBoard.dataset.origHtml) {
+        el.btnRunTumorBoard.innerHTML = el.btnRunTumorBoard.dataset.origHtml;
+      }
+    }
+    if (el.tumorBoardStatusBadge) {
+      el.tumorBoardStatusBadge.classList.remove("badge-pulsing");
+    }
+  }
+}
+
 async function runTumorBoardDebate() {
-  el.tumorBoardStatusBadge.textContent = "Deliberating...";
-  el.tumorBoardArena.innerHTML = `<div class="empty-state">3 Oncologists convening virtual multidisciplinary tumor board...</div>`;
+  setTumorBoardLoading(true);
 
   const priorCancerPayload = {
     has_prior_cancer: el.togglePriorCancer.checked,
@@ -1136,6 +1271,8 @@ async function runTumorBoardDebate() {
   } catch (err) {
     console.warn("Backend tumor board error. Falling back to local clinical debate engine:", err);
     renderLocalTumorBoardFallback(priorCancerPayload);
+  } finally {
+    setTumorBoardLoading(false);
   }
 }
 
@@ -1587,6 +1724,7 @@ function renderTumorBoardResult(res) {
   const gaugeColor = pct >= 50.0 ? "var(--accent-rose)" : pct >= 25.0 ? "var(--accent-amber)" : "var(--accent-emerald)";
 
   el.tumorBoardArena.innerHTML = `
+    <div class="fade-in-content">
     <!-- Supervisor Consensus Card with Modern SVG Ring Gauge (No Border Collisions, Full Hover Visibility) -->
     <div class="tb-consensus-card">
       <div class="tb-consensus-header">
@@ -1698,6 +1836,7 @@ function renderTumorBoardResult(res) {
         </div>
       </div>
     ` : ''}
+    </div>
   `;
 }
 
@@ -1855,11 +1994,162 @@ function renderLocalMetastasisFallback(p) {
 // -------------------------------------------------------------
 // 30-Year What-If Simulation Engine (Point 1, 4, 6)
 // -------------------------------------------------------------
+let simLoadingInterval = null;
+
+function setSimulationLoading(loading) {
+  if (loading) {
+    if (el.btnRunSimulation) {
+      el.btnRunSimulation.disabled = true;
+      el.btnRunSimulation.dataset.origHtml = el.btnRunSimulation.innerHTML;
+      el.btnRunSimulation.innerHTML = `
+        <svg class="spin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18">
+          <circle cx="12" cy="12" r="10" stroke-opacity="0.25" stroke="currentColor"></circle>
+          <path d="M4 12a8 8 0 018-8v8H4z" fill="currentColor"></path>
+        </svg>
+        <span>Simulating 30-Year Trajectory...</span>
+      `;
+    }
+
+    // 1. Shimmer/pulsing state on 5 risk cards
+    const cancerKeys = ["Lung", "Colorectal", "Breast", "Cervical", "Prostate"];
+    cancerKeys.forEach(c => {
+      const card = el[`card${c}`] || document.getElementById(`card${c}`);
+      if (card) {
+        card.classList.remove("fade-in-content");
+        card.classList.add("card-recalculating");
+      }
+    });
+
+    // 2. Trajectory Canvas High-Tech Overlay
+    const canvasWrap = document.querySelector(".canvas-container");
+    if (canvasWrap) {
+      let overlay = document.getElementById("simCanvasOverlay");
+      if (!overlay) {
+        overlay = document.createElement("div");
+        overlay.id = "simCanvasOverlay";
+        overlay.className = "sim-canvas-overlay";
+        canvasWrap.appendChild(overlay);
+      }
+      overlay.innerHTML = `
+        <div class="sim-overlay-box">
+          <div class="sim-pulse-radar">
+            <div class="pulse-ring pulse-ring-1"></div>
+            <div class="pulse-ring pulse-ring-2"></div>
+            <div class="pulse-center-dot">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2.2">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="sim-overlay-info">
+            <h5 class="sim-overlay-title">Synthesizing 30-Year Counterfactual Trajectories</h5>
+            <p class="sim-overlay-sub" id="simStepNotice">Evaluating 5-cancer cumulative hazards & lifestyle modulations...</p>
+            <div class="sim-progress-track">
+              <div class="sim-progress-bar-anim"></div>
+            </div>
+          </div>
+        </div>
+      `;
+      overlay.style.display = "flex";
+      overlay.classList.remove("fade-out");
+
+      const steps = [
+        "Evaluating 5-cancer cumulative hazards & lifestyle modulations...",
+        "Simulating counterfactual hazard projections across 30-year horizon...",
+        "Querying ChromaDB & PubMed for guideline-directed clinical trials...",
+        "Synthesizing LangGraph multi-agent consensus & safety audit..."
+      ];
+      let stepIdx = 0;
+      clearInterval(simLoadingInterval);
+      simLoadingInterval = setInterval(() => {
+        stepIdx = (stepIdx + 1) % steps.length;
+        const noticeEl = document.getElementById("simStepNotice");
+        if (noticeEl) noticeEl.textContent = steps[stepIdx];
+      }, 1000);
+    }
+
+    // 3. Clinical Narrative Skeleton
+    if (el.clinicalNarrativeText) {
+      el.clinicalNarrativeText.classList.remove("fade-in-content");
+      el.clinicalNarrativeText.innerHTML = `
+        <div class="skeleton-narrative-pulse">
+          <div class="skeleton-line skeleton-title-line"></div>
+          <div class="skeleton-line skeleton-text-1"></div>
+          <div class="skeleton-line skeleton-text-2"></div>
+          <div class="skeleton-line skeleton-text-3"></div>
+        </div>
+      `;
+    }
+
+    // 4. Traces loading state
+    if (el.agentTraceContainer) {
+      if (el.traceCountBadge) el.traceCountBadge.textContent = "Running...";
+      el.agentTraceContainer.innerHTML = `
+        <div class="trace-loading-pill">
+          <span class="pulsing-trace-dot"></span>
+          <span>LangGraph multi-agent execution pipeline active (Intake, Risk Assessment, What-If Simulator)...</span>
+        </div>
+      `;
+    }
+
+    // 5. Evidence list loading state
+    if (el.evidenceListContainer) {
+      el.evidenceListContainer.classList.remove("fade-in-content");
+      if (el.evidenceCountBadge) el.evidenceCountBadge.textContent = "Querying Live Evidence...";
+      el.evidenceListContainer.innerHTML = `
+        <div class="evidence-skeleton-grid">
+          <div class="evidence-skeleton-card">
+            <div class="skeleton-line sk-badge"></div>
+            <div class="skeleton-line sk-title"></div>
+            <div class="skeleton-line sk-desc"></div>
+          </div>
+          <div class="evidence-skeleton-card">
+            <div class="skeleton-line sk-badge"></div>
+            <div class="skeleton-line sk-title"></div>
+            <div class="skeleton-line sk-desc"></div>
+          </div>
+        </div>
+      `;
+    }
+
+  } else {
+    // Clear loading
+    clearInterval(simLoadingInterval);
+    if (el.btnRunSimulation) {
+      el.btnRunSimulation.disabled = false;
+      if (el.btnRunSimulation.dataset.origHtml) {
+        el.btnRunSimulation.innerHTML = el.btnRunSimulation.dataset.origHtml;
+      }
+    }
+
+    const cancerKeys = ["Lung", "Colorectal", "Breast", "Cervical", "Prostate"];
+    cancerKeys.forEach(c => {
+      const card = el[`card${c}`] || document.getElementById(`card${c}`);
+      if (card) {
+        card.classList.remove("card-recalculating");
+        card.classList.add("fade-in-content");
+      }
+    });
+
+    const overlay = document.getElementById("simCanvasOverlay");
+    if (overlay) {
+      overlay.classList.add("fade-out");
+      setTimeout(() => {
+        if (overlay.classList.contains("fade-out")) {
+          overlay.style.display = "none";
+        }
+      }, 300);
+    }
+  }
+}
+
 async function runSimulation() {
   updateTwinFromForm();
 
   // If currently in View 1, automatically transition to View 4 without reloading
   switchView("viewSimulation");
+
+  setSimulationLoading(true);
 
   const interventions = {
     smoking_cessation: el.toggleSmokingCessation.checked,
@@ -1895,6 +2185,8 @@ async function runSimulation() {
   } catch (err) {
     console.warn("Backend API error. Running resilient local 5-cancer simulation engine:", err);
     renderLocalSimulationFallback(payload);
+  } finally {
+    setSimulationLoading(false);
   }
 }
 
@@ -2074,7 +2366,7 @@ function drawHighDefinitionTrajectoryChart(points, cancerTitle) {
   ctx.clearRect(0, 0, w, h);
 
   const padLeft = 55;
-  const padRight = 35;
+  const padRight = 115;
   const padTop = 30;
   const padBottom = 45;
 
@@ -2279,21 +2571,76 @@ function drawHighDefinitionTrajectoryChart(points, cancerTitle) {
   const lastYBase = getY(lastP.baseline_risk_pct);
   const lastYSim = getY(lastP.counterfactual_risk_pct);
 
-  if (isIdentical) {
-    ctx.fillStyle = "#059669";
-    ctx.font = "700 11px Outfit, sans-serif";
-    ctx.textAlign = "left";
-    ctx.fillText(`  ${lastP.counterfactual_risk_pct}% (Curves Coincide)`, lastX, lastYSim + 4);
-  } else {
-    ctx.fillStyle = "#e11d48";
-    ctx.font = "700 11px Outfit, sans-serif";
-    ctx.textAlign = "left";
-    ctx.fillText(`  Base: ${lastP.baseline_risk_pct}%`, lastX, lastYBase - 6);
+  // Helper to draw clean rounded pill badge for endpoint risk values (Never Truncated)
+  function drawChartPillBadge(label, valText, x, y, bg, border, textColor) {
+    ctx.save();
+    ctx.font = "700 11px Outfit, -apple-system, sans-serif";
+    const fullText = `${label}: ${valText}%`;
+    const textMetrics = ctx.measureText(fullText);
+    const badgeW = Math.max(78, textMetrics.width + 14);
+    const badgeH = 20;
+    const bx = x + 8;
+    // Bound y within chart visible height
+    const by = Math.max(padTop - 4, Math.min(padTop + chartH - badgeH / 2, y - badgeH / 2));
 
-    ctx.fillStyle = "#059669";
-    ctx.font = "700 11px Outfit, sans-serif";
-    ctx.textAlign = "left";
-    ctx.fillText(`  What-If: ${lastP.counterfactual_risk_pct}%`, lastX, lastYSim + 12);
+    ctx.fillStyle = bg;
+    ctx.strokeStyle = border;
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    if (ctx.roundRect) {
+      ctx.roundRect(bx, by, badgeW, badgeH, 4);
+    } else {
+      ctx.rect(bx, by, badgeW, badgeH);
+    }
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = textColor;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(fullText, bx + badgeW / 2, by + badgeH / 2 + 0.5);
+    ctx.restore();
+  }
+
+  if (isIdentical) {
+    ctx.save();
+    ctx.font = "700 11px Outfit, -apple-system, sans-serif";
+    const fullText = `${lastP.counterfactual_risk_pct}% (Equal)`;
+    const textMetrics = ctx.measureText(fullText);
+    const badgeW = textMetrics.width + 14;
+    const badgeH = 20;
+    const bx = lastX + 8;
+    const by = Math.max(padTop - 4, Math.min(padTop + chartH - badgeH / 2, lastYSim - badgeH / 2));
+    ctx.fillStyle = "#f0fdf4";
+    ctx.strokeStyle = "#86efac";
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(bx, by, badgeW, badgeH, 4);
+    else ctx.rect(bx, by, badgeW, badgeH);
+    ctx.fill();
+    ctx.stroke();
+    ctx.fillStyle = "#065f46";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(fullText, bx + badgeW / 2, by + badgeH / 2 + 0.5);
+    ctx.restore();
+  } else {
+    // Avoid label collision if the two endpoints are vertically close
+    let yBasePos = lastYBase;
+    let ySimPos = lastYSim;
+    const minSpacing = 24;
+    if (Math.abs(yBasePos - ySimPos) < minSpacing) {
+      if (yBasePos <= ySimPos) {
+        yBasePos -= minSpacing / 2;
+        ySimPos += minSpacing / 2;
+      } else {
+        ySimPos -= minSpacing / 2;
+        yBasePos += minSpacing / 2;
+      }
+    }
+
+    drawChartPillBadge("Base", lastP.baseline_risk_pct, lastX, yBasePos, "#fff1f2", "#fda4af", "#be123c");
+    drawChartPillBadge("What-If", lastP.counterfactual_risk_pct, lastX, ySimPos, "#f0fdf4", "#86efac", "#065f46");
   }
 }
 
@@ -2525,7 +2872,7 @@ function drawRfsTrajectoryChart(trajectory) {
   ctx.clearRect(0, 0, w, h);
 
   const padLeft = 55;
-  const padRight = 35;
+  const padRight = 100;
   const padTop = 30;
   const padBottom = 40;
   const plotW = w - padLeft - padRight;
@@ -2614,9 +2961,9 @@ function drawRfsTrajectoryChart(trajectory) {
       ctx.fillStyle = "#059669";
       ctx.font = "700 11px Outfit, sans-serif";
       ctx.textAlign = "left";
-      ctx.fillText(`  ${pt.simulated_rfs_pct}% RFS`, x, ySim + 4);
+      ctx.fillText(` ${pt.simulated_rfs_pct}% RFS`, x + 6, ySim + 4);
       ctx.fillStyle = "#64748b";
-      ctx.fillText(`  ${pt.baseline_rfs_pct}% Baseline`, x, yBase + 4);
+      ctx.fillText(` ${pt.baseline_rfs_pct}% Base`, x + 6, yBase + 4);
     }
   });
 
@@ -2645,7 +2992,7 @@ function drawDdiToxicityChart(hazardPoints) {
   ctx.clearRect(0, 0, w, h);
 
   const padLeft = 55;
-  const padRight = 35;
+  const padRight = 100;
   const padTop = 30;
   const padBottom = 40;
   const plotW = w - padLeft - padRight;
