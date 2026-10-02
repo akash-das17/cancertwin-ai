@@ -1,0 +1,69 @@
+[
+  {
+    "id": "IARC-M109-AIR-091",
+    "cancer_type": "Environmental",
+    "title": "WHO / IARC Monograph 109: Outdoor Air Pollution and Particulate Matter Carcinogenicity",
+    "source": "International Agency for Research on Cancer (IARC) / Lancet Oncol 2013",
+    "summary": "Classifies ambient outdoor air pollution and inhalable fine particulate matter (PM2.5) as Group 1 human carcinogens with sufficient evidence of causality for adenocarcinoma of the lung and positive association with bladder cancer.",
+    "hazard_ratio": 1.35,
+    "evidence_level": "Grade A",
+    "url": "https://www.iarc.who.int/news-events/iarc-outdoor-air-pollution-a-leading-environmental-cause-of-cancer-deaths/",
+    "interventions": {
+      "hepa_air_filtration": {
+        "description": "Certified high-efficiency particulate air (HEPA) filtration reduces indoor micro-particulate lung exposure by 50% to 70%.",
+        "relative_risk_reduction": 0.2
+      }
+    },
+    "risk_factors": [
+      "PM2.5 exposure > 25 ug/m3",
+      "Urban traffic corridor residence",
+      "Industrial combustion proximity"
+    ]
+  },
+  {
+    "id": "EPA-RADON-HEALTH-092",
+    "cancer_type": "Environmental",
+    "title": "EPA Health Risk of Radon in Homes and National Action Levels",
+    "source": "US Environmental Protection Agency (EPA) / CDC 2023",
+    "summary": "Radon gas decay products emit ionizing alpha particles that cause double-strand DNA breaks in bronchial epithelium. The EPA recommends active sub-slab soil depressurization mitigation for indoor levels >= 4.0 pCi/L (148 Bq/m3).",
+    "hazard_ratio": 1.4,
+    "evidence_level": "Grade A",
+    "url": "https://www.epa.gov/radon/health-risk-radon",
+    "interventions": {
+      "radon_subslab_mitigation": {
+        "description": "Active radon mitigation systems exhaust subsurface radioactive gas above the roofline, eliminating exposure.",
+        "relative_risk_reduction": 0.25
+      }
+    }
+  },
+  {
+    "id": "IARC-M100C-ASBESTOS-093",
+    "cancer_type": "Environmental",
+    "title": "IARC Monograph 100C: Arsenic, Metals, Fibres, and Dusts - Asbestos Carcinogenesis",
+    "source": "World Health Organization / IARC 2012",
+    "summary": "All forms of asbestos (chrysotile, crocidolite, amosite) are confirmed human carcinogens causing mesothelioma of the pleura and peritoneum, lung carcinoma, larynx cancer, and ovarian cancer, with latency periods exceeding 20 to 40 years.",
+    "hazard_ratio": 3.8,
+    "evidence_level": "Grade A",
+    "url": "https://monographs.iarc.who.int/wp-content/uploads/2018/06/mono100C-11.pdf"
+  },
+  {
+    "id": "NIEHS-EDC-CANCER-094",
+    "cancer_type": "Environmental",
+    "title": "Endocrine-Disrupting Chemicals and Hormone-Dependent Malignancies",
+    "source": "National Institute of Environmental Health Sciences (NIEHS) 2022",
+    "summary": "Exposures to synthetic xenoestrogens (bisphenols, phthalates, organochlorine pesticides) interfere with endogenous estrogen receptor signaling, conferring elevated lifetime susceptibility to breast, endometrial, and prostate neoplasia.",
+    "hazard_ratio": 1.28,
+    "evidence_level": "Level 2A",
+    "url": "https://www.niehs.nih.gov/health/topics/agents/endocrine"
+  },
+  {
+    "id": "WHO-WATER-ARSENIC-095",
+    "cancer_type": "Environmental",
+    "title": "WHO Guidelines on Drinking-Water Quality: Inorganic Arsenic and Urothelial Carcinoma",
+    "source": "World Health Organization (WHO) Guidelines 2022",
+    "summary": "Chronic ingestion of inorganic arsenic from untreated groundwater above guideline limits (10 ug/L) significantly elevates risks of non-muscle-invasive and invasive bladder urothelial carcinoma and basal cell/squamous skin carcinomas.",
+    "hazard_ratio": 2.2,
+    "evidence_level": "Grade A",
+    "url": "https://www.who.int/news-room/fact-sheets/detail/arsenic"
+  }
+]

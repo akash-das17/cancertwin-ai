@@ -1,0 +1,82 @@
+[
+  {
+    "id": "PREDIMED-NEJM-096",
+    "cancer_type": "Lifestyle / Nutrition",
+    "title": "PREDIMED Trial: Mediterranean Diet supplemented with Extra-Virgin Olive Oil and Breast Cancer",
+    "source": "Toledo et al. / JAMA Intern Med 2015 / N Engl J Med 2018",
+    "summary": "In a randomized nutritional prevention trial of 4,282 women, allocation to a Mediterranean diet supplemented with extra-virgin olive oil resulted in a 62% relatively lower risk of malignant breast cancer (HR 0.38) compared to control.",
+    "hazard_ratio": 0.38,
+    "evidence_level": "Level 1A",
+    "url": "https://jamanetwork.com/journals/jamainternalmedicine/fullarticle/2437904",
+    "interventions": {
+      "mediterranean_diet_evoo": {
+        "description": "Rich in polyphenol antioxidants (oleocanthal, squalene) and monounsaturated fatty acids that suppress HER2 and NF-kB inflammatory cascades.",
+        "relative_risk_reduction": 0.62
+      }
+    }
+  },
+  {
+    "id": "WCRF-OBESITY-REPORT-097",
+    "cancer_type": "Lifestyle / Nutrition",
+    "title": "WCRF / AICR Third Expert Report: Body Fatness and Weight Gain in 12 Cancer Sites",
+    "source": "World Cancer Research Fund / American Institute for Cancer Research 2018",
+    "summary": "Obesity and elevated visceral adiposity (BMI >= 30) exhibit strong causal links with 12 distinct malignancies (colorectal, postmenopausal breast, endometrium, esophagus, kidney, pancreas, liver, gallbladder, ovary, stomach, thyroid, multiple myeloma).",
+    "hazard_ratio": 1.55,
+    "evidence_level": "Grade A",
+    "url": "https://www.wcrf.org/diet-and-cancer/exposures/body-fatness/",
+    "interventions": {
+      "metabolic_weight_normalization": {
+        "description": "Reducing BMI to < 25.0 lowers circulating insulin, IGF-1, leptin, and aromatase-derived estrogen production.",
+        "relative_risk_reduction": 0.3
+      }
+    }
+  },
+  {
+    "id": "IARC-ALCOHOL-CANCER-098",
+    "cancer_type": "Lifestyle / Nutrition",
+    "title": "WHO / IARC Monograph on Alcohol Consumption and Multi-Organ Carcinogenesis",
+    "source": "Rumgay et al. / Lancet Oncol 2021 / IARC",
+    "summary": "Ethanol and its primary metabolite acetaldehyde (IARC Group 1 carcinogen) directly damage DNA and induce oxidative stress. Alcohol accounts for 4.1% of all new cancer cases globally, particularly oral cavity, pharynx, larynx, esophagus, breast, liver, and colorectum.",
+    "hazard_ratio": 1.32,
+    "evidence_level": "Grade A",
+    "url": "https://www.thelancet.com/journals/lanonc/article/PIIS1470-2045(21)00279-5/fulltext",
+    "interventions": {
+      "alcohol_cessation_moderation": {
+        "description": "Eliminating or restricting alcohol intake (<1 drink/day for women, <2 drinks/day for men) substantially lowers acetaldehyde adduct burden.",
+        "relative_risk_reduction": 0.25
+      }
+    }
+  },
+  {
+    "id": "ASCO-EXERCISE-SURVIVORSHIP-099",
+    "cancer_type": "Lifestyle / Nutrition",
+    "title": "ASCO Guideline on Exercise, Diet, and Weight Management During Cancer Treatment and Survivorship",
+    "source": "Ligibel et al. / J Clin Oncol 2022",
+    "summary": "Recommends regular aerobic exercise (150-300 min/week moderate or 75 min/week vigorous) and twice-weekly resistance training for oncology patients to attenuate treatment toxicities, mitigate fatigue, and reduce breast and colorectal recurrence.",
+    "hazard_ratio": 0.72,
+    "evidence_level": "Grade A",
+    "url": "https://ascopubs.org/doi/10.1200/JCO.22.00859",
+    "interventions": {
+      "structured_aerobic_resistance_exercise": {
+        "description": "Downregulates circulating inflammatory cytokines (IL-6, TNF-alpha) and improves insulin sensitivity.",
+        "relative_risk_reduction": 0.28
+      }
+    }
+  },
+  {
+    "id": "JAMA-PHYSICAL-ACTIVITY-100",
+    "cancer_type": "Lifestyle / Nutrition",
+    "title": "Association of Leisure-Time Physical Activity with Risk of 26 Types of Cancer in 1.44 Million Adults",
+    "source": "Moore et al. / JAMA Intern Med 2016",
+    "summary": "Pooled analysis of 12 prospective cohorts (1.44 million participants) showed that higher levels of leisure-time physical activity were associated with statistically significant risk reductions in 13 of 26 cancers (e.g., esophageal adenocarcinoma HR 0.58, liver HR 0.73, lung HR 0.74, colon HR 0.84, breast HR 0.90).",
+    "hazard_ratio": 0.8,
+    "evidence_level": "Level 1A",
+    "url": "https://jamanetwork.com/journals/jamainternalmedicine/fullarticle/2521827",
+    "interventions": {
+      "habitual_moderate_vigorous_exercise": {
+        "description": "Cardiorespiratory fitness reduces gut transit time, optimizes immune surveillance, and modulates steroid hormone synthesis.",
+        "relative_risk_reduction": 0.2
+      }
+    }
+  }
+]

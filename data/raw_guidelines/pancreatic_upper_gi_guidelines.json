@@ -1,0 +1,88 @@
+[
+  {
+    "id": "PRODIGE24-NEJM-068",
+    "cancer_type": "Pancreatic",
+    "title": "PRODIGE 24 / CCTC PA.6: Adjuvant Modified FOLFIRINOX in Resected Pancreatic Cancer",
+    "source": "Conroy et al. / N Engl J Med 2018",
+    "summary": "Adjuvant therapy with modified FOLFIRINOX led to significantly longer overall survival than gemcitabine (54.4 vs 35.0 months, HR 0.64) in patients with completely resected pancreatic ductal adenocarcinoma.",
+    "hazard_ratio": 0.64,
+    "evidence_level": "Level 1A",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa1809770",
+    "interventions": {
+      "adjuvant_mfolfirinox": {
+        "description": "Multi-agent chemotherapy regimen clears micrometastatic disease and extends median overall survival beyond 4.5 years.",
+        "relative_risk_reduction": 0.36
+      }
+    }
+  },
+  {
+    "id": "POLO-NEJM-069",
+    "cancer_type": "Pancreatic",
+    "title": "POLO Trial: Maintenance Olaparib for Germline BRCA-Mutated Metastatic Pancreatic Cancer",
+    "source": "Golan et al. / N Engl J Med 2019",
+    "summary": "In patients with germline BRCA1 or BRCA2 mutations and metastatic pancreatic cancer who did not have disease progression during first-line platinum-based chemotherapy, maintenance olaparib doubled median progression-free survival (7.4 vs 3.8 months, HR 0.53).",
+    "hazard_ratio": 0.53,
+    "evidence_level": "Category 1",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa1903387"
+  },
+  {
+    "id": "CHECKMATE649-LANCET-070",
+    "cancer_type": "Gastric",
+    "title": "CheckMate 649: First-Line Nivolumab plus Chemotherapy in Advanced Gastric / Gastroesophageal Cancer",
+    "source": "Janjigian et al. / Lancet 2021",
+    "summary": "Nivolumab plus fluoropyrimidine/platinum chemotherapy resulted in significant improvements in overall survival (14.4 vs 11.1 months, HR 0.71) and progression-free survival in patients with PD-L1 CPS >= 5 previously untreated advanced gastric, GEJ, or esophageal adenocarcinoma.",
+    "hazard_ratio": 0.71,
+    "evidence_level": "Category 1",
+    "url": "https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(21)00797-2/fulltext"
+  },
+  {
+    "id": "KEYNOTE590-LANCET-071",
+    "cancer_type": "Esophageal",
+    "title": "KEYNOTE-590: First-Line Pembrolizumab plus Chemotherapy in Advanced Esophageal Cancer",
+    "source": "Sun et al. / Lancet 2021",
+    "summary": "Adding pembrolizumab to cisplatin plus 5-fluorouracil improved overall survival across all randomized patients (12.4 vs 9.8 months, HR 0.73) and particularly in esophageal squamous cell carcinoma with PD-L1 CPS >= 10 (HR 0.57).",
+    "hazard_ratio": 0.73,
+    "evidence_level": "Category 1",
+    "url": "https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(21)01234-4/fulltext"
+  },
+  {
+    "id": "CROSS-TRIAL-LANCET-072",
+    "cancer_type": "Esophageal",
+    "title": "CROSS Trial: 10-Year Outcomes of Neoadjuvant Chemoradiotherapy in Resectable Esophageal Cancer",
+    "source": "Eyck et al. / J Clin Oncol 2021 / Lancet Oncol",
+    "summary": "Neoadjuvant chemoradiotherapy according to the CROSS regimen (carboplatin + paclitaxel with 41.4 Gy radiotherapy) doubled 10-year overall survival compared to surgery alone (38% vs 25%, HR 0.70) in locally advanced resectable esophageal cancer.",
+    "hazard_ratio": 0.7,
+    "evidence_level": "Level 1A",
+    "url": "https://ascopubs.org/doi/10.1200/JCO.20.03614"
+  },
+  {
+    "id": "CAPS-CONSORTIUM-PANCREAS-073",
+    "cancer_type": "Pancreatic",
+    "title": "International Cancer of the Pancreas Screening (CAPS) Consortium Guidelines",
+    "source": "Goggins et al. / Gut 2020",
+    "summary": "Surveillance with annual endoscopic ultrasound (EUS) and magnetic resonance cholangiopancreatography (MRI/MRCP) is recommended for individuals with >= 3-fold increased risk of pancreatic ductal adenocarcinoma (familial pancreatic cancer, Peutz-Jeghers, CDKN2A, BRCA2).",
+    "hazard_ratio": 1.0,
+    "evidence_level": "Grade B",
+    "url": "https://gut.bmj.com/content/69/1/7"
+  },
+  {
+    "id": "NAPOLI3-LANCET-074",
+    "cancer_type": "Pancreatic",
+    "title": "NAPOLI-3 Trial: First-Line NALIRIFOX in Metastatic Pancreatic Ductal Adenocarcinoma",
+    "source": "Wainberg et al. / Lancet 2023",
+    "summary": "NALIRIFOX (liposomal irinotecan, 5-fluorouracil/leucovorin, and oxaliplatin) significantly prolonged median overall survival (11.1 vs 9.2 months, HR 0.83) and progression-free survival compared with gemcitabine plus nab-paclitaxel.",
+    "hazard_ratio": 0.83,
+    "evidence_level": "Category 1",
+    "url": "https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(23)01366-1/fulltext"
+  },
+  {
+    "id": "NCCN-PANCREATIC-SURV-075",
+    "cancer_type": "Pancreatic",
+    "title": "NCCN Pancreatic Adenocarcinoma Clinical Practice Guidelines (v1.2024)",
+    "source": "National Comprehensive Cancer Network 2024",
+    "summary": "Defines surgical resectability criteria (clear fat planes around celiac axis, SMA, hepatic artery) and recommends post-resection follow-up with abdominal contrast CT/MRI and serum CA 19-9 biomarker testing every 3-6 months for 2 years.",
+    "hazard_ratio": 1.0,
+    "evidence_level": "Category 2A",
+    "url": "https://www.nccn.org/guidelines/guidelines-detail?category=1&id=1460"
+  }
+]

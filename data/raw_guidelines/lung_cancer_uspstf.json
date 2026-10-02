@@ -1,0 +1,225 @@
+[
+  {
+    "id": "USPSTF-LUNG-001",
+    "cancer_type": "Lung",
+    "title": "USPSTF Lung Cancer Screening Recommendations (2021 Update)",
+    "source": "US Preventive Services Task Force / JAMA 2021",
+    "summary": "Annual screening for lung cancer with low-dose computed tomography (LDCT) is recommended in adults aged 50 to 80 years who have a 20 pack-year smoking history and currently smoke or have quit within the past 15 years.",
+    "hazard_ratio": 15.0,
+    "evidence_level": "Grade A",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/33683292/",
+    "interventions": {
+      "smoking_cessation": {
+        "description": "Smoking cessation reduces excess lung cancer risk by approximately 50% after 10-15 years of complete continuous abstinence compared to continuing smokers.",
+        "relative_risk_reduction": 0.5
+      },
+      "ldct_screening": {
+        "description": "Annual low-dose CT screening reduces lung cancer mortality by 20% to 24% among high-risk individuals through early-stage resection.",
+        "relative_risk_reduction": 0.24
+      }
+    },
+    "risk_factors": [
+      "Smoking pack-years",
+      "Residential radon exposure",
+      "Occupational asbestos",
+      "Family history of lung cancer",
+      "Ambient PM2.5"
+    ]
+  },
+  {
+    "id": "NLST-NEJM-002",
+    "cancer_type": "Lung",
+    "title": "National Lung Screening Trial (NLST): Reduced Lung-Cancer Mortality with Low-Dose CT",
+    "source": "National Lung Screening Trial Research Team / N Engl J Med 2011",
+    "summary": "Randomized trial of 53,454 participants demonstrated a 20.0% relative reduction in mortality from lung cancer with three rounds of annual low-dose CT screening compared to single-view chest radiography.",
+    "hazard_ratio": 0.8,
+    "evidence_level": "Level 1A",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa1102873",
+    "interventions": {
+      "ldct_surveillance": {
+        "description": "Screening with LDCT detects 63% of cancers at Stage IA/IB compared to 47% with radiography.",
+        "relative_risk_reduction": 0.2
+      }
+    },
+    "risk_factors": [
+      "Heavy tobacco exposure (>=30 pack-years)",
+      "Age >= 55"
+    ]
+  },
+  {
+    "id": "NELSON-NEJM-003",
+    "cancer_type": "Lung",
+    "title": "NELSON Trial: Reduced Lung-Cancer Mortality with Volume CT Screening in a Randomized Trial",
+    "source": "de Koning et al. / N Engl J Med 2020",
+    "summary": "Population-based randomized screening trial in 15,792 participants showed that volume-based CT screening reduced lung cancer mortality by 24% in men and 33% in women at 10 years of follow-up.",
+    "hazard_ratio": 0.76,
+    "evidence_level": "Level 1A",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa1911793",
+    "interventions": {
+      "volume_ct_screening": {
+        "description": "Volumetric nodule assessment with doubling time calculation significantly lowers false-positive referral rates.",
+        "relative_risk_reduction": 0.24
+      }
+    }
+  },
+  {
+    "id": "ADAURA-NEJM-004",
+    "cancer_type": "Lung",
+    "title": "ADAURA Trial: Overall Survival with Osimertinib in Resected EGFR-Mutated NSCLC",
+    "source": "Herbst et al. / N Engl J Med 2023",
+    "summary": "In patients with resected stage IB to IIIA EGFR-mutated (exon 19 del or L858R) non-small-cell lung cancer, 3 years of adjuvant osimertinib significantly improved 5-year overall survival (88% vs 78%, HR 0.49).",
+    "hazard_ratio": 0.49,
+    "evidence_level": "Category 1",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa2304594",
+    "interventions": {
+      "adjuvant_osimertinib": {
+        "description": "Third-generation EGFR tyrosine kinase inhibitor after surgical resection reduces death or disease recurrence hazard by 51%.",
+        "relative_risk_reduction": 0.51
+      }
+    }
+  },
+  {
+    "id": "PACIFIC-NEJM-005",
+    "cancer_type": "Lung",
+    "title": "PACIFIC Trial: 5-Year Overall Survival with Durvalumab after Chemoradiotherapy in Stage III NSCLC",
+    "source": "Spigel et al. / J Clin Oncol 2022 / N Engl J Med 2018",
+    "summary": "Consolidation immunotherapy with durvalumab for up to 12 months after concurrent chemoradiotherapy in unresectable stage III NSCLC established robust 5-year overall survival of 42.9% vs 33.4% with placebo (HR 0.72).",
+    "hazard_ratio": 0.72,
+    "evidence_level": "Category 1",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa1809697",
+    "interventions": {
+      "consolidation_durvalumab": {
+        "description": "PD-L1 checkpoint blockade following definitive concurrent chemoradiotherapy confers durable 5-year disease-free survival.",
+        "relative_risk_reduction": 0.28
+      }
+    }
+  },
+  {
+    "id": "FLAURA-NEJM-006",
+    "cancer_type": "Lung",
+    "title": "FLAURA Trial: Overall Survival with Osimertinib in Untreated, EGFR-Mutated Advanced NSCLC",
+    "source": "Ramalingam et al. / N Engl J Med 2020",
+    "summary": "First-line osimertinib demonstrated superior median overall survival of 38.6 months vs 31.8 months with first-generation EGFR-TKIs (gefitinib/erlotinib) in advanced EGFR-mutated NSCLC, with superior central nervous system penetration (HR 0.80).",
+    "hazard_ratio": 0.8,
+    "evidence_level": "Category 1",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa1913662"
+  },
+  {
+    "id": "CHECKMATE816-NEJM-007",
+    "cancer_type": "Lung",
+    "title": "CheckMate 816: Neoadjuvant Nivolumab plus Chemotherapy in Resectable Lung Cancer",
+    "source": "Forde et al. / N Engl J Med 2022",
+    "summary": "Neoadjuvant nivolumab combined with platinum-doublet chemotherapy prior to surgery in stage IB-IIIA NSCLC significantly extended event-free survival (31.6 vs 20.8 months, HR 0.63) and achieved a 24.0% pathologic complete response rate (vs 2.2%).",
+    "hazard_ratio": 0.63,
+    "evidence_level": "Category 1",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa2202170",
+    "interventions": {
+      "neoadjuvant_chemoimmunotherapy": {
+        "description": "Pre-operative 3 cycles of nivolumab plus platinum doublet clears microscopic micrometastases and improves surgical R0 resection margins.",
+        "relative_risk_reduction": 0.37
+      }
+    }
+  },
+  {
+    "id": "KEYNOTE024-JCO-008",
+    "cancer_type": "Lung",
+    "title": "KEYNOTE-024 5-Year Update: First-Line Pembrolizumab for NSCLC with PD-L1 >= 50%",
+    "source": "Reck et al. / J Clin Oncol 2021",
+    "summary": "Pembrolizumab monotherapy demonstrated median overall survival of 26.3 months vs 13.4 months for chemotherapy in advanced NSCLC without EGFR/ALK mutations having tumor proportion score (TPS) >= 50% (HR 0.62).",
+    "hazard_ratio": 0.62,
+    "evidence_level": "Category 1",
+    "url": "https://ascopubs.org/doi/10.1200/JCO.21.00174"
+  },
+  {
+    "id": "ALINA-NEJM-009",
+    "cancer_type": "Lung",
+    "title": "ALINA Trial: Adjuvant Alectinib in Resected ALK-Positive Non-Small-Cell Lung Cancer",
+    "source": "Wu et al. / N Engl J Med 2024",
+    "summary": "In patients with completely resected stage IB to IIIA ALK-positive NSCLC, adjuvant alectinib for 2 years reduced the hazard of disease recurrence or death by 76% compared with platinum-based chemotherapy (HR 0.24).",
+    "hazard_ratio": 0.24,
+    "evidence_level": "Category 1",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa2310532",
+    "interventions": {
+      "adjuvant_alectinib": {
+        "description": "Brain-penetrant ALK inhibitor provides durable systemic and central nervous system disease control.",
+        "relative_risk_reduction": 0.76
+      }
+    }
+  },
+  {
+    "id": "CODEBREAK200-LANCET-010",
+    "cancer_type": "Lung",
+    "title": "CodeBreaK 200: Sotorasib versus Docetaxel for Pretreated KRAS G12C-Mutated NSCLC",
+    "source": "de Langen et al. / Lancet 2023",
+    "summary": "Oral KRAS G12C inhibitor sotorasib significantly improved progression-free survival (HR 0.66) and quality of life compared with docetaxel in pretreated KRAS G12C non-small-cell lung cancer.",
+    "hazard_ratio": 0.66,
+    "evidence_level": "Category 2A",
+    "url": "https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(23)00221-0/fulltext"
+  },
+  {
+    "id": "NCCN-NSCLC-011",
+    "cancer_type": "Lung",
+    "title": "NCCN Clinical Practice Guidelines in Oncology: Non-Small Cell Lung Cancer (v1.2024)",
+    "source": "National Comprehensive Cancer Network (NCCN) 2024",
+    "summary": "Post-resection surveillance protocol recommends contrast-enhanced thoracic CT every 3 to 6 months for the first 2 to 3 years, followed by annual non-contrast low-dose CT to detect curable metachronous second primary lung neoplasms.",
+    "hazard_ratio": 1.0,
+    "evidence_level": "Category 2A",
+    "url": "https://www.nccn.org/guidelines/guidelines-detail?category=1&id=1450"
+  },
+  {
+    "id": "IARC-RADON-012",
+    "cancer_type": "Lung",
+    "title": "WHO / IARC Monograph 100D: Indoor Radon Carcinogenicity and Tobacco Multiplicative Hazard",
+    "source": "World Health Organization / IARC 2012 / EPA 2023",
+    "summary": "Residential radon gas is the leading cause of lung cancer in never-smokers and exhibits a supra-additive synergistic multiplier with tobacco smoke (RR 1.16 per 100 Bq/m3 increase in radon concentration).",
+    "hazard_ratio": 1.45,
+    "evidence_level": "Grade A",
+    "url": "https://www.iarc.who.int/news-events/iarc-classifies-indoor-radon-as-group-1-carcinogen/",
+    "interventions": {
+      "radon_mitigation": {
+        "description": "Active sub-slab depressurization radon mitigation reduces indoor radon concentrations by up to 90%.",
+        "relative_risk_reduction": 0.3
+      }
+    },
+    "risk_factors": [
+      "Residential radon >= 4.0 pCi/L",
+      "Smoking synergy",
+      "Basement living"
+    ]
+  },
+  {
+    "id": "NATURE-PM25-EGFR-013",
+    "cancer_type": "Lung",
+    "title": "Lung Adenocarcinoma Promotion by Air Pollutants in Never-Smokers via Interleukin-1Beta",
+    "source": "Hill et al. / Nature 2023",
+    "summary": "Fine particulate matter (PM2.5) promotes lung adenocarcinoma in individuals with pre-existing oncogenic EGFR and KRAS mutations by triggering macrophage influx and IL-1beta inflammatory clonal expansion.",
+    "hazard_ratio": 1.35,
+    "evidence_level": "Level 1B",
+    "url": "https://www.nature.com/articles/s41586-023-05874-3",
+    "risk_factors": [
+      "Ambient PM2.5 > 25 ug/m3",
+      "EGFR mutation carrier",
+      "Never-smoker"
+    ]
+  },
+  {
+    "id": "CASPIAN-LANCET-014",
+    "cancer_type": "Lung",
+    "title": "CASPIAN Trial: Durvalumab with Etoposide-Platinum in First-Line Extensive-Stage SCLC",
+    "source": "Paz-Ares et al. / Lancet Oncol 2021",
+    "summary": "First-line durvalumab combined with platinum-etoposide demonstrated sustained overall survival improvement at 3 years (17.6% vs 5.8%, HR 0.71) in untreated extensive-stage small-cell lung cancer.",
+    "hazard_ratio": 0.71,
+    "evidence_level": "Category 1",
+    "url": "https://www.thelancet.com/journals/lanonc/article/PIIS1470-2045(20)30539-8/fulltext"
+  },
+  {
+    "id": "IMPOWER133-NEJM-015",
+    "cancer_type": "Lung",
+    "title": "IMpower133: First-Line Atezolizumab plus Chemotherapy in Extensive-Stage SCLC",
+    "source": "Horn et al. / N Engl J Med 2018",
+    "summary": "The addition of atezolizumab to carboplatin and etoposide in first-line extensive-stage small-cell lung cancer significantly prolonged overall survival (12.3 vs 10.3 months, HR 0.70) and progression-free survival.",
+    "hazard_ratio": 0.7,
+    "evidence_level": "Category 1",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa1809064"
+  }
+]

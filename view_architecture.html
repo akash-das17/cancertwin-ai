@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CancerTwin AI 2.0 — Complete Architecture Atlas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: #111827;
+      --border: rgba(255, 255, 255, 0.08);
+      --accent-cyan: #38bdf8;
+      --accent-purple: #a855f7;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      padding: 30px;
+      line-height: 1.6;
+    }
+    header {
+      max-width: 1500px;
+      margin: 0 auto 30px auto;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 20px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid #38bdf8;
+      border-radius: 9999px;
+      color: #38bdf8;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.4rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #38bdf8, #a855f7, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+    }
+    .container {
+      max-width: 1500px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+    .diagram-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+    }
+    .diagram-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 12px;
+    }
+    .diagram-card h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.5rem;
+      color: #f8fafc;
+    }
+    .diagram-tag {
+      font-size: 0.85rem;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+    .tag-c4 { background: rgba(168, 85, 247, 0.2); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.4); }
+    .tag-flow { background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); }
+    .tag-tb { background: rgba(244, 114, 182, 0.2); color: #f472b6; border: 1px solid rgba(244, 114, 182, 0.4); }
+    .tag-met { background: rgba(251, 191, 36, 0.2); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.4); }
+    .tag-pharm { background: rgba(52, 211, 153, 0.2); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.4); }
+    .diagram-desc {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+    }
+    .mermaid {
+      background: #0a0f1d;
+      border-radius: 14px;
+      padding: 24px;
+      overflow-x: auto;
+      display: flex;
+      justify-content: center;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .legend-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 20px;
+      padding: 12px 18px;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+    }
+
+    /* ==========================================================================
+       Diagram 0: Enterprise 16:9 Side-by-Side Presentation Slide Canvas
+       ========================================================================== */
+    .slide-169-canvas {
+      width: 100%;
+      background: radial-gradient(ellipse at 50% 0%, #162036 0%, #0d1424 50%, #070a13 100%);
+      border: 1.5px solid rgba(56, 189, 248, 0.3);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.08);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .slide-169-canvas::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, #38bdf8, #a855f7, #34d399, transparent);
+    }
+
+    .slide-top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 12px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .slide-branding {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .slide-brand-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #0284c7, #38bdf8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(56, 189, 248, 0.4);
+    }
+
+    .slide-brand-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 17px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+    }
+
+    .slide-brand-subtitle {
+      font-size: 11px;
+      color: #94a3b8;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .slide-title-center {
+      text-align: center;
+      flex: 1;
+    }
+
+    .slide-title-center h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #f8fafc;
+      letter-spacing: -0.2px;
+    }
+
+    .slide-title-center p {
+      font-size: 11.5px;
+      color: #64748b;
+    }
+
+    .slide-pills-right {
+      display: flex;
+      gap: 8px;
+    }
+
+    .slide-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* 3 Side-by-Side Columns Grid with Arrow Connectors */
+    .side-by-side-grid {
+      display: grid;
+      grid-template-columns: 1fr 58px 1fr 58px 1fr;
+      align-items: stretch;
+      gap: 0;
+    }
+
+    .block-column {
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      position: relative;
+    }
+
+    .block-col-1 {
+      border-top: 3.5px solid #38bdf8;
+      background: linear-gradient(180deg, rgba(14, 165, 233, 0.08) 0%, rgba(15, 23, 42, 0.65) 25%);
+    }
+
+    .block-col-2 {
+      border-top: 3.5px solid #f472b6;
+      background: linear-gradient(180deg, rgba(236, 72, 153, 0.08) 0%, rgba(15, 23, 42, 0.65) 25%);
+    }
+
+    .block-col-3 {
+      border-top: 3.5px solid #34d399;
+      background: linear-gradient(180deg, rgba(52, 211, 153, 0.08) 0%, rgba(15, 23, 42, 0.65) 25%);
+    }
+
+    .block-header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      margin-bottom: 4px;
+    }
+
+    .block-header-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .block-header-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .icon-b1 { background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); }
+    .icon-b2 { background: rgba(244, 114, 182, 0.2); color: #f472b6; border: 1px solid rgba(244, 114, 182, 0.4); }
+    .icon-b3 { background: rgba(52, 211, 153, 0.2); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.4); }
+
+    .block-title-text h4 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #f1f5f9;
+      line-height: 1.2;
+    }
+
+    .block-title-text span {
+      font-size: 10.5px;
+      color: #94a3b8;
+    }
+
+    .block-step-count {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #cbd5e1;
+    }
+
+    /* Cards inside block */
+    .arch-card-unit {
+      background: #131b2e;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .arch-card-unit:hover {
+      border-color: rgba(56, 189, 248, 0.45);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.4);
+    }
+
+    .card-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .card-id-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.06);
+      color: #94a3b8;
+    }
+
+    .card-heading-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .card-unit-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+
+    /* Card unit icon colors */
+    .icon-c-user { background: rgba(2, 132, 199, 0.25); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.35); }
+    .icon-c-ui { background: rgba(99, 102, 241, 0.25); color: #a5b4fc; border: 1px solid rgba(165, 180, 252, 0.35); }
+    .icon-c-intake { background: rgba(16, 185, 129, 0.25); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.35); }
+    .icon-c-store { background: rgba(239, 68, 68, 0.25); color: #f87171; border: 1px solid rgba(248, 113, 113, 0.35); }
+    .icon-c-risk { background: rgba(217, 70, 239, 0.25); color: #f472b6; border: 1px solid rgba(244, 114, 182, 0.35); }
+    .icon-c-sim { background: rgba(6, 182, 212, 0.25); color: #22d3ee; border: 1px solid rgba(34, 211, 238, 0.35); }
+    .icon-c-safety { background: rgba(249, 115, 22, 0.25); color: #fb923c; border: 1px solid rgba(251, 146, 60, 0.35); }
+    .icon-c-skeptic { background: rgba(244, 63, 94, 0.25); color: #fb7185; border: 1px solid rgba(251, 113, 133, 0.35); }
+    .icon-c-tb { background: rgba(168, 85, 247, 0.25); color: #c084fc; border: 1px solid rgba(192, 132, 252, 0.35); }
+    .icon-c-coord { background: rgba(236, 72, 153, 0.25); color: #f472b6; border: 1px solid rgba(244, 114, 182, 0.35); }
+    .icon-c-report { background: rgba(2, 132, 199, 0.25); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.35); }
+    .icon-c-review { background: rgba(16, 185, 129, 0.25); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.35); }
+
+    .card-heading-text h5 {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #f8fafc;
+      line-height: 1.2;
+    }
+
+    .card-heading-text span {
+      font-size: 10px;
+      color: #94a3b8;
+      display: block;
+    }
+
+    .card-bullets-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      padding-left: 2px;
+      margin: 2px 0;
+    }
+
+    .card-bullets-list li {
+      font-size: 11px;
+      color: #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      line-height: 1.3;
+    }
+
+    .card-bullets-list li i {
+      font-size: 6px;
+      color: #38bdf8;
+      flex-shrink: 0;
+    }
+
+    .card-deliverable-tag {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 5px;
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 2px;
+    }
+
+    /* Vertical micro-arrow between cards */
+    .micro-arrow-down {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: rgba(255, 255, 255, 0.25);
+      font-size: 10px;
+      height: 8px;
+      margin: -2px 0;
+    }
+
+    /* Inter-column Horizontal Arrow Connector */
+    .inter-col-connector {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      position: relative;
+      padding: 16px 2px;
+    }
+
+    .connector-arrow-line {
+      position: absolute;
+      top: 10%;
+      bottom: 10%;
+      left: 50%;
+      width: 2px;
+      background: linear-gradient(180deg, transparent, rgba(56, 189, 248, 0.35), rgba(244, 114, 182, 0.35), transparent);
+    }
+
+    /* Horizontal bridge arrows */
+    .bridge-arrow-box {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 4;
+    }
+
+    .bridge-arrow-pill {
+      background: #0d1527;
+      border: 1.5px solid #38bdf8;
+      border-radius: 9999px;
+      padding: 4px 8px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+      animation: pulseArrowRight 2s infinite ease-in-out;
+    }
+
+    .bridge-arrow-pill.pink-pill {
+      border-color: #f472b6;
+      box-shadow: 0 0 12px rgba(244, 114, 182, 0.4);
+    }
+
+    .bridge-arrow-pill i {
+      font-size: 11px;
+      color: #38bdf8;
+    }
+
+    .bridge-arrow-pill.pink-pill i {
+      color: #f472b6;
+    }
+
+    .arrow-badge-box {
+      background: #0d1527;
+      border: 1.5px solid #38bdf8;
+      border-radius: 12px;
+      padding: 10px 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 20px rgba(56, 189, 248, 0.35);
+      z-index: 5;
+      text-align: center;
+      width: 48px;
+    }
+
+    .arrow-badge-box.pink-border {
+      border-color: #f472b6;
+      box-shadow: 0 4px 20px rgba(244, 114, 182, 0.35);
+    }
+
+    .arrow-badge-box .badge-pipe-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      color: #38bdf8;
+    }
+
+    .arrow-badge-box.pink-border .badge-pipe-header {
+      color: #f472b6;
+    }
+
+    .arrow-badge-box .badge-pipe-header i {
+      font-size: 13px;
+      animation: pulseArrowRight 1.8s infinite ease-in-out;
+    }
+
+    .arrow-badge-box .badge-pipe-header span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: #f8fafc;
+      transform: none;
+      writing-mode: horizontal-tb;
+    }
+
+    .arrow-badge-box .badge-pipe-subtext {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      color: #94a3b8;
+      white-space: nowrap;
+      transform: rotate(180deg);
+      text-transform: uppercase;
+      padding-top: 4px;
+    }
+
+    @keyframes pulseArrowRight {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 4px currentColor); }
+      50% { transform: scale(1.15) translateX(2px); filter: drop-shadow(0 0 10px currentColor); }
+    }
+
+    /* Closed-Loop Clinical Feedback Track */
+    .closed-loop-track {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1.5px dashed rgba(56, 189, 248, 0.4);
+      border-radius: 10px;
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-top: 4px;
+    }
+
+    .feedback-icon-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #38bdf8;
+    }
+
+    .feedback-arrow-anim {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #94a3b8;
+      font-size: 11px;
+    }
+
+    .feedback-arrow-anim i {
+      color: #38bdf8;
+      animation: reverseFlow 1.6s infinite ease-in-out;
+    }
+
+    @keyframes reverseFlow {
+      0%, 100% { transform: translateX(0); opacity: 0.6; }
+      50% { transform: translateX(-4px); opacity: 1; }
+    }
+
+    /* Slide Footer Controls */
+    .slide-bottom-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 10px;
+      font-size: 11px;
+      color: #64748b;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .slide-tech-stack-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .slide-tech-chip {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px;">
+      <div>
+        <span class="badge">Architecture Atlas 2.0</span>
+        <h1>CancerTwin AI — Complete Architecture & Subsystem Flowcharts</h1>
+        <p class="subtitle">Complete technical specification with the Enterprise Slide Flow, C4 Container hierarchy, and 4 standalone subsystem flowcharts.</p>
+      </div>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="workflow_slide.html" target="_blank" style="background: linear-gradient(135deg, #0284c7, #38bdf8); color: #fff; text-decoration: none; padding: 12px 22px; border-radius: 9999px; font-weight: 700; font-size: 0.92rem; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 4px 20px rgba(56,189,248,0.4); transition: transform 0.2s ease;">
+          <i class="fa-solid fa-sitemap"></i> 16:9 Master Workflow Slide (10 Agents)
+        </a>
+        <a href="architecture_slide.html" target="_blank" style="background: linear-gradient(135deg, #2563eb, #0891b2); color: #fff; text-decoration: none; padding: 12px 22px; border-radius: 9999px; font-weight: 700; font-size: 0.92rem; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 4px 20px rgba(37,99,235,0.4); transition: transform 0.2s ease;">
+          <i class="fa-solid fa-file-powerpoint"></i> Open 16:9 Presentation Slide
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Diagram 0: Enterprise Slide Architecture -->
+    <section class="diagram-card" style="border: 1px solid rgba(56, 189, 248, 0.35);">
+      <div class="diagram-header">
+        <h2>0. Enterprise Architecture Diagram (16:9 Presentation Slide Flow)</h2>
+        <span class="diagram-tag" style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4);">16:9 Side-by-Side Presentation View</span>
+      </div>
+      <p class="diagram-desc">Synchronized 3-tier architecture blueprint configured horizontally side-by-side for 16:9 widescreen presentation slides. Data flows continuously from left to right across three major blocks: patient ingestion, multi-agent reasoning/simulation, and tumor board synthesis, connected by prominent data pipes and a closed-loop feedback track.</p>
+      
+      <!-- 16:9 Presentation Slide Canvas -->
+      <div class="slide-169-canvas">
+        
+        <!-- Slide Top Bar -->
+        <div class="slide-top-bar">
+          <div class="slide-branding">
+            <div class="slide-brand-icon"><i class="fa-solid fa-dna"></i></div>
+            <div>
+              <div class="slide-brand-title">CANCERTWIN AI 2.0</div>
+              <div class="slide-brand-subtitle">Clinical Oncology Digital Twin Architecture</div>
+            </div>
+          </div>
+          <div class="slide-title-center">
+            <h3>Enterprise Multi-Agent Architecture &amp; Control Flow</h3>
+            <p>16:9 Widescreen Pipeline: 10 Specialized Agents • Dual LangGraph Graphs • Gemini 2.5 Flash</p>
+          </div>
+          <div class="slide-pills-right">
+            <span class="slide-pill"><i class="fa-solid fa-desktop"></i> 16:9 Presentation Slide</span>
+            <span class="slide-pill" style="border-color:#34d399; color:#34d399;"><i class="fa-solid fa-shield-halved"></i> Clinical-Grade RAG</span>
+          </div>
+        </div>
+
+        <!-- 3 Side-by-Side Columns Grid -->
+        <div class="side-by-side-grid">
+
+          <!-- ==================== COLUMN 1: BLOCK 1 ==================== -->
+          <div class="block-column block-col-1">
+            <div class="block-header-bar">
+              <div class="block-header-info">
+                <div class="block-header-icon icon-b1"><i class="fa-solid fa-user-doctor"></i></div>
+                <div class="block-title-text">
+                  <h4>BLOCK 1: PATIENT INGESTION &amp; TWIN STATE</h4>
+                  <span>4-Stage Ingestion, UI &amp; RAG Vector Grounding</span>
+                </div>
+              </div>
+              <span class="block-step-count">STEPS 01–04</span>
+            </div>
+
+            <!-- Card 01: Patient Profile -->
+            <div class="arch-card-unit">
+              <div class="card-top-row">
+                <div class="card-heading-group">
+                  <div class="card-unit-icon icon-c-user"><i class="fa-solid fa-user-doctor"></i></div>
+                  <div class="card-heading-text">
+                    <h5>01. Patient Profile</h5>
+                    <span>Input Sources</span>
+                  </div>
+                </div>
+                <span class="card-id-badge">01</span>
+              </div>
+              <ul class="card-bullets-list">
+                <li><i class="fa-solid fa-circle"></i> Demographics: Age, sex &amp; ancestry</li>
+                <li><i class="fa-solid fa-circle"></i> Exposures: Smoking, PM2.5 &amp; radon</li>
+                <li><i class="fa-solid fa-circle"></i> Genetics: BRCA1/2, KRAS, tumor stage</li>
+              </ul>
+              <div class="card-deliverable-tag">
+                <i class="fa-solid fa-file-medical"></i> Input: 18-Parameter Profile
+              </div>
+            </div>
+
+            <div class="micro-arrow-down"><i class="fa-solid fa-chevron-down"></i></div>
+
+            <!-- Card 02: Web Application -->
+            <div class="arch-card-unit">
+              <div class="card-top-row">
+                <div class="card-heading-group">
+                  <div class="card-unit-icon icon-c-ui"><i class="fa-solid fa-desktop"></i></div>
+                  <div class="card-heading-text">
+                    <h5>02. Web Application</h5>
+                    <span>FastAPI + Interactive UI</span>
+                  </div>
+                </div>
+                <span class="card-id-badge">02</span>
+              </div>
+              <ul class="card-bullets-list">
+                <li><i class="fa-solid fa-circle"></i> 18-Parameter twin sliders</li>
+                <li><i class="fa-solid fa-circle"></i> Instant clinical cohort presets</li>
+                <li><i class="fa-solid fa-circle"></i> Real-time drug collision &amp; DDI checks</li>
+              </ul>
+              <div class="card-deliverable-tag">
+                <i class="fa-solid fa-sliders"></i> Interface: REST API Payload
+              </div>
+            </div>
+
+            <div class="micro-arrow-down"><i class="fa-solid fa-chevron-down"></i></div>
+
+            <!-- Card 03: Intake Agent -->
+            <div class="arch-card-unit">
+              <div class="card-top-row">
+                <div class="card-heading-group">
+                  <div class="card-unit-icon icon-c-intake"><i class="fa-solid fa-dna"></i></div>
+                  <div class="card-heading-text">
+                    <h5>03. Intake &amp; Initialization</h5>
+                    <span>intake_agent.py</span>
+                  </div>
+                </div>
+                <span class="card-id-badge">03</span>
+              </div>
+              <ul class="card-bullets-list">
+                <li><i class="fa-solid fa-circle"></i> Validates Pydantic schemas</li>
+                <li><i class="fa-solid fa-circle"></i> Health score synthesis (0–100)</li>
+                <li><i class="fa-solid fa-circle"></i> Baseline DigitalTwinState instantiation</li>
+              </ul>
+              <div class="card-deliverable-tag">
+                <i class="fa-solid fa-id-card-clip"></i> Output: DigitalTwinState Object
+              </div>
+            </div>
+
+            <div class="micro-arrow-down"><i class="fa-solid fa-chevron-down"></i></div>
+
+            <!-- Card 04: Knowledge Store & RAG -->
+            <div class="arch-card-unit">
+              <div class="card-top-row">
+                <div class="card-heading-group">
+                  <div class="card-unit-icon icon-c-store"><i class="fa-solid fa-database"></i></div>
+                  <div class="card-heading-text">
+                    <h5>04. Knowledge Store &amp; RAG</h5>
+                    <span>Persistence &amp; Evidence</span>
+                  </div>
+                </div>
+                <span class="card-id-badge">04</span>
+              </div>
+              <ul class="card-bullets-list">
+                <li><i class="fa-solid fa-circle"></i> ChromaDB: NCCN &amp; USPSTF guidelines</li>
+                <li><i class="fa-solid fa-circle"></i> Live NCBI PubMed API rare query</li>
+                <li><i class="fa-solid fa-circle"></i> Empirical Gail &amp; Cox hazard ratios</li>
+              </ul>
+              <div class="card-deliverable-tag">
+                <i class="fa-solid fa-book-bookmark"></i> Grounding: Vectors &amp; PMIDs
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ==================== CONNECTOR 1: BLOCK 1 -> BLOCK 2 ==================== -->
+          <div class="inter-col-connector">
+            <div class="connector-arrow-line"></div>
+            <div class="bridge-arrow-box" title="DigitalTwinState Handoff">
+              <div class="bridge-arrow-pill">
+                <i class="fa-solid fa-arrow-right"></i>
+              </div>
+            </div>
+            <div class="arrow-badge-box">
+              <div class="badge-pipe-header">
+                <i class="fa-solid fa-angles-right"></i>
+                <span>PIPE 1</span>
+              </div>
+              <div class="badge-pipe-subtext">DigitalTwinState &amp; Evidence</div>
+            </div>
+            <div class="bridge-arrow-box" title="RAG Evidence Vectors Handoff">
+              <div class="bridge-arrow-pill">
+                <i class="fa-solid fa-arrow-right"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- ==================== COLUMN 2: BLOCK 2 ==================== -->
+          <div class="block-column block-col-2">
+            <div class="block-header-bar">
+              <div class="block-header-info">
+                <div class="block-header-icon icon-b2"><i class="fa-solid fa-brain"></i></div>
+                <div class="block-title-text">
+                  <h4>BLOCK 2: REASONING, SIMULATION &amp; SAFETY</h4>
+                  <span>Multi-Agent Projections &amp; Trial Auditing</span>
+                </div>
+              </div>
+              <span class="block-step-count">STEPS 05–08</span>
+            </div>
+
+            <!-- Card 05: Risk Assessment Agent -->
+            <div class="arch-card-unit">
+              <div class="card-top-row">
+                <div class="card-heading-group">
+                  <div class="card-unit-icon icon-c-risk"><i class="fa-solid fa-chart-pie"></i></div>
+                  <div class="card-heading-text">
+                    <h5>05. Risk Assessment Agent</h5>
+                    <span>5-Cancer Baseline Engine</span>
+                  </div>
+                </div>
+                <span class="card-id-badge">05</span>
+              </div>
+              <ul class="card-bullets-list">
+                <li><i class="fa-solid fa-circle"></i> 5-Cancer baseline: Lung, Breast, CRC</li>
+                <li><i class="fa-solid fa-circle"></i> Calibrated hazard ratios from RAG</li>
+                <li><i class="fa-solid fa-circle"></i> Pre-sim guideline action plan</li>
+              </ul>
+              <div class="card-deliverable-tag">
+                <i class="fa-solid fa-chart-pie"></i> Output: 5-Cancer Baseline Risks
+              </div>
+            </div>
+
+            <div class="micro-arrow-down"><i class="fa-solid fa-chevron-down"></i></div>
+
+            <!-- Card 06: What-If Simulator Agent -->
+            <div class="arch-card-unit">
+              <div class="card-top-row">
+                <div class="card-heading-group">
+                  <div class="card-unit-icon icon-c-sim"><i class="fa-solid fa-chart-line"></i></div>
+                  <div class="card-heading-text">
+                    <h5>06. What-If Simulator Agent</h5>
+                    <span>Counterfactual Engine</span>
+                  </div>
+                </div>
+                <span class="card-id-badge">06</span>
+              </div>
+              <ul class="card-bullets-list">
+                <li><i class="fa-solid fa-circle"></i> Counterfactual lifestyle &amp; drug shifts</li>
+                <li><i class="fa-solid fa-circle"></i> 30-Year longitudinal risk trajectories</li>
+                <li><i class="fa-solid fa-circle"></i> Absolute &amp; relative risk drop math</li>
+              </ul>
+              <div class="card-deliverable-tag">
+                <i class="fa-solid fa-chart-line"></i> Output: 30-Year Trajectory Deltas
+              </div>
+            </div>
+
+            <div class="micro-arrow-down"><i class="fa-solid fa-chevron-down"></i></div>
+
+            <!-- Card 07: Feasibility & Safety Agent -->
+            <div class="arch-card-unit">
+              <div class="card-top-row">
+                <div class="card-heading-group">
+                  <div class="card-unit-icon icon-c-safety"><i class="fa-solid fa-shield-halved"></i></div>
+                  <div class="card-heading-text">
+                    <h5>07. Feasibility &amp; Safety Agent</h5>
+                    <span>Clinical Staging &amp; Safety</span>
+                  </div>
+                </div>
+                <span class="card-id-badge">07</span>
+              </div>
+              <ul class="card-bullets-list">
+                <li><i class="fa-solid fa-circle"></i> Friction score (0–10 burnout index)</li>
+                <li><i class="fa-solid fa-circle"></i> Drug contraindication blocking</li>
+                <li><i class="fa-solid fa-circle"></i> Phase 1 &amp; Phase 2 staging plan</li>
+              </ul>
+              <div class="card-deliverable-tag">
+                <i class="fa-solid fa-shield-halved"></i> Output: Staged Safety Pass
+              </div>
+            </div>
+
+            <div class="micro-arrow-down"><i class="fa-solid fa-chevron-down"></i></div>
+
+            <!-- Card 08: The Scientific Skeptic -->
+            <div class="arch-card-unit">
+              <div class="card-top-row">
+                <div class="card-heading-group">
+                  <div class="card-unit-icon icon-c-skeptic"><i class="fa-solid fa-microscope"></i></div>
+                  <div class="card-heading-text">
+                    <h5>08. The Scientific Skeptic</h5>
+                    <span>Autonomous Trial Auditor</span>
+                  </div>
+                </div>
+                <span class="card-id-badge">08</span>
+              </div>
+              <ul class="card-bullets-list">
+                <li><i class="fa-solid fa-circle"></i> Autonomous trial spin &amp; bias check</li>
+                <li><i class="fa-solid fa-circle"></i> Verifies control arms &amp; hazard ratios</li>
+                <li><i class="fa-solid fa-circle"></i> Assigns GRADE evidence score</li>
+              </ul>
+              <div class="card-deliverable-tag">
+                <i class="fa-solid fa-microscope"></i> Output: GRADE Confidence Scores
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ==================== CONNECTOR 2: BLOCK 2 -> BLOCK 3 ==================== -->
+          <div class="inter-col-connector">
+            <div class="connector-arrow-line"></div>
+            <div class="bridge-arrow-box" title="Staged Interventions Handoff">
+              <div class="bridge-arrow-pill pink-pill">
+                <i class="fa-solid fa-arrow-right"></i>
+              </div>
+            </div>
+            <div class="arrow-badge-box pink-border">
+              <div class="badge-pipe-header">
+                <i class="fa-solid fa-angles-right"></i>
+                <span>PIPE 2</span>
+              </div>
+              <div class="badge-pipe-subtext">Trajectories &amp; GRADE Scores</div>
+            </div>
+            <div class="bridge-arrow-box" title="Audited Trials Evidence Handoff">
+              <div class="bridge-arrow-pill pink-pill">
+                <i class="fa-solid fa-arrow-right"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- ==================== COLUMN 3: BLOCK 3 ==================== -->
+          <div class="block-column block-col-3">
+            <div class="block-header-bar">
+              <div class="block-header-info">
+                <div class="block-header-icon icon-b3"><i class="fa-solid fa-stethoscope"></i></div>
+                <div class="block-title-text">
+                  <h4>BLOCK 3: TUMOR BOARD &amp; CLINICAL SYNTHESIS</h4>
+                  <span>Virtual Board Consensus &amp; Oncologist Action</span>
+                </div>
+              </div>
+              <span class="block-step-count">STEPS 09–12</span>
+            </div>
+
+            <!-- Card 09: Virtual Tumor Board -->
+            <div class="arch-card-unit">
+              <div class="card-top-row">
+                <div class="card-heading-group">
+                  <div class="card-unit-icon icon-c-tb"><i class="fa-solid fa-users-viewfinder"></i></div>
+                  <div class="card-heading-text">
+                    <h5>09. Virtual Tumor Board</h5>
+                    <span>3-Round Cross-Examination</span>
+                  </div>
+                </div>
+                <span class="card-id-badge">09</span>
+              </div>
+              <ul class="card-bullets-list">
+                <li><i class="fa-solid fa-circle"></i> Med, Surg &amp; Rad oncologists</li>
+                <li><i class="fa-solid fa-circle"></i> 3-Round cross-examination debate</li>
+                <li><i class="fa-solid fa-circle"></i> Weighted consensus relapse math</li>
+              </ul>
+              <div class="card-deliverable-tag">
+                <i class="fa-solid fa-users-viewfinder"></i> Output: Consensus Relapse Math
+              </div>
+            </div>
+
+            <div class="micro-arrow-down"><i class="fa-solid fa-chevron-down"></i></div>
+
+            <!-- Card 10: Twin Coordinator Agent -->
+            <div class="arch-card-unit">
+              <div class="card-top-row">
+                <div class="card-heading-group">
+                  <div class="card-unit-icon icon-c-coord"><i class="fa-solid fa-file-invoice"></i></div>
+                  <div class="card-heading-text">
+                    <h5>10. Twin Coordinator Agent</h5>
+                    <span>Gemini 2.5 Flash Synthesis</span>
+                  </div>
+                </div>
+                <span class="card-id-badge">10</span>
+              </div>
+              <ul class="card-bullets-list">
+                <li><i class="fa-solid fa-circle"></i> 5-Cancer trajectory collation</li>
+                <li><i class="fa-solid fa-circle"></i> Gemini 2.5 Flash clinical synthesis</li>
+                <li><i class="fa-solid fa-circle"></i> Strict token budget optimization</li>
+              </ul>
+              <div class="card-deliverable-tag">
+                <i class="fa-solid fa-file-invoice"></i> Output: Synthesized Clinical Report
+              </div>
+            </div>
+
+            <div class="micro-arrow-down"><i class="fa-solid fa-chevron-down"></i></div>
+
+            <!-- Card 11: Final Clinical Report UI -->
+            <div class="arch-card-unit">
+              <div class="card-top-row">
+                <div class="card-heading-group">
+                  <div class="card-unit-icon icon-c-report"><i class="fa-solid fa-square-poll-vertical"></i></div>
+                  <div class="card-heading-text">
+                    <h5>11. Final Clinical Report UI</h5>
+                    <span>Interactive Oncology Dash</span>
+                  </div>
+                </div>
+                <span class="card-id-badge">11</span>
+              </div>
+              <ul class="card-bullets-list">
+                <li><i class="fa-solid fa-circle"></i> Interactive 30-year risk curves</li>
+                <li><i class="fa-solid fa-circle"></i> Phase 1 &amp; 2 milestone roadmap</li>
+                <li><i class="fa-solid fa-circle"></i> Clickable PubMed citations &amp; PMIDs</li>
+              </ul>
+              <div class="card-deliverable-tag">
+                <i class="fa-solid fa-square-poll-vertical"></i> Output: Interactive Dashboard
+              </div>
+            </div>
+
+            <div class="micro-arrow-down"><i class="fa-solid fa-chevron-down"></i></div>
+
+            <!-- Card 12: Clinician Review & Shared Decision -->
+            <div class="arch-card-unit">
+              <div class="card-top-row">
+                <div class="card-heading-group">
+                  <div class="card-unit-icon icon-c-review"><i class="fa-solid fa-stethoscope"></i></div>
+                  <div class="card-heading-text">
+                    <h5>12. Clinician Review &amp; Decision</h5>
+                    <span>Oncologist Shared Decision</span>
+                  </div>
+                </div>
+                <span class="card-id-badge">12</span>
+              </div>
+              <ul class="card-bullets-list">
+                <li><i class="fa-solid fa-circle"></i> Oncologist validates trajectories</li>
+                <li><i class="fa-solid fa-circle"></i> Reconciles comorbidity &amp; DDI</li>
+                <li><i class="fa-solid fa-circle"></i> Shared decision-making with patient</li>
+              </ul>
+              <div class="card-deliverable-tag">
+                <i class="fa-solid fa-stethoscope"></i> Output: Validated Care Plan
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Closed-Loop Clinical Feedback Track (Block 3 -> Block 1) -->
+        <div class="closed-loop-track">
+          <div class="feedback-icon-label">
+            <i class="fa-solid fa-arrows-spin fa-spin" style="--fa-animation-duration: 4s;"></i>
+            <span>Closed-Loop Clinical Feedback &amp; Scenario Re-calibration</span>
+          </div>
+          <div class="feedback-arrow-anim">
+            <i class="fa-solid fa-chevron-left"></i>
+            <i class="fa-solid fa-chevron-left"></i>
+            <span>Oncologist alters therapy/dosage &rarr; Instant Twin re-simulation &amp; recalculation (Block 3 &rarr; Block 1)</span>
+            <i class="fa-solid fa-chevron-left"></i>
+            <i class="fa-solid fa-chevron-left"></i>
+          </div>
+        </div>
+
+        <!-- Slide Footer Controls -->
+        <div class="slide-bottom-bar">
+          <div class="slide-tech-stack-row">
+            <span style="color:#cbd5e1; font-weight:600; margin-right:4px;">Core Tech Stack:</span>
+            <span class="slide-tech-chip">LangGraph v0.2</span>
+            <span class="slide-tech-chip">Gemini 2.5 Flash</span>
+            <span class="slide-tech-chip">ChromaDB</span>
+            <span class="slide-tech-chip">NCBI PubMed API</span>
+            <span class="slide-tech-chip">FastAPI</span>
+            <span class="slide-tech-chip">Pydantic v2</span>
+            <span class="slide-tech-chip">10 MCP Tools</span>
+          </div>
+          <div>
+            <span style="color:#94a3b8; font-weight:500;">16:9 Presentation Format • End-to-End Enterprise Flow</span>
+          </div>
+          <div>
+            <a href="architecture_slide.html" target="_blank" style="color:#38bdf8; text-decoration:none; font-weight:700; display:inline-flex; align-items:center; gap:6px;">
+              <i class="fa-solid fa-expand"></i> Launch Standalone 16:9 Slide Canvas
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Collapsible Mermaid Source for Reference -->
+      <details style="margin-top: 14px; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 10px 14px;">
+        <summary style="cursor: pointer; color: #94a3b8; font-size: 0.85rem; font-weight: 600;">
+          <i class="fa-solid fa-code"></i> View Raw Mermaid Diagram Code (Alternative Source View)
+        </summary>
+        <div class="mermaid" style="margin-top: 10px;">
+flowchart LR
+    classDef col1 fill:#0c4a6e,stroke:#38bdf8,stroke-width:2px,color:#f0f9ff;
+    classDef col2 fill:#701a75,stroke:#f472b6,stroke-width:2px,color:#fdf2f8;
+    classDef col3 fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#ecfdf5;
+
+    subgraph B1 ["BLOCK 1: PATIENT INGESTION &amp; TWIN STATE"]
+        direction TB
+        C01["01. Patient Profile"]:::col1 --> C02["02. Web Application"]:::col1
+        C02 --> C03["03. Intake Agent"]:::col1
+        C03 --> C04["04. Knowledge Store &amp; RAG"]:::col1
+    end
+
+    subgraph B2 ["BLOCK 2: REASONING, SIMULATION &amp; SAFETY"]
+        direction TB
+        C05["05. Risk Assessment"]:::col2 --> C06["06. What-If Simulator"]:::col2
+        C06 --> C07["07. Feasibility &amp; Safety"]:::col2
+        C07 --> C08["08. The Scientific Skeptic"]:::col2
+    end
+
+    subgraph B3 ["BLOCK 3: TUMOR BOARD &amp; CLINICAL SYNTHESIS"]
+        direction TB
+        C09["09. Virtual Tumor Board"]:::col3 --> C10["10. Twin Coordinator"]:::col3
+        C10 --> C11["11. Final Report UI"]:::col3
+        C11 --> C12["12. Clinician Review &amp; Decision"]:::col3
+    end
+
+    B1 ==>|"DigitalTwinState &amp; RAG Evidence"| B2
+    B2 ==>|"Trajectories &amp; GRADE Evidence"| B3
+        </div>
+      </details>
+    </section>
+
+    <!-- Diagram 1: Colorful C4 Container -->
+    <section class="diagram-card">
+      <div class="diagram-header">
+        <h2>1. Colorful C4 Container Diagram (Full System Topology)</h2>
+        <span class="diagram-tag tag-c4">C4 Level 2 (Full Scope)</span>
+      </div>
+      <p class="diagram-desc">Structural blueprint mapping all clients, gateways, dual LangGraph orchestration pipelines, specialized medical engines, ChromaDB vector persistence, and external APIs.</p>
+      
+      <div class="legend-row">
+        <div class="legend-item"><div class="legend-dot" style="background:#38bdf8;"></div><span>Client / Presentation</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#818cf8;"></div><span>API Gateway & Protocols</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#f472b6;"></div><span>LangGraph Orchestration</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#fbbf24;"></div><span>Specialized Medical Engines</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#34d399;"></div><span>Vector DB & Persistence</span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#fb7185;"></div><span>External Cloud Services</span></div>
+      </div>
+
+      <div class="mermaid">
+graph TB
+    classDef clientTier fill:#0c4a6e,stroke:#38bdf8,stroke-width:2.5px,color:#f0f9ff;
+    classDef gatewayTier fill:#312e81,stroke:#818cf8,stroke-width:2.5px,color:#e0e7ff;
+    classDef graphTier fill:#701a75,stroke:#f472b6,stroke-width:2.5px,color:#fdf2f8;
+    classDef agentTier fill:#1e1b4b,stroke:#a855f7,stroke-width:2px,color:#faf5ff;
+    classDef engineTier fill:#78350f,stroke:#fbbf24,stroke-width:2.5px,color:#fffbeb;
+    classDef dataTier fill:#064e3b,stroke:#34d399,stroke-width:2.5px,color:#ecfdf5;
+    classDef extTier fill:#881337,stroke:#fb7185,stroke-width:2.5px,color:#fff1f2;
+
+    subgraph Presentation_Tier ["🌐 1. Client & Presentation Tier"]
+        WEB_SPA["fa:fa-desktop **Web Single-Page App (SPA)**<br/>[web/index.html • web/app.js]<br/>• 18-Parameter Twin Carousel<br/>• HTML5 Canvas 2D Trajectories<br/>• SVG Circular Health Gauges"]:::clientTier
+        MCP_CLIENTS["fa:fa-terminal **External AI Desktop Clients**<br/>[Claude Desktop / Cursor IDE]<br/>• Model Context Protocol (stdio JSON-RPC)"]:::clientTier
+    end
+
+    subgraph Gateway_Tier ["⚡ 2. API & Communication Gateway Tier"]
+        FASTAPI_APP["fa:fa-bolt **FastAPI REST Application**<br/>[src/api/app.py • Python 3.10]<br/>• CORS Middleware & Static Mount (/static)<br/>• Pydantic v2 Schema Validation"]:::gatewayTier
+        MCP_SERVER["fa:fa-network-wired **Model Context Protocol Server**<br/>[mcp_server.py • JSON-RPC stdio]<br/>• 5 High-Impact Clinical Tools<br/>• Guideline Catalog (cancertwin://)"]:::gatewayTier
+    end
+
+    subgraph Orchestration_Tier ["🧠 3. Agentic Orchestration Tier (LangGraph)"]
+        subgraph Prevention_DAG ["🧬 Digital Twin What-If Simulation Pipeline (5 Agents)"]
+            AG_INTAKE["fa:fa-dna **1. Intake & Twin Profiler Agent**<br/>[intake_agent.py]<br/>Constructs DigitalTwinState & Health Score"]:::agentTier
+            AG_RISK["fa:fa-chart-pie **2. Clinical Risk Assessment Agent**<br/>[risk_agent.py]<br/>5-Cancer Baseline Gail/Bach Models"]:::agentTier
+            AG_SIM["fa:fa-sliders-h **3. What-If Simulator Agent**<br/>[simulation_agent.py]<br/>10-30 Yr Divergence Trajectory Engine"]:::agentTier
+            AG_FEAS["fa:fa-shield-alt **4. Feasibility & Safety Staging Agent**<br/>[clinical_feasibility_agent.py]<br/>Comorbidity Audit & Friction Staging"]:::agentTier
+            AG_COORD["fa:fa-project-diagram **5. Twin Coordinator Orchestrator Agent**<br/>[coordinator.py]<br/>Synthesizes Holistic Digital Twin Report"]:::agentTier
+
+            AG_INTAKE --> AG_RISK --> AG_SIM --> AG_FEAS --> AG_COORD
+        end
+
+        subgraph Tumor_Board_Graph ["🩺 Virtual Tumor Board Debate (src/graphs/tumor_board_graph.py)"]
+            TB_MED["fa:fa-pills **Medical Oncologist**<br/>[medical_oncologist.py]<br/>Systemic Regimens & ctDNA"]:::agentTier
+            TB_SURG["fa:fa-cut **Surgical Oncologist**<br/>[surgical_oncologist.py]<br/>Resection Margins R0/R1/R2"]:::agentTier
+            TB_RAD["fa:fa-radiation **Radiation Oncologist**<br/>[radiation_oncologist.py]<br/>Field Bed Sterilization"]:::agentTier
+            TB_APPRAISE["fa:fa-microscope **Trial Appraisal Agent**<br/>[trial_appraisal_agent.py]<br/>The Scientific Skeptic"]:::agentTier
+            TB_SUP["fa:fa-gavel **Supervisor Agent**<br/>[supervisor.py]<br/>Consensus Relapse Adjudication"]:::agentTier
+
+            TB_MED --> TB_APPRAISE
+            TB_SURG --> TB_APPRAISE
+            TB_RAD --> TB_APPRAISE
+            TB_APPRAISE --> TB_SUP
+        end
+    end
+
+    subgraph Engine_Tier ["⚙️ 4. Specialized Analytical & Algorithmic Engines"]
+        ENG_MET["fa:fa-route **Metastasis Tracker Engine**<br/>[src/utils/metastasis_tracker.py]<br/>• Seed-and-Soil Affinity Matrix<br/>• Vascular & Lymphatic Route Mapping"]:::engineTier
+        ENG_PHARM["fa:fa-heartbeat **Pharmacology & Toxicity Engine**<br/>[src/utils/pharmacology_engine.py]<br/>• 5-Year Relapse-Free Survival Curves<br/>• CYP450 Drug Collisions (3A4/2D6)"]:::engineTier
+        ENG_RISK["fa:fa-calculator **Parametric Risk Calculators**<br/>[src/utils/risk_calculators.py]<br/>• Gail, Bach/USPSTF, WCRF Models"]:::engineTier
+        TOOL_PUBMED["fa:fa-book-medical **PubMed Literature Tool**<br/>[src/tools/pubmed_tool.py]<br/>• Rare Variant Catalog (BRAF, KRAS, NTRK)"]:::engineTier
+    end
+
+    subgraph Data_Tier ["🗄️ 5. Evidence RAG & Vector Persistence Tier"]
+        CHROMA_DB[("fa:fa-database **ChromaDB Vector Store**<br/>[data/chromadb/]<br/>• PersistentClient Collection<br/>• Cosine Vector Search")]:::dataTier
+        FALLBACK_STORE[("fa:fa-file-code **Resilient Fallback Store**<br/>[fallback_store.json]<br/>• In-Memory Keyword Search")]:::dataTier
+        RAG_RETRIEVER["fa:fa-search **Oncology Retriever**<br/>[src/rag/retriever.py]<br/>• Metadata Filters & Top-K Retrieval"]:::dataTier
+    end
+
+    subgraph External_Tier ["☁️ 6. External Cloud & Literature Services Tier"]
+        EXT_GEMINI["fa:fa-robot **Google Gemini Generative AI**<br/>[generativelanguage.googleapis.com]<br/>• Gemini Flash / Pro REST API<br/>• Token Budgeting (In: 2048, Out: 1024)"]:::extTier
+        EXT_PUBMED["fa:fa-university **NCBI PubMed E-Utilities API**<br/>[eutils.ncbi.nlm.nih.gov]<br/>• esearch.fcgi & esummary.fcgi"]:::extTier
+    end
+
+    WEB_SPA -->|"HTTP / REST API"| FASTAPI_APP
+    MCP_CLIENTS -->|"JSON-RPC 2.0"| MCP_SERVER
+
+    FASTAPI_APP -->|"Executes /api/twin/simulate"| AG_INTAKE
+    FASTAPI_APP -->|"Executes /api/twin/relapse"| TB_MED
+    FASTAPI_APP -->|"Executes /api/twin/metastasis"| ENG_MET
+    FASTAPI_APP -->|"Executes /api/twin/therapeutic-simulate"| ENG_PHARM
+
+    MCP_SERVER -->|"Dispatches Tools"| AG_INTAKE
+    MCP_SERVER -->|"Dispatches Tools"| TB_MED
+    MCP_SERVER -->|"Live Search"| TOOL_PUBMED
+
+    AG_RISK -->|"Calculates Baseline"| ENG_RISK
+    AG_RISK -->|"Retrieves Evidence"| RAG_RETRIEVER
+    AG_SIM -->|"Grounded Trajectories"| RAG_RETRIEVER
+    AG_COORD -->|"Synthesizes Narrative"| EXT_GEMINI
+
+    TB_MED -->|"Cites Evidence"| RAG_RETRIEVER
+    TB_SURG -->|"Margin Guidelines"| RAG_RETRIEVER
+    TB_RAD -->|"Field Sterilization"| RAG_RETRIEVER
+    TB_APPRAISE -->|"Grounds Quotes"| TOOL_PUBMED
+    TB_SUP -->|"Synthesizes Consensus"| EXT_GEMINI
+
+    TOOL_PUBMED -->|"Fetches Abstracts"| EXT_PUBMED
+    RAG_RETRIEVER -->|"Embeddings & Docs"| CHROMA_DB
+    RAG_RETRIEVER -.->|"Memory Fallback"| FALLBACK_STORE
+      </div>
+    </section>
+
+    <!-- Diagram 2: Flowchart 1 (Prevention) -->
+    <section class="diagram-card">
+      <div class="diagram-header">
+        <h2>2. Flowchart 1: Prevention & What-If Simulation Pipeline</h2>
+        <span class="diagram-tag tag-flow">POST /api/twin/simulate</span>
+      </div>
+      <p class="diagram-desc">Step-by-step logic: Patient intake $\rightarrow$ 5-Cancer baseline modeling $\rightarrow$ ChromaDB search $\rightarrow$ What-If counterfactual divergence $\rightarrow$ Comorbidity safety audit $\rightarrow$ Gemini narrative.</p>
+      
+      <div class="mermaid">
+flowchart TD
+    classDef startEnd fill:#1e1b4b,stroke:#818cf8,stroke-width:3px,color:#f8fafc;
+    classDef processBlock fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#f8fafc;
+    classDef decisionDiamond fill:#701a75,stroke:#f472b6,stroke-width:2.5px,color:#fdf2f8;
+    classDef storageBlock fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#ecfdf5;
+    classDef externalBlock fill:#881337,stroke:#fb7185,stroke-width:2px,color:#fff1f2;
+    classDef errorBlock fill:#450a0a,stroke:#ef4444,stroke-width:2px,color:#fef2f2;
+
+    START_NODE(["fa:fa-play-circle **User Initiates Simulation**<br/>POST /api/twin/simulate (Web UI / REST API)"]):::startEnd
+    VAL_PAYLOAD["fa:fa-clipboard-check **Validate Request Payload**<br/>Pydantic: PatientProfile & SimulationRequest"]:::processBlock
+    CHECK_VAL{"fa:fa-question-circle **Is Payload<br/>Schema Valid?**"}:::decisionDiamond
+    ERR_400["fa:fa-times-circle **Return HTTP 400 Bad Request**<br/>Detailed Pydantic ValidationError Schema"]:::errorBlock
+    INIT_GRAPH["fa:fa-cogs **Initialize LangGraph Prevention State**<br/>PreventionSimulationState & AgentTraceLog"]:::processBlock
+
+    STEP_INTAKE["fa:fa-id-card **1. Intake & Profiler Node** [intake_agent.py]<br/>• Normalize Demographics, BMI, Pack-Years<br/>• Calculate Overall Baseline Health Score (0-100)<br/>• Identify Primary Organ Vulnerabilities"]:::processBlock
+    STEP_RISK["fa:fa-chart-bar **2. Clinical Risk Assessment Node** [risk_agent.py]<br/>• Calculate Gail, Bach, WCRF Risk Scores<br/>• Query Evidence Knowledge Base for 5-Cancer Hazard Ratios"]:::processBlock
+
+    CHECK_CHROMA{"fa:fa-database **Is ChromaDB<br/>Vector Store Online?**"}:::decisionDiamond
+    QUERY_CHROMA[("fa:fa-search **ChromaDB Semantic Vector Search**<br/>Cosine Distance Indexing + Cancer Metadata Filters")]:::storageBlock
+    QUERY_FALLBACK[("fa:fa-file-alt **Fallback Keyword & Scoring Search**<br/>In-Memory Scan of fallback_store.json")]:::storageBlock
+    GEN_PRE_RECS["fa:fa-stethoscope **Generate Pre-Simulation Action Items**<br/>Immediate USPSTF Screening & Vaccination Guidance"]:::processBlock
+
+    STEP_SIM["fa:fa-sliders-h **3. What-If Counterfactual Simulation Node** [simulation_agent.py]<br/>Apply Intervention Levers Across 5 Cancers"]:::processBlock
+    CHECK_CUSTOM_SCENARIO{"fa:fa-filter **Did User Specify<br/>Custom Levers?**"}:::decisionDiamond
+    APPLY_CUSTOM["fa:fa-edit **Apply Custom Intervention Parameters**<br/>Target BMI, Smoking Stop, Fiber, Exercise, Screenings"]:::processBlock
+    APPLY_DEFAULTS["fa:fa-magic **Apply Standard Optimization Defaults**<br/>Guideline-Directed Multimodal Preventive Plan"]:::processBlock
+    CALC_TRAJECTORIES["fa:fa-chart-line **Compute 10 to 30-Year Trajectory Curves**<br/>• Annual Baseline vs. Counterfactual Absolute Risk %<br/>• Compute Relative Risk Reduction (RRR) & Absolute Delta"]:::processBlock
+
+    STEP_FEAS["fa:fa-shield-alt **4. Clinical Feasibility & Safety Audit Node** [clinical_feasibility_agent.py]<br/>Cross-examine Interventions with Patient Comorbidities"]:::processBlock
+    CHECK_CONTRAINDICATIONS{"fa:fa-exclamation-triangle **Are Proposed Levers<br/>Contraindicated?**"}:::decisionDiamond
+    FLAG_SAFETY["fa:fa-shield-virus **Append Safety Warnings & Adapt Plan**<br/>e.g., Omit high-impact exercise if arthritic; flag NSAID risks"]:::processBlock
+    STAGE_PHASES["fa:fa-calendar-alt **Stage Preventive Interventions Chronologically**<br/>• Phase 1: High-Yield Priority Levers (Months 1–6)<br/>• Phase 2: Consolidation & Lifestyle Habituation (Months 6–12)"]:::processBlock
+
+    STEP_COORD["fa:fa-brain **5. Coordinator Synthesis Node** [coordinator.py]<br/>Aggregate 5-Cancer Projections, Trace Logs & Guideline Citations"]:::processBlock
+    CHECK_LLM_KEY{"fa:fa-key **Is Valid Gemini<br/>API Key Present?**"}:::decisionDiamond
+    CALL_GEMINI["fa:fa-robot **Dispatch Google Gemini REST Generation**<br/>• Enforce Strict Token Budget (Input: 2048, Output: 1024)<br/>• Ground Clinical Narrative in Cited Guidelines & HRs"]:::externalBlock
+    GEN_TEMPLATE["fa:fa-file-invoice **Synthesize Deterministic Clinical Narrative**<br/>Rule-Based Expert System Template"]:::processBlock
+    BUILD_REPORT["fa:fa-box **Compile Final Comprehensive RiskReport**<br/>• Digital Twin ID, Health Score & Trajectories<br/>• Feasibility Audit, Citations & Agent Trace Logs"]:::processBlock
+    END_RESPONSE(["fa:fa-check-circle **Return HTTP 200 OK with RiskReport**<br/>Render Interactive Canvas Curves & Logs on Client"]):::startEnd
+
+    START_NODE --> VAL_PAYLOAD
+    VAL_PAYLOAD --> CHECK_VAL
+    CHECK_VAL -->|No: Invalid Payload| ERR_400
+    CHECK_VAL -->|Yes: Valid Schema| INIT_GRAPH
+    INIT_GRAPH --> STEP_INTAKE
+    STEP_INTAKE --> STEP_RISK
+    STEP_RISK --> CHECK_CHROMA
+    CHECK_CHROMA -->|Online| QUERY_CHROMA
+    CHECK_CHROMA -->|Offline / Unavailable| QUERY_FALLBACK
+    QUERY_CHROMA --> GEN_PRE_RECS
+    QUERY_FALLBACK --> GEN_PRE_RECS
+    GEN_PRE_RECS --> STEP_SIM
+    STEP_SIM --> CHECK_CUSTOM_SCENARIO
+    CHECK_CUSTOM_SCENARIO -->|Yes: User Input| APPLY_CUSTOM
+    CHECK_CUSTOM_SCENARIO -->|No: Unspecified| APPLY_DEFAULTS
+    APPLY_CUSTOM --> CALC_TRAJECTORIES
+    APPLY_DEFAULTS --> CALC_TRAJECTORIES
+    CALC_TRAJECTORIES --> STEP_FEAS
+    STEP_FEAS --> CHECK_CONTRAINDICATIONS
+    CHECK_CONTRAINDICATIONS -->|Yes: Conflicts Detected| FLAG_SAFETY
+    CHECK_CONTRAINDICATIONS -->|No: Clinically Safe| STAGE_PHASES
+    FLAG_SAFETY --> STAGE_PHASES
+    STAGE_PHASES --> STEP_COORD
+    STEP_COORD --> CHECK_LLM_KEY
+    CHECK_LLM_KEY -->|Key Active| CALL_GEMINI
+    CHECK_LLM_KEY -->|Missing / Mock| GEN_TEMPLATE
+    CALL_GEMINI --> BUILD_REPORT
+    GEN_TEMPLATE --> BUILD_REPORT
+    BUILD_REPORT --> END_RESPONSE
+      </div>
+    </section>
+
+    <!-- Diagram 3: Flowchart 2 (Tumor Board) -->
+    <section class="diagram-card">
+      <div class="diagram-header">
+        <h2>3. Flowchart 2: Virtual Tumor Board 3-Round Cyclical Debate</h2>
+        <span class="diagram-tag tag-tb">POST /api/twin/relapse</span>
+      </div>
+      <p class="diagram-desc">Multi-agent consensus cycle: Opening assessments (Medical, Surgical, Radiation) $\rightarrow$ Trial appraisal by the Scientific Skeptic $\rightarrow$ Rebuttal $\rightarrow$ Supervisor adjudication.</p>
+      
+      <div class="mermaid">
+flowchart TD
+    classDef startEnd fill:#1e1b4b,stroke:#818cf8,stroke-width:3px,color:#f8fafc;
+    classDef processBlock fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#f8fafc;
+    classDef decisionDiamond fill:#701a75,stroke:#f472b6,stroke-width:2.5px,color:#fdf2f8;
+    classDef storageBlock fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#ecfdf5;
+    classDef externalBlock fill:#881337,stroke:#fb7185,stroke-width:2px,color:#fff1f2;
+    classDef errorBlock fill:#450a0a,stroke:#ef4444,stroke-width:2px,color:#fef2f2;
+
+    TB_START(["fa:fa-play-circle **Initiate Virtual Tumor Board Debate**<br/>POST /api/twin/relapse (PriorCancerHistory)"]):::startEnd
+    VAL_HISTORY["fa:fa-clipboard-list **Validate Oncology History**<br/>Primary cancer, stage, margins, ctDNA status, biomarkers"]:::processBlock
+    CHECK_PRIOR{"fa:fa-question-circle **Has Prior Cancer<br/>Flag Set to True?**"}:::decisionDiamond
+    ERR_NO_CANCER["fa:fa-times-circle **Return HTTP 400 Bad Request**<br/>'Prior cancer history is required'"]:::errorBlock
+    INIT_TB_STATE["fa:fa-cogs **Initialize TumorBoardDebateState**<br/>Set round_number = 1, initialize transcript & trace lists"]:::processBlock
+
+    subgraph Round1 ["Round 1: Opening Specialist Assessments"]
+        NODE_MED["fa:fa-pills **Medical Oncology Assessment** [medical_oncologist.py]<br/>• Systemic adjuvant chemotherapy, targeted TKIs & ctDNA/MRD"]:::processBlock
+        NODE_SURG["fa:fa-cut **Surgical Oncology Assessment** [surgical_oncologist.py]<br/>• Classify margins (R0 vs. R1/R2) & re-excision feasibility"]:::processBlock
+        NODE_RAD["fa:fa-radiation **Radiation Oncology Assessment** [radiation_oncologist.py]<br/>• Bed sterilization (EBRT/SBRT) & antigen kinetics (PSA, CEA)"]:::processBlock
+    end
+
+    QUERY_EVIDENCE["fa:fa-search **ChromaDB Oncology Evidence Retrieval**<br/>Query relapse guidelines & clinical trials"]:::storageBlock
+    CHECK_PUBMED_TRIAL{"fa:fa-question-circle **Evidence Contains<br/>Unreviewed Trial?**"}:::decisionDiamond
+    NODE_APPRAISE["fa:fa-microscope **Trial Appraisal Node (Scientific Skeptic)** [trial_appraisal_agent.py]<br/>• Audit trial phase & control arm validity<br/>• Detect publication spin & post-hoc bias<br/>• Ground hazard ratios with verbatim quote verification"]:::processBlock
+    SET_ROUND_2["fa:fa-step-forward **Advance Debate to Round 2**<br/>round_number = 2 (Cross-Examination Rebuttal)"]:::processBlock
+
+    subgraph Round2 ["Round 2: Cyclical Rebuttal & Cross-Examination"]
+        REBUTTAL_MED["fa:fa-exchange-alt **Medical Oncologist Rebuttal**<br/>Challenges margin status or omission of radiation"]:::processBlock
+        REBUTTAL_SURG["fa:fa-exchange-alt **Surgical Oncologist Rebuttal**<br/>Argues re-excision necessity vs. toxicity of salvage chemo"]:::processBlock
+        REBUTTAL_RAD["fa:fa-exchange-alt **Radiation Oncologist Rebuttal**<br/>Advocates stereotactic body radiotherapy (SBRT) boost"]:::processBlock
+    end
+
+    NODE_SUPERVISOR["fa:fa-gavel **Round 3: Supervisor Adjudication** [supervisor.py]<br/>• Reconcile conflicting opinions with guideline hierarchy<br/>• Calculate consensus relapse risk % score<br/>• Formulate authoritative multidisciplinary regimen"]:::processBlock
+
+    CHECK_TB_LLM{"fa:fa-robot **Is Gemini LLM<br/>Key Active?**"}:::decisionDiamond
+    CALL_TB_GEMINI["fa:fa-brain **Synthesize Consensus Verdict via Gemini**<br/>Generate physician-grade consensus narrative"]:::externalBlock
+    FALLBACK_TB_NARRATIVE["fa:fa-file-invoice **Generate Rule-Based Consensus Summary**<br/>Deterministic consensus template"]:::processBlock
+    BUILD_TB_RESULT["fa:fa-check-double **Compile TumorBoardDebateResult**<br/>Consensus risk %, final regimen, transcript & trial audit"]:::processBlock
+    TB_END(["fa:fa-check-circle **Return HTTP 200 OK with TumorBoardDebateResult**<br/>Render 3-Round Interactive Transcript & Opinions"]):::startEnd
+
+    TB_START --> VAL_HISTORY
+    VAL_HISTORY --> CHECK_PRIOR
+    CHECK_PRIOR -->|No| ERR_NO_CANCER
+    CHECK_PRIOR -->|Yes| INIT_TB_STATE
+    INIT_TB_STATE --> NODE_MED
+    NODE_MED --> NODE_SURG
+    NODE_SURG --> NODE_RAD
+    NODE_RAD --> QUERY_EVIDENCE
+    QUERY_EVIDENCE --> CHECK_PUBMED_TRIAL
+    CHECK_PUBMED_TRIAL -->|Yes: Trial Found| NODE_APPRAISE
+    CHECK_PUBMED_TRIAL -->|No: Standard Guidelines| SET_ROUND_2
+    NODE_APPRAISE --> SET_ROUND_2
+    SET_ROUND_2 --> REBUTTAL_MED
+    REBUTTAL_MED --> REBUTTAL_SURG
+    REBUTTAL_SURG --> REBUTTAL_RAD
+    REBUTTAL_RAD --> NODE_SUPERVISOR
+    NODE_SUPERVISOR --> CHECK_TB_LLM
+    CHECK_TB_LLM -->|Yes| CALL_TB_GEMINI
+    CHECK_TB_LLM -->|No / Mock| FALLBACK_TB_NARRATIVE
+    CALL_TB_GEMINI --> BUILD_TB_RESULT
+    FALLBACK_TB_NARRATIVE --> BUILD_TB_RESULT
+    BUILD_TB_RESULT --> TB_END
+      </div>
+    </section>
+
+    <!-- Diagram 4: Flowchart 3 (Metastasis Tracker) -->
+    <section class="diagram-card">
+      <div class="diagram-header">
+        <h2>4. Flowchart 3: Seed-and-Soil Metastasis Tracker</h2>
+        <span class="diagram-tag tag-met">POST /api/twin/metastasis</span>
+      </div>
+      <p class="diagram-desc">Anatomical & clonal discrimination: Organotropism affinity matrix lookup $\rightarrow$ Vascular/lymphatic travel pathway mapping $\rightarrow$ Biomarker concordance $\rightarrow$ Distant metastasis vs. Second Primary.</p>
+      
+      <div class="mermaid">
+flowchart TD
+    classDef startEnd fill:#1e1b4b,stroke:#818cf8,stroke-width:3px,color:#f8fafc;
+    classDef processBlock fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#f8fafc;
+    classDef decisionDiamond fill:#701a75,stroke:#f472b6,stroke-width:2.5px,color:#fdf2f8;
+    classDef storageBlock fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#ecfdf5;
+    classDef externalBlock fill:#881337,stroke:#fb7185,stroke-width:2px,color:#fff1f2;
+    classDef accentBlock fill:#78350f,stroke:#fbbf24,stroke-width:2px,color:#fffbeb;
+
+    MET_START(["fa:fa-play-circle **Submit New Lesion for Metastasis Analysis**<br/>POST /api/twin/metastasis (MetastasisAnalysisRequest)"]):::startEnd
+    PARSE_MET["fa:fa-clipboard-check **Parse Primary Cancer & New Lesion Site**<br/>Primary type, new anatomical site, interval months, biomarkers"]:::processBlock
+    LOOKUP_ORGANOTROPISM["fa:fa-table **Query Seed-and-Soil Organotropism Matrix**<br/>Lookup baseline affinity score (e.g., CRC→Liver: 0.88, Prostate→Bone: 0.92)"]:::accentBlock
+    TRACE_ROUTE["fa:fa-route **Trace Anatomical Vascular & Lymphatic Route**<br/>Identify biological travel pathway (Portal vein, Batson plexus, Thoracic duct)"]:::processBlock
+    EVAL_INTERVAL["fa:fa-calendar-alt **Evaluate Disease-Free Latency Interval**<br/>Time from primary curative treatment to new lesion presentation"]:::processBlock
+
+    CHECK_BIOMARKER_DATA{"fa:fa-dna **Are Biopsy Biomarkers<br/>Available?**"}:::decisionDiamond
+    ANALYZE_CONCORDANCE["fa:fa-microscope **Analyze Clonal Biomarker Concordance**<br/>Compare CK7, CK20, TTF-1, PSA, GATA3, KRAS/BRAF mutations"]:::processBlock
+    HEURISTIC_ESTIMATE["fa:fa-calculator **Apply Organotropism & Latency Prior**<br/>Estimate probability based on anatomy and time interval"]:::processBlock
+    COMPUTE_PROBABILITY["fa:fa-percentage **Compute Traveling Metastasis Probability**<br/>Synthesize organotropism affinity + clonal concordance + latency"]:::processBlock
+
+    CHECK_CLASSIFICATION{"fa:fa-balance-scale **Is Probability Score<br/>>= 50%?**"}:::decisionDiamond
+    CLASS_METASTASIS["fa:fa-bullseye **Classify as Traveling Distant Metastasis**<br/>• Clonal relapse of original primary tumor<br/>• Direct systemic staging (PET/CT) & palliative/targeted therapy"]:::externalBlock
+    CLASS_SECOND_PRIMARY["fa:fa-seedling **Classify as De Novo Second Primary**<br/>• Independent new oncogenic event<br/>• Recommend curative-intent biopsy and dedicated surgical workup"]:::processBlock
+
+    BUILD_MET_RESPONSE["fa:fa-file-medical-alt **Compile MetastasisAnalysisResponse**<br/>Organotropism affinity, travel route description, probability %, and clinical directives"]:::processBlock
+    MET_END(["fa:fa-check-circle **Return HTTP 200 OK with Metastasis Analysis**<br/>Render Clonal Pathway & Recommendation in UI"]):::startEnd
+
+    MET_START --> PARSE_MET
+    PARSE_MET --> LOOKUP_ORGANOTROPISM
+    LOOKUP_ORGANOTROPISM --> TRACE_ROUTE
+    TRACE_ROUTE --> EVAL_INTERVAL
+    EVAL_INTERVAL --> CHECK_BIOMARKER_DATA
+    CHECK_BIOMARKER_DATA -->|Yes: Biopsy Done| ANALYZE_CONCORDANCE
+    CHECK_BIOMARKER_DATA -->|No: Imaging Only| HEURISTIC_ESTIMATE
+    ANALYZE_CONCORDANCE --> COMPUTE_PROBABILITY
+    HEURISTIC_ESTIMATE --> COMPUTE_PROBABILITY
+    COMPUTE_PROBABILITY --> CHECK_CLASSIFICATION
+    CHECK_CLASSIFICATION -->|Probability >= 50%| CLASS_METASTASIS
+    CHECK_CLASSIFICATION -->|Probability < 50%| CLASS_SECOND_PRIMARY
+    CLASS_METASTASIS --> BUILD_MET_RESPONSE
+    CLASS_SECOND_PRIMARY --> BUILD_MET_RESPONSE
+    BUILD_MET_RESPONSE --> MET_END
+      </div>
+    </section>
+
+    <!-- Diagram 5: Flowchart 4 (Pharmacology & Toxicity) [HIDDEN] -->
+    <section class="diagram-card" id="diagramToxicitySim" style="display: none !important;">
+      <div class="diagram-header">
+        <h2>5. Flowchart 4: Pharmacology & Toxicity Simulation Engine</h2>
+        <span class="diagram-tag tag-pharm">POST /api/twin/therapeutic-simulate</span>
+      </div>
+      <p class="diagram-desc">Therapeutic projection & safety audit: Stage baseline relapse $\rightarrow$ Surgical margin & SBRT levers $\rightarrow$ Systemic therapy hazard ratios $\rightarrow$ 5-Year RFS Kaplan-Meier curve $\rightarrow$ CYP450 drug collisions & toxicity hazard curves.</p>
+      
+      <div class="mermaid">
+flowchart TD
+    classDef startEnd fill:#1e1b4b,stroke:#818cf8,stroke-width:3px,color:#f8fafc;
+    classDef processBlock fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#f8fafc;
+    classDef decisionDiamond fill:#701a75,stroke:#f472b6,stroke-width:2.5px,color:#fdf2f8;
+    classDef storageBlock fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#ecfdf5;
+    classDef externalBlock fill:#881337,stroke:#fb7185,stroke-width:2px,color:#fff1f2;
+    classDef warningBlock fill:#78350f,stroke:#fbbf24,stroke-width:2px,color:#fffbeb;
+
+    PHARM_START(["fa:fa-play-circle **Submit Therapeutic Regimen for Simulation**<br/>POST /api/twin/therapeutic-simulate (TherapeuticSimulationRequest)"]):::startEnd
+    READ_PARAMS["fa:fa-clipboard-list **Read Patient Clinical & Regimen Levers**<br/>Stage, surgical margin (R0/R1/R2), re-excision flag, SBRT boost, ctDNA, systemic drug, home meds"]:::processBlock
+    CALC_BASE_RELAPSE["fa:fa-calculator **Compute Baseline 5-Year Relapse Risk**<br/>Apply stage base + unsterilized margin multiplier + ctDNA positive multiplier"]:::processBlock
+
+    CHECK_REEXCISION{"fa:fa-question-circle **Was Re-excision<br/>Performed?**"}:::decisionDiamond
+    RESET_MARGIN["fa:fa-cut **Re-excision Sterilizes Surgical Margins**<br/>Resets margin multiplier to clear (1.0x)"]:::processBlock
+    CHECK_SBRT{"fa:fa-radiation **Is Radiation SBRT<br/>Bed Boost Added?**"}:::decisionDiamond
+    APPLY_SBRT["fa:fa-compress **Apply Radiation Bed Sterilization Factor**<br/>Reduces residual local margin relapse by 65%"]:::processBlock
+    APPLY_SYSTEMIC["fa:fa-pills **Apply Systemic Therapy Hazard Ratio (HR)**<br/>Targeted TKI (HR 0.58), Chemotherapy (HR 0.72), Immunotherapy (HR 0.68)"]:::processBlock
+
+    COMPUTE_SIM_RELAPSE["fa:fa-percentage **Compute Simulated Relapse Risk %**<br/>Derive absolute risk reduction (Baseline - Simulated)"]:::processBlock
+    CALC_RFS_CURVE["fa:fa-chart-area **Compute 5-Year Relapse-Free Survival (RFS) Trajectory**<br/>Generate annual Kaplan-Meier style RFS % points for Years 1 through 5"]:::processBlock
+
+    AUDIT_CYP450["fa:fa-flask **Audit CYP450 Pharmacokinetics & Home Medications**<br/>Cross-examine selected oncology regimen against current patient prescriptions"]:::processBlock
+    CHECK_DDI{"fa:fa-exclamation-triangle **Are CYP3A4 / CYP2D6 / QTc<br/>Collisions Detected?**"}:::decisionDiamond
+    GEN_DDI_ALERTS["fa:fa-shield-virus **Generate Critical Drug-Drug Interaction Alerts**<br/>• Flag enzyme inhibition/induction (CYP3A4/2D6)<br/>• Model QTc prolongation & bleeding toxicity hazard points"]:::warningBlock
+    STANDARD_PROFILE["fa:fa-check **No Severe Metabolic Collisions Detected**<br/>Standard baseline pharmacologic toxicity profile"]:::processBlock
+
+    BUILD_PHARM_RESPONSE["fa:fa-box **Compile TherapeuticSimulationResponse**<br/>Baseline vs. Simulated relapse %, 5-year RFS curve, toxicity hazard curve, and DDI alerts"]:::processBlock
+    PHARM_END(["fa:fa-check-circle **Return HTTP 200 OK with Therapeutic Simulation**<br/>Render Interactive 5-Year Survival Curves & Toxicity Gauges in UI"]):::startEnd
+
+    PHARM_START --> READ_PARAMS
+    READ_PARAMS --> CALC_BASE_RELAPSE
+    CALC_BASE_RELAPSE --> CHECK_REEXCISION
+    CHECK_REEXCISION -->|Yes| RESET_MARGIN
+    CHECK_REEXCISION -->|No| CHECK_SBRT
+    RESET_MARGIN --> CHECK_SBRT
+    CHECK_SBRT -->|Yes| APPLY_SBRT
+    CHECK_SBRT -->|No| APPLY_SYSTEMIC
+    APPLY_SBRT --> APPLY_SYSTEMIC
+    APPLY_SYSTEMIC --> COMPUTE_SIM_RELAPSE
+    COMPUTE_SIM_RELAPSE --> CALC_RFS_CURVE
+    CALC_RFS_CURVE --> AUDIT_CYP450
+    AUDIT_CYP450 --> CHECK_DDI
+    CHECK_DDI -->|Yes: Collisions Found| GEN_DDI_ALERTS
+    CHECK_DDI -->|No: Safe Combination| STANDARD_PROFILE
+    GEN_DDI_ALERTS --> BUILD_PHARM_RESPONSE
+    STANDARD_PROFILE --> BUILD_PHARM_RESPONSE
+    BUILD_PHARM_RESPONSE --> PHARM_END
+      </div>
+    </section>
+  </main>
+
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        darkMode: true,
+        background: '#0a0f1d',
+        primaryColor: '#1e293b',
+        primaryTextColor: '#f8fafc',
+        primaryBorderColor: '#38bdf8',
+        lineColor: '#64748b'
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+[
+  {
+    "id": "PUBMED-42696174",
+    "document": "Title: Tumor-Agnostic and Histology-Tuned Targeted Therapies in Gastrointestinal Cancers: NTRK and RET Fusions and the Evolving Role of Molecular Basket Strategies\nSource: PubMed / J Gastrointest Cancer (2026 Sep 4)\nCancer: Colorectal\nSummary: Recent clinical literature retrieved via live PubMed query for 'Colorectal cancer Stage III relapse recurrence risk, ctDNA minimal residual disease, surgical margins, adjuvant systemic radiation therapy, somatic alteration: NTRK 1 fusion'. Author: Sagawa T et al.\nURL: https://pubmed.ncbi.nlm.nih.gov/42696174/\nHR: N/A",
+    "metadata": {
+      "title": "Tumor-Agnostic and Histology-Tuned Targeted Therapies in Gastrointestinal Cancers: NTRK and RET Fusions and the Evolving Role of Molecular Basket Strategies",
+      "cancer_type": "Colorectal",
+      "source": "PubMed / J Gastrointest Cancer (2026 Sep 4)",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42696174/",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/42696174/",
+      "summary": "Recent clinical literature retrieved via live PubMed query for 'Colorectal cancer Stage III relapse recurrence risk, ctDNA minimal residual disease, surgical margins, adjuvant systemic radiation therapy, somatic alteration: NTRK 1 fusion'. Author: Sagawa T et al.",
+      "hazard_ratio": null,
+      "evidence_level": "PubMed Verified Clinical Trial (Hospital ChromaDB)",
+      "ingested_by": "Clinician Approval"
+    }
+  }
+]

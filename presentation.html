@@ -1,0 +1,1848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CancerTwin AI 2.0 — Enterprise Multi-Agent Oncology Platform</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <style>
+    :root {
+      --bg-black: #04070e;
+      --bg-slide: #070c18;
+      --card-bg: rgba(11, 19, 36, 0.88);
+      --card-border: rgba(56, 189, 248, 0.24);
+      --card-border-glow: rgba(56, 189, 248, 0.55);
+      --accent-cyan: #00f2fe;
+      --accent-sky: #38bdf8;
+      --accent-blue: #2563eb;
+      --accent-neon-blue: #0066ff;
+      --accent-emerald: #10b981;
+      --accent-pink: #ec4899;
+      --accent-purple: #a855f7;
+      --accent-amber: #f59e0b;
+      --text-white: #ffffff;
+      --text-gray: #94a3b8;
+      --text-sub: #cbd5e1;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-black);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text-white);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      padding: 12px;
+    }
+
+    /* Fixed Floating Navigation Toolbar */
+    .nav-toolbar {
+      position: fixed;
+      top: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 2000;
+      background: rgba(8, 14, 28, 0.94);
+      backdrop-filter: blur(20px);
+      padding: 6px 18px;
+      border-radius: 9999px;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 102, 255, 0.3);
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 13px;
+      color: var(--accent-cyan);
+      letter-spacing: 0.5px;
+      padding-right: 14px;
+      border-right: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .nav-counter {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text-gray);
+      min-width: 85px;
+      text-align: center;
+    }
+    .nav-counter strong { color: var(--accent-cyan); }
+    .btn-nav {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 5px 12px;
+      border-radius: 9999px;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+    .btn-nav:hover {
+      background: var(--accent-blue);
+      border-color: var(--accent-cyan);
+      transform: translateY(-1px);
+    }
+    .btn-nav.primary {
+      background: linear-gradient(135deg, #0066ff, #00f2fe);
+      color: #050811;
+      border: none;
+      font-weight: 800;
+    }
+
+    /* 16:9 Presentation Stage */
+    .deck-viewport {
+      width: 100%;
+      max-width: 1400px;
+      aspect-ratio: 16 / 9;
+      position: relative;
+      margin-top: 48px;
+      margin-bottom: 16px;
+      background: radial-gradient(circle at 85% 15%, rgba(0, 102, 255, 0.2) 0%, transparent 45%),
+                  radial-gradient(circle at 15% 85%, rgba(0, 242, 254, 0.14) 0%, transparent 45%),
+                  var(--bg-slide);
+      border: 1.5px solid rgba(56, 189, 248, 0.28);
+      border-radius: 16px;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.95), 0 0 50px rgba(0, 102, 255, 0.25);
+      overflow: hidden;
+      display: flex;
+    }
+
+    /* Slide Frame */
+    .slide-frame {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      padding: 30px 42px;
+      display: none;
+      flex-direction: column;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      overflow-y: auto;
+    }
+    .slide-frame.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    /* Header Bar */
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 18px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(56, 189, 248, 0.22);
+      flex-shrink: 0;
+    }
+    .header-left .main-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 27px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      text-transform: uppercase;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .header-left .main-title span.highlight {
+      color: var(--accent-cyan);
+      text-shadow: 0 0 15px rgba(0, 242, 254, 0.6);
+    }
+    .header-left .sub-title {
+      font-size: 12.5px;
+      color: var(--text-gray);
+      margin-top: 3px;
+      font-weight: 500;
+    }
+    .header-tag {
+      background: rgba(0, 242, 254, 0.12);
+      border: 1px solid rgba(0, 242, 254, 0.4);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      letter-spacing: 0.5px;
+    }
+
+    /* Canvas Body */
+    .canvas-body {
+      flex: 1;
+      display: flex;
+      gap: 18px;
+      min-height: 0;
+      position: relative;
+    }
+
+    /* Glass HUD Card */
+    .hud-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 16px 18px;
+      position: relative;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+    .hud-card:hover {
+      border-color: var(--card-border-glow);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.6), 0 0 20px rgba(56, 189, 248, 0.25);
+    }
+
+    /* Pill Card (Screenshot 1 Visual Style) */
+    .pill-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(12, 20, 38, 0.85);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 10px;
+      padding: 8px 12px;
+      margin-bottom: 8px;
+      transition: all 0.2s ease;
+    }
+    .pill-card:hover {
+      border-color: var(--accent-cyan);
+      background: rgba(16, 28, 56, 0.95);
+      transform: translateX(4px);
+    }
+    .pill-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(0, 102, 255, 0.22);
+      border: 1.5px solid var(--accent-cyan);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-cyan);
+      font-size: 14px;
+      flex-shrink: 0;
+      box-shadow: 0 0 10px rgba(0, 242, 254, 0.35);
+    }
+    .pill-info .pill-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .pill-info .pill-desc {
+      font-size: 10px;
+      color: var(--text-gray);
+      margin-top: 1px;
+      line-height: 1.3;
+    }
+
+    /* Callout Banner */
+    .callout-banner {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: linear-gradient(135deg, rgba(0, 102, 255, 0.25), rgba(0, 242, 254, 0.1));
+      border: 1.5px solid var(--accent-cyan);
+      border-radius: 12px;
+      padding: 10px 16px;
+      box-shadow: 0 0 25px rgba(0, 242, 254, 0.25);
+    }
+    .callout-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: #0066ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: #fff;
+      box-shadow: 0 0 15px rgba(0, 102, 255, 0.6);
+      flex-shrink: 0;
+    }
+    .callout-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .callout-sub {
+      font-size: 10.5px;
+      color: var(--accent-cyan);
+      margin-top: 2px;
+      font-weight: 600;
+    }
+
+    /* Circular Diagram Elements (Screenshot 1 Style) */
+    .circular-diagram-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hub-center-badge {
+      width: 155px;
+      height: 155px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #0c2b6f 0%, #061129 100%);
+      border: 3px solid var(--accent-cyan);
+      box-shadow: 0 0 40px rgba(0, 242, 254, 0.55), inset 0 0 20px rgba(0, 242, 254, 0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      z-index: 10;
+      position: relative;
+    }
+    .hub-center-badge i {
+      font-size: 28px;
+      color: var(--accent-cyan);
+      margin-bottom: 4px;
+      filter: drop-shadow(0 0 8px rgba(0, 242, 254, 0.8));
+    }
+    .hub-center-badge .hub-name {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 900;
+      font-size: 12.5px;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+    .hub-center-badge .hub-sub {
+      font-size: 9px;
+      color: var(--accent-cyan);
+      font-weight: 700;
+      margin-top: 3px;
+    }
+
+    .radial-agent-card {
+      position: absolute;
+      width: 135px;
+      background: rgba(9, 16, 32, 0.95);
+      border: 1.5px solid var(--accent-sky);
+      border-radius: 10px;
+      padding: 7px 10px;
+      text-align: center;
+      z-index: 8;
+      box-shadow: 0 0 15px rgba(0, 102, 255, 0.4);
+      transition: all 0.2s;
+    }
+    .radial-agent-card:hover {
+      transform: scale(1.06);
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 25px rgba(0, 242, 254, 0.6);
+    }
+    .radial-agent-card i {
+      font-size: 15px;
+      color: var(--accent-cyan);
+      margin-bottom: 3px;
+      display: block;
+    }
+    .radial-agent-card .agent-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 11px;
+      color: #fff;
+    }
+    .radial-agent-card .agent-sub {
+      font-size: 8.5px;
+      color: var(--text-gray);
+    }
+
+    .data-source-pill {
+      position: absolute;
+      background: rgba(5, 10, 22, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 8px;
+      padding: 5px 9px;
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--text-sub);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      z-index: 5;
+    }
+    .data-source-pill i { color: var(--accent-sky); font-size: 11px; }
+
+    .radial-svg-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .radial-line-glow {
+      stroke: rgba(0, 242, 254, 0.45);
+      stroke-width: 1.5;
+      stroke-dasharray: 4 4;
+      animation: pulseDash 30s linear infinite;
+    }
+    @keyframes pulseDash {
+      to { stroke-dashoffset: -1000; }
+    }
+
+    .ekg-line {
+      position: absolute;
+      bottom: 4px;
+      right: 18px;
+      width: 280px;
+      height: 35px;
+      opacity: 0.85;
+    }
+
+    /* 3-Column Use Case Layout (Screenshot 2 Style) */
+    .usecase-challenge-box {
+      flex: 1;
+      background: rgba(13, 18, 34, 0.88);
+      border: 1.5px solid rgba(236, 72, 153, 0.35);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+    }
+    .usecase-workflow-box {
+      flex: 1.45;
+      background: rgba(9, 15, 30, 0.92);
+      border: 1.5px solid rgba(56, 189, 248, 0.4);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+    }
+    .usecase-outputs-box {
+      flex: 1;
+      background: rgba(13, 18, 34, 0.88);
+      border: 1.5px solid rgba(16, 185, 129, 0.38);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+    }
+    .usecase-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      width: fit-content;
+    }
+    .tag-pink { background: rgba(236, 72, 153, 0.15); color: #f472b6; border: 1px solid rgba(236, 72, 153, 0.3); }
+    .tag-cyan { background: rgba(0, 242, 254, 0.15); color: var(--accent-cyan); border: 1px solid rgba(0, 242, 254, 0.3); }
+    .tag-green { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+
+    .bullet-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 11px;
+    }
+    .bullet-circle {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      flex-shrink: 0;
+    }
+    .bc-purple { background: rgba(168, 85, 247, 0.2); border: 1px solid #a855f7; color: #c084fc; }
+    .bc-cyan { background: rgba(0, 242, 254, 0.2); border: 1px solid var(--accent-cyan); color: var(--accent-cyan); }
+    .bc-green { background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; color: #34d399; }
+    .bullet-content .b-head { font-weight: 700; font-size: 11.5px; color: #fff; }
+    .bullet-content .b-body { font-size: 10px; color: var(--text-gray); line-height: 1.35; margin-top: 1px; }
+
+    /* Business Value Ribbon */
+    .business-value-ribbon {
+      background: linear-gradient(90deg, #071024, #0d1a38, #071024);
+      border: 1px solid rgba(0, 242, 254, 0.3);
+      border-radius: 10px;
+      padding: 7px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 8px;
+    }
+    .bv-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 11px;
+      color: var(--accent-cyan);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      text-transform: uppercase;
+    }
+    .bv-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+      color: #fff;
+    }
+    .bv-item i { color: var(--accent-sky); font-size: 11px; }
+
+    /* Tech Grid (Screenshot 3 Style) */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 12px;
+      width: 100%;
+      height: 100%;
+    }
+    .tech-card {
+      background: rgba(12, 19, 36, 0.9);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 12px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+      transition: all 0.2s ease;
+    }
+    .tech-card:hover {
+      border-color: var(--accent-cyan);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(0, 242, 254, 0.25);
+    }
+    .tech-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 13.5px;
+      color: #fff;
+      margin-bottom: 2px;
+    }
+    .tech-icon-container {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 4px 0;
+      font-size: 28px;
+    }
+    .tech-subtitle {
+      font-size: 9px;
+      color: var(--text-gray);
+      margin-bottom: 6px;
+      line-height: 1.25;
+      min-height: 22px;
+    }
+    .tech-snippet-box {
+      width: 100%;
+      background: #04060e;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 6px;
+      padding: 4px 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8px;
+      color: var(--accent-cyan);
+      text-align: left;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    /* System Architecture Flow (Screenshot 5 Style) */
+    .arch-container {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      gap: 14px;
+      align-items: stretch;
+    }
+    .arch-col-left {
+      width: 22%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .arch-col-mid {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      justify-content: space-between;
+    }
+    .arch-col-right {
+      width: 23%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .arch-agent-row {
+      display: flex;
+      align-items: center;
+      background: rgba(10, 17, 34, 0.88);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 10px;
+      padding: 9px 12px;
+      gap: 12px;
+    }
+    .arch-agent-badge {
+      width: 140px;
+      flex-shrink: 0;
+      text-align: center;
+      border-right: 1px solid rgba(255, 255, 255, 0.12);
+      padding-right: 8px;
+    }
+    .arch-agent-badge i { font-size: 18px; color: var(--accent-cyan); margin-bottom: 3px; display: block; }
+    .arch-agent-badge .name { font-weight: 800; font-size: 11px; color: #fff; }
+    .arch-agent-badge .tech { font-size: 8px; color: var(--accent-sky); }
+
+    .arch-sources-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      flex: 1;
+    }
+    .source-box {
+      background: #040814;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 6px;
+      padding: 5px 6px;
+      text-align: center;
+      font-size: 8.5px;
+      font-weight: 600;
+      color: var(--text-sub);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+    .source-box i { font-size: 11px; color: var(--accent-cyan); }
+
+    /* Presenter Notes Drawer */
+    .notes-drawer {
+      width: 100%;
+      max-width: 1400px;
+      background: rgba(9, 14, 28, 0.95);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      border-radius: 12px;
+      padding: 14px 22px;
+      margin-bottom: 30px;
+      display: none;
+    }
+    .notes-drawer .n-head {
+      font-family: 'Outfit', sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--accent-amber);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .notes-drawer .n-text {
+      font-size: 12px;
+      color: #e2e8f0;
+      line-height: 1.5;
+    }
+
+    /* Print Styles */
+    @media print {
+      body { padding: 0; background: #000; }
+      .nav-toolbar, .notes-drawer { display: none !important; }
+      .deck-viewport {
+        border: none;
+        box-shadow: none;
+        margin: 0;
+        max-width: 100%;
+        aspect-ratio: auto;
+      }
+      .slide-frame {
+        display: flex !important;
+        opacity: 1 !important;
+        page-break-after: always;
+        height: 100vh;
+        width: 100vw;
+        padding: 40px;
+        background: #04070e !important;
+        -webkit-print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Controller Toolbar -->
+  <div class="nav-toolbar">
+    <div class="nav-brand">
+      <i class="fa-solid fa-dna" style="color: var(--accent-cyan);"></i>
+      <span>CANCERTWIN AI 2.0</span>
+    </div>
+    <button class="btn-nav" onclick="prevSlide()"><i class="fa-solid fa-chevron-left"></i> Prev</button>
+    <div class="nav-counter">Slide <strong id="curSlideNum">1</strong> / 12</div>
+    <button class="btn-nav primary" onclick="nextSlide()">Next <i class="fa-solid fa-chevron-right"></i></button>
+    <button class="btn-nav" onclick="toggleFullscreen()"><i class="fa-solid fa-expand"></i> Fullscreen</button>
+    <button class="btn-nav" onclick="window.print()"><i class="fa-solid fa-file-pdf"></i> PDF</button>
+    <button class="btn-nav" style="border-color: rgba(245, 158, 11, 0.4); color: #fbbf24;" onclick="toggleNotes()">
+      <i class="fa-solid fa-microphone"></i> Presenter Notes
+    </button>
+  </div>
+
+  <!-- 16:9 Presentation Stage -->
+  <div class="deck-viewport" id="deckContainer">
+
+    <!-- ==========================================
+         SLIDE 1: TITLE SLIDE
+         ========================================== -->
+    <div class="slide-frame active" id="slide-1">
+      <div class="header-bar">
+        <div class="header-left">
+          <div class="main-title">CancerTwin AI 2.0: <span class="highlight">Agentic Oncology Digital Twin</span></div>
+          <div class="sub-title">10-Agent Orchestration • 5-Cancer Risk Prevention • Virtual Tumor Board Relapse Adjudication</div>
+        </div>
+        <div class="header-tag">EXECUTIVE PROFILE</div>
+      </div>
+      <div class="canvas-body" style="align-items: center; justify-content: space-between; padding: 14px 10px;">
+        <div style="flex: 1.2; padding-right: 28px;">
+          <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(0, 242, 254, 0.1); border: 1px solid var(--accent-cyan); padding: 5px 14px; border-radius: 20px; font-size: 11px; font-weight: 700; color: var(--accent-cyan); margin-bottom: 14px;">
+            <i class="fa-solid fa-shield-virus"></i> NEXT-GENERATION CLINICAL ONCOLOGY INTELLIGENCE
+          </div>
+          <h1 style="font-family: 'Outfit'; font-size: 42px; font-weight: 900; line-height: 1.1; margin-bottom: 14px; background: linear-gradient(135deg, #ffffff 40%, #00f2fe 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+            Personalized Cancer Prevention & What-If Simulation
+          </h1>
+          <p style="font-size: 13.5px; color: var(--text-sub); line-height: 1.6; margin-bottom: 22px;">
+            A production multi-agent system powered by <strong>LangGraph</strong>, <strong>ChromaDB Vector RAG</strong>, <strong>NCBI PubMed Live APIs</strong>, and the <strong>Model Context Protocol (MCP)</strong>. Bridges the gap between 18 complex patient biomarkers and multidisciplinary clinical consensus.
+          </p>
+          <div style="display: flex; gap: 12px;">
+            <div class="callout-banner" style="flex: 1; padding: 10px 14px;">
+              <div class="callout-icon" style="width: 36px; height: 36px; font-size: 17px;"><i class="fa-solid fa-users-gear"></i></div>
+              <div>
+                <div class="callout-title" style="font-size: 12.5px;">10 Specialized Agents</div>
+                <div class="callout-sub" style="font-size: 9.5px;">LangGraph DAG + Debate</div>
+              </div>
+            </div>
+            <div class="callout-banner" style="flex: 1; padding: 10px 14px;">
+              <div class="callout-icon" style="width: 36px; height: 36px; font-size: 17px; background: #00f2fe; color: #050811;"><i class="fa-solid fa-database"></i></div>
+              <div>
+                <div class="callout-title" style="font-size: 12.5px;">Dual-Store RAG</div>
+                <div class="callout-sub" style="font-size: 9.5px;">ChromaDB + PubMed Live</div>
+              </div>
+            </div>
+            <div class="callout-banner" style="flex: 1; padding: 10px 14px;">
+              <div class="callout-icon" style="width: 36px; height: 36px; font-size: 17px; background: #10b981;"><i class="fa-solid fa-network-wired"></i></div>
+              <div>
+                <div class="callout-title" style="font-size: 12.5px;">MCP-Native Core</div>
+                <div class="callout-sub" style="font-size: 9.5px;">All Agents Exposed as Tools</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="flex: 0.8; display: flex; justify-content: center;">
+          <div style="position: relative; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(0, 102, 255, 0.3) 0%, rgba(5, 8, 17, 0.9) 70%); border: 2px solid var(--accent-cyan); display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 0 50px rgba(0, 242, 254, 0.35);">
+            <i class="fa-solid fa-brain" style="font-size: 68px; color: var(--accent-cyan); margin-bottom: 10px; filter: drop-shadow(0 0 15px rgba(0, 242, 254, 0.8));"></i>
+            <div style="font-family: 'Outfit'; font-size: 17px; font-weight: 900; color: #fff; text-align: center;">TWIN COORDINATOR</div>
+            <div style="font-size: 10.5px; color: var(--accent-cyan); font-weight: 700; margin-top: 3px;">LangGraph Central Orchestrator</div>
+            <div style="margin-top: 12px; font-size: 10px; color: var(--text-gray); text-align: center; max-width: 230px;">
+              Pydantic v2 Type-Safe Schemas • Autonomous Scientific Skeptic Audit • Zero Hallucination
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         SLIDE 2: PROBLEM STATEMENT (THE 4 CRISES)
+         ========================================== -->
+    <div class="slide-frame" id="slide-2">
+      <div class="header-bar">
+        <div class="header-left">
+          <div class="main-title">Problem Statement: <span class="highlight">The 4 Crises in Oncology Care</span></div>
+          <div class="sub-title">Why cancer decision support cannot rely on manual consultation or naive single-prompt LLMs</div>
+        </div>
+        <div class="header-tag">CLINICAL CRISES</div>
+      </div>
+      <div class="canvas-body" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div class="hud-card" style="border-left: 4px solid var(--accent-pink);">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+            <div class="bullet-circle bc-purple" style="border-color: var(--accent-pink); color: var(--accent-pink);"><i class="fa-solid fa-server"></i></div>
+            <div style="font-family: 'Outfit'; font-size: 14.5px; font-weight: 800; color: #fff;">1. Fragmented Oncology Data Silos</div>
+          </div>
+          <div style="font-size: 10.5px; color: var(--accent-pink); font-weight: 700; margin-bottom: 6px;">ISOLATED EHRs, PATHOLOGY &amp; GENOMICS</div>
+          <p style="font-size: 12px; color: var(--text-sub); line-height: 1.45;">
+            Patient records, pathology slides, blood panels, and genetic biomarkers (BRCA1/2, KRAS, Lynch) reside in disconnected hospital systems. Oncologists spend 40%+ of patient review time manually gathering history, leading to missed diagnostic windows.
+          </p>
+        </div>
+
+        <div class="hud-card" style="border-left: 4px solid var(--accent-amber);">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+            <div class="bullet-circle bc-amber"><i class="fa-solid fa-brain"></i></div>
+            <div style="font-family: 'Outfit'; font-size: 14.5px; font-weight: 800; color: #fff;">2. 18+ Variable Cognitive Overload</div>
+          </div>
+          <div style="font-size: 10.5px; color: var(--accent-amber); font-weight: 700; margin-bottom: 6px;">COMPLEX MULTI-AXIS HAZARD MATH</div>
+          <p style="font-size: 12px; color: var(--text-sub); line-height: 1.45;">
+            Calculating 10-to-30-year risk divergence requires simultaneously synthesizing lifestyle exposures, environmental carcinogens (PM2.5, radon), genetics, and comorbidity indices. Computing Gail, Bach, or Cox hazards manually during a 15-minute consultation is impossible.
+          </p>
+        </div>
+
+        <div class="hud-card" style="border-left: 4px solid var(--accent-purple);">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+            <div class="bullet-circle bc-purple"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <div style="font-family: 'Outfit'; font-size: 14.5px; font-weight: 800; color: #fff;">3. Fatal Drug Collisions &amp; Regimen Burnout</div>
+          </div>
+          <div style="font-size: 10.5px; color: var(--accent-purple); font-weight: 700; margin-bottom: 6px;">UNCHECKED DDI &amp; HIGH CLINICAL FRICTION</div>
+          <p style="font-size: 12px; color: var(--text-sub); line-height: 1.45;">
+            Aggressive chemo/chemoprevention regimens trigger fatal Adverse Drug Reactions (e.g. Tamoxifen collided with CYP2D6-inhibiting antidepressants). Demanding 10 simultaneous lifestyle modifications at once causes high friction scores and 70%+ patient dropout.
+          </p>
+        </div>
+
+        <div class="hud-card" style="border-left: 4px solid var(--accent-cyan);">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+            <div class="bullet-circle bc-cyan"><i class="fa-solid fa-ghost"></i></div>
+            <div style="font-family: 'Outfit'; font-size: 14.5px; font-weight: 800; color: #fff;">4. General LLM Hallucination Trap</div>
+          </div>
+          <div style="font-size: 10.5px; color: var(--accent-cyan); font-weight: 700; margin-bottom: 6px;">UNVERIFIED CITATIONS &amp; BLAND AVERAGES</div>
+          <p style="font-size: 12px; color: var(--text-sub); line-height: 1.45;">
+            Commercial monolithic LLMs invent realistic-sounding PubMed PMIDs, fail token budgeting, and converge on generic averages rather than exploring conflicting surgical resection versus radiation field margins. In cancer care, ungrounded AI is unacceptable.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         SLIDE 3: ARCHITECTURAL RATIONALE
+         ========================================== -->
+    <div class="slide-frame" id="slide-3">
+      <div class="header-bar">
+        <div class="header-left">
+          <div class="main-title">Architectural Rationale: <span class="highlight">Why Multi-Agent?</span></div>
+          <div class="sub-title">Monolithic single-prompt models collapse under clinical conflict; LangGraph enables dialectical debate</div>
+        </div>
+        <div class="header-tag">WHY THIS SOLUTION</div>
+      </div>
+      <div class="canvas-body" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div class="hud-card" style="background: rgba(244, 63, 94, 0.06); border-color: rgba(244, 63, 94, 0.35);">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+            <i class="fa-solid fa-circle-xmark" style="color: var(--accent-pink); font-size: 18px;"></i>
+            <span style="font-family: 'Outfit'; font-size: 15.5px; font-weight: 800; color: #f472b6;">Monolithic LLM Approach (Why It Fails)</span>
+          </div>
+          <div style="font-size: 10.5px; color: var(--text-gray); margin-bottom: 14px;">SINGLE PROMPT / GENERAL CHATBOT</div>
+          
+          <div style="display: flex; flex-direction: column; gap: 11px;">
+            <div style="display: flex; gap: 10px; font-size: 11.5px; color: var(--text-sub);">
+              <span style="color: var(--accent-pink); font-weight: 800;">✗</span>
+              <div><strong>Bland Averaged Consensus:</strong> Collapses opposing surgical and radiation trade-offs into a generic compromise, obscuring margins.</div>
+            </div>
+            <div style="display: flex; gap: 10px; font-size: 11.5px; color: var(--text-sub);">
+              <span style="color: var(--accent-pink); font-weight: 800;">✗</span>
+              <div><strong>Fabricated Citations:</strong> Generates plausible PubMed IDs and fake trial efficacy figures that do not exist in medical literature.</div>
+            </div>
+            <div style="display: flex; gap: 10px; font-size: 11.5px; color: var(--text-sub);">
+              <span style="color: var(--accent-pink); font-weight: 800;">✗</span>
+              <div><strong>Zero Friction Accounting:</strong> Dumps 10 aggressive life modifications simultaneously, triggering patient burnout and abandonment.</div>
+            </div>
+            <div style="display: flex; gap: 10px; font-size: 11.5px; color: var(--text-sub);">
+              <span style="color: var(--accent-pink); font-weight: 800;">✗</span>
+              <div><strong>Black Box Opacity:</strong> Oncologists cannot inspect why an empirical risk score surged or dropped.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hud-card" style="background: rgba(16, 185, 129, 0.06); border-color: rgba(16, 185, 129, 0.4);">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+            <i class="fa-solid fa-circle-check" style="color: var(--accent-emerald); font-size: 18px;"></i>
+            <span style="font-family: 'Outfit'; font-size: 15.5px; font-weight: 800; color: #34d399;">CancerTwin Multi-Agent System (Why It Wins)</span>
+          </div>
+          <div style="font-size: 10.5px; color: var(--accent-cyan); margin-bottom: 14px;">LANGGRAPH CYCLICAL DEBATE + DETERMINISTIC DAG</div>
+
+          <div style="display: flex; flex-direction: column; gap: 11px;">
+            <div style="display: flex; gap: 10px; font-size: 11.5px; color: #fff;">
+              <span style="color: var(--accent-emerald); font-weight: 800;">✓</span>
+              <div><strong>Dialectical Specialist Debate:</strong> Surgical, Medical, and Radiation agents defend competing strategies over 3 rounds with mathematical consensus.</div>
+            </div>
+            <div style="display: flex; gap: 10px; font-size: 11.5px; color: #fff;">
+              <span style="color: var(--accent-emerald); font-weight: 800;">✓</span>
+              <div><strong>Autonomous Scientific Skeptic:</strong> Dedicated adversary agent audits every trial for pharma bias, spin, and calculates GRADE scores.</div>
+            </div>
+            <div style="display: flex; gap: 10px; font-size: 11.5px; color: #fff;">
+              <span style="color: var(--accent-emerald); font-weight: 800;">✓</span>
+              <div><strong>2-Phase Friction Staging:</strong> Feasibility agent calculates friction scores (0–10) and separates immediate life-saving steps from long-term habits.</div>
+            </div>
+            <div style="display: flex; gap: 10px; font-size: 11.5px; color: #fff;">
+              <span style="color: var(--accent-emerald); font-weight: 800;">✓</span>
+              <div><strong>Strict Pydantic Type-Safety:</strong> Every agent exchanges strongly validated JSON schemas, guaranteeing complete mathematical traceability.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         SLIDE 4: BUSINESS USE CASE SCENARIO (CANCERTWIN SPECIFIC)
+         ========================================== -->
+    <div class="slide-frame" id="slide-4">
+      <div class="header-bar">
+        <div class="header-left">
+          <div class="main-title">Business Use Case <span class="highlight">Scenario</span></div>
+          <div class="sub-title">AI-Driven Chronic Oncology &amp; Multi-Agent Care Workflow — Personalized Cancer Prevention &amp; Relapse Adjudication</div>
+        </div>
+        <div class="header-tag">CLINICAL WORKFLOW</div>
+      </div>
+      <div class="canvas-body" style="flex-direction: column; gap: 0;">
+        <div style="display: flex; gap: 14px; flex: 1;">
+          <!-- Left: Business Challenge -->
+          <div class="usecase-challenge-box">
+            <div class="usecase-tag tag-pink"><i class="fa-solid fa-bullseye"></i> Business Challenge</div>
+            <p style="font-size: 10.5px; color: var(--text-gray); margin-bottom: 12px; line-height: 1.4;">
+              Healthcare systems face severe bottlenecks delivering proactive cancer care due to:
+            </p>
+            <div class="bullet-item">
+              <div class="bullet-circle bc-purple"><i class="fa-solid fa-database"></i></div>
+              <div class="bullet-content">
+                <div class="b-head">Fragmented Genomic &amp; Lab Data</div>
+                <div class="b-body">Biomarkers, CT scans, and pathology trapped across siloed EHR portals.</div>
+              </div>
+            </div>
+            <div class="bullet-item">
+              <div class="bullet-circle bc-purple"><i class="fa-solid fa-eye-slash"></i></div>
+              <div class="bullet-content">
+                <div class="b-head">Zero Trajectory Visibility</div>
+                <div class="b-body">Blind spots in long-term counterfactual risk projection for patients.</div>
+              </div>
+            </div>
+            <div class="bullet-item">
+              <div class="bullet-circle bc-purple"><i class="fa-solid fa-clock-rotate-left"></i></div>
+              <div class="bullet-content">
+                <div class="b-head">Time-Consuming Chart Review</div>
+                <div class="b-body">Oncologists lose 3+ hours daily manually assembling multi-year patient histories.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Middle: AI-Powered Care Workflow -->
+          <div class="usecase-workflow-box">
+            <div class="usecase-tag tag-cyan" style="align-self: center;"><i class="fa-solid fa-network-wired"></i> CancerTwin Multi-Agent Workflow</div>
+            
+            <div style="display: flex; flex-direction: column; gap: 7px; margin-top: 2px;">
+              <div style="background: rgba(14, 25, 48, 0.95); border: 1px solid var(--accent-sky); border-radius: 8px; padding: 5px 12px; text-align: center; font-size: 10.5px; font-weight: 700;">
+                <i class="fa-solid fa-hospital-user" style="color: var(--accent-cyan); margin-right: 6px;"></i> Clinician / Patient (Submits 18 biomarkers via Web SPA / REST API)
+              </div>
+              <div style="text-align: center; color: var(--accent-cyan); font-size: 10px;"><i class="fa-solid fa-arrow-down"></i></div>
+
+              <div style="background: radial-gradient(circle, #0e3077 0%, #081636 100%); border: 1.5px solid var(--accent-cyan); border-radius: 8px; padding: 7px 12px; text-align: center; box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);">
+                <div style="font-family: 'Outfit'; font-size: 11.5px; font-weight: 900; color: #fff;"><i class="fa-solid fa-brain" style="color: var(--accent-cyan);"></i> LANGGRAPH TWIN COORDINATOR</div>
+                <div style="font-size: 9px; color: var(--accent-cyan); margin-top: 2px;">Normalizes DigitalTwinState &amp; coordinates 10 specialized domain agents</div>
+              </div>
+              <div style="text-align: center; color: var(--accent-cyan); font-size: 10px;"><i class="fa-solid fa-arrow-down"></i></div>
+
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;">
+                <div style="background: #081125; border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 6px; padding: 5px; text-align: center;">
+                  <div style="font-weight: 800; font-size: 9.5px; color: #fff;">Risk &amp; Sim Agent</div>
+                  <div style="font-size: 8px; color: var(--text-gray); margin-top: 1px;">30-Yr Trajectories</div>
+                </div>
+                <div style="background: #081125; border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 6px; padding: 5px; text-align: center;">
+                  <div style="font-weight: 800; font-size: 9.5px; color: #fff;">Feasibility &amp; Safety</div>
+                  <div style="font-size: 8px; color: var(--text-gray); margin-top: 1px;">DDI &amp; Friction 0-10</div>
+                </div>
+                <div style="background: #081125; border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 6px; padding: 5px; text-align: center;">
+                  <div style="font-weight: 800; font-size: 9.5px; color: #fff;">Scientific Skeptic</div>
+                  <div style="font-size: 8px; color: var(--text-gray); margin-top: 1px;">GRADE Bias Audit</div>
+                </div>
+              </div>
+              <div style="text-align: center; color: var(--accent-cyan); font-size: 10px;"><i class="fa-solid fa-arrow-down"></i></div>
+
+              <div style="background: rgba(14, 25, 48, 0.95); border: 1px solid var(--accent-emerald); border-radius: 8px; padding: 5px 12px; text-align: center; font-size: 10.5px; font-weight: 700;">
+                <i class="fa-solid fa-users-viewfinder" style="color: var(--accent-emerald); margin-right: 6px;"></i> Virtual Tumor Board (Surgical, Medical &amp; Radiation 3-round consensus debate)
+              </div>
+              <div style="text-align: center; color: var(--accent-emerald); font-size: 10px;"><i class="fa-solid fa-arrow-down"></i></div>
+
+              <div style="background: linear-gradient(90deg, #092e20, #0c422e); border: 1px solid #10b981; border-radius: 8px; padding: 5px 12px; text-align: center; font-size: 10.5px; font-weight: 800; color: #34d399;">
+                <i class="fa-solid fa-circle-check"></i> Unified Clinical Action Report (30-yr curves, staged roadmap, cited PMIDs)
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Key Outputs -->
+          <div class="usecase-outputs-box">
+            <div class="usecase-tag tag-green"><i class="fa-solid fa-clipboard-list"></i> Key Deliverables</div>
+            <div class="bullet-item">
+              <div class="bullet-circle bc-cyan"><i class="fa-solid fa-id-card"></i></div>
+              <div class="bullet-content">
+                <div class="b-head">Complete Digital Twin State</div>
+                <div class="b-body">18-parameter profile with 0-100 baseline health score.</div>
+              </div>
+            </div>
+            <div class="bullet-item">
+              <div class="bullet-circle bc-pink" style="background: rgba(236,72,153,0.2); border-color: #ec4899; color: #f472b6;"><i class="fa-solid fa-chart-line"></i></div>
+              <div class="bullet-content">
+                <div class="b-head">30-Year Trajectory Divergence</div>
+                <div class="b-body">Baseline vs. counterfactual risk curves across 5 cancers.</div>
+              </div>
+            </div>
+            <div class="bullet-item">
+              <div class="bullet-circle bc-purple"><i class="fa-solid fa-shield-virus"></i></div>
+              <div class="bullet-content">
+                <div class="b-head">DDI &amp; Pharmacogenomic Safety</div>
+                <div class="b-body">Checks comorbidity contraindications and lethal drug collisions.</div>
+              </div>
+            </div>
+            <div class="bullet-item">
+              <div class="bullet-circle bc-cyan"><i class="fa-solid fa-calendar-check"></i></div>
+              <div class="bullet-content">
+                <div class="b-head">2-Phase Staged Interventions</div>
+                <div class="b-body">Phase 1 immediate triage &amp; Phase 2 sustainable lifestyle roadmap.</div>
+              </div>
+            </div>
+            <div class="bullet-item">
+              <div class="bullet-circle bc-green"><i class="fa-solid fa-gavel"></i></div>
+              <div class="bullet-content">
+                <div class="b-head">Tumor Board Relapse Consensus</div>
+                <div class="b-body">Multidisciplinary adjudicated relapse probability &amp; therapy plan.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Business Value Ribbon -->
+        <div class="business-value-ribbon">
+          <div class="bv-title"><i class="fa-solid fa-gem"></i> Delivered Value</div>
+          <div class="bv-item"><i class="fa-solid fa-bolt"></i> 60% Faster Decision Making</div>
+          <div class="bv-item"><i class="fa-solid fa-shield-check"></i> Zero Fatal Drug Collisions</div>
+          <div class="bv-item"><i class="fa-solid fa-users"></i> Pre-Convened Tumor Boards</div>
+          <div class="bv-item"><i class="fa-solid fa-person-running"></i> High Adherence (Friction Scoring)</div>
+          <div class="bv-item"><i class="fa-solid fa-heart-pulse"></i> Measurable Survival Gains</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         SLIDE 5: PROPOSED SOLUTION (CANCERTWIN CIRCULAR HUB)
+         ========================================== -->
+    <div class="slide-frame" id="slide-5">
+      <div class="header-bar">
+        <div class="header-left">
+          <div class="main-title">PROPOSED <span class="highlight">SOLUTION</span></div>
+          <div class="sub-title">CancerTwin AI 2.0 Multi-Agent System — Intelligent. Evidence-Grounded. Proactive.</div>
+        </div>
+        <div class="header-tag">SOLUTION TOPOLOGY</div>
+      </div>
+      <div class="canvas-body" style="gap: 16px;">
+        <!-- Left Side: 6 Pill Cards + Bottom Highlight Banner -->
+        <div style="flex: 1.1; display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <div class="pill-card">
+              <div class="pill-icon"><i class="fa-solid fa-id-card-clip"></i></div>
+              <div class="pill-info">
+                <div class="pill-title">Unified 18-Biomarker Twin View</div>
+                <div class="pill-desc">Consolidates age, pack-years, radon, PM2.5, and genetics into a normalized DigitalTwinState.</div>
+              </div>
+            </div>
+
+            <div class="pill-card">
+              <div class="pill-icon"><i class="fa-solid fa-circle-nodes"></i></div>
+              <div class="pill-info">
+                <div class="pill-title">LangGraph Agent Orchestration</div>
+                <div class="pill-desc">Dual pipelines: Deterministic Prevention DAG and 3-round cyclical Virtual Tumor Board debate.</div>
+              </div>
+            </div>
+
+            <div class="pill-card">
+              <div class="pill-icon"><i class="fa-solid fa-chart-line"></i></div>
+              <div class="pill-info">
+                <div class="pill-title">30-Year Trajectory Simulator</div>
+                <div class="pill-desc">Simulates counterfactual lifestyle and screening changes to project multi-decade risk drops.</div>
+              </div>
+            </div>
+
+            <div class="pill-card">
+              <div class="pill-icon"><i class="fa-solid fa-shield-halved"></i></div>
+              <div class="pill-info">
+                <div class="pill-title">Feasibility &amp; DDI Safety Shield</div>
+                <div class="pill-desc">Scores friction (0-10 burnout), blocks drug collisions (e.g. Tamoxifen + CYP2D6 inhibitors).</div>
+              </div>
+            </div>
+
+            <div class="pill-card">
+              <div class="pill-icon"><i class="fa-solid fa-microscope"></i></div>
+              <div class="pill-info">
+                <div class="pill-title">The Scientific Skeptic Audit</div>
+                <div class="pill-desc">Autonomous trial spin audit; verifies control arms, hazard ratios, and assigns GRADE scores.</div>
+              </div>
+            </div>
+
+            <div class="pill-card">
+              <div class="pill-icon"><i class="fa-solid fa-users-viewfinder"></i></div>
+              <div class="pill-info">
+                <div class="pill-title">Virtual Tumor Board Adjudication</div>
+                <div class="pill-desc">Surgical, Medical, and Radiation oncologists cross-examine trade-offs to reach consensus.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Left Callout Banner -->
+          <div class="callout-banner">
+            <div class="callout-icon"><i class="fa-solid fa-dna"></i></div>
+            <div>
+              <div class="callout-title">CancerTwin AI 2.0 Oncology Digital Twin</div>
+              <div class="callout-sub">Intelligent. Evidence-Grounded. Proactive. Better Care. Better Outcomes.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side: Circular Network Hub with Glowing EKG Line -->
+        <div style="flex: 1.3; position: relative; background: radial-gradient(circle at center, rgba(0, 102, 255, 0.22) 0%, rgba(6, 10, 22, 0.95) 75%); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 14px; overflow: hidden;">
+          <div class="circular-diagram-container">
+            <!-- Central Supervisor AI Hub -->
+            <div class="hub-center-badge">
+              <i class="fa-solid fa-brain"></i>
+              <div class="hub-name">TWIN COORDINATOR<br/>&amp; SUPERVISOR</div>
+              <div class="hub-sub">LangGraph StateGraph</div>
+            </div>
+
+            <!-- Inner Orbit 4 Primary Agent Clusters -->
+            <!-- Top: Intake & Profiler Agent -->
+            <div class="radial-agent-card" style="top: 22px; left: 50%; transform: translateX(-50%);">
+              <i class="fa-solid fa-dna"></i>
+              <div class="agent-title">INTAKE AGENT</div>
+              <div class="agent-sub">Twin Profiling &amp; State</div>
+            </div>
+
+            <!-- Right: Clinical Risk & Simulator Agent -->
+            <div class="radial-agent-card" style="top: 50%; right: 24px; transform: translateY(-50%);">
+              <i class="fa-solid fa-chart-line"></i>
+              <div class="agent-title">RISK &amp; SIM AGENTS</div>
+              <div class="agent-sub">30-Yr Divergence Math</div>
+            </div>
+
+            <!-- Bottom: Virtual Tumor Board Specialists -->
+            <div class="radial-agent-card" style="bottom: 46px; left: 50%; transform: translateX(-50%);">
+              <i class="fa-solid fa-users-viewfinder"></i>
+              <div class="agent-title" style="font-size: 10px;">VIRTUAL TUMOR BOARD</div>
+              <div class="agent-sub">Surg, Med, Rad Debate</div>
+            </div>
+
+            <!-- Left: Feasibility, Safety & Skeptic -->
+            <div class="radial-agent-card" style="top: 50%; left: 24px; transform: translateY(-50%);">
+              <i class="fa-solid fa-shield-halved"></i>
+              <div class="agent-title" style="font-size: 10px;">SAFETY &amp; SKEPTIC</div>
+              <div class="agent-sub">DDI Shield &amp; GRADE Score</div>
+            </div>
+
+            <!-- Outer Orbit Data Nodes & Stakeholders -->
+            <div class="data-source-pill" style="top: 10px; left: 70px;">
+              <i class="fa-solid fa-file-medical"></i> 18 CLINICAL BIOMARKERS
+            </div>
+            <div class="data-source-pill" style="top: 10px; right: 70px;">
+              <i class="fa-solid fa-database"></i> CHROMADB (NCCN/USPSTF)
+            </div>
+            <div class="data-source-pill" style="top: 80px; right: 10px;">
+              <i class="fa-solid fa-book-medical"></i> PUBMED LIVE TRIALS
+            </div>
+            <div class="data-source-pill" style="bottom: 90px; right: 10px;">
+              <i class="fa-solid fa-user-doctor"></i> ONCOLOGISTS &amp; SURGEONS
+            </div>
+            <div class="data-source-pill" style="bottom: 12px; right: 70px;">
+              <i class="fa-solid fa-pills"></i> DDI &amp; PHARMACOGENOMICS
+            </div>
+            <div class="data-source-pill" style="bottom: 12px; left: 70px;">
+              <i class="fa-solid fa-clock-rotate-left"></i> 30-YR DIVERGENCE CURVES
+            </div>
+            <div class="data-source-pill" style="bottom: 90px; left: 10px;">
+              <i class="fa-solid fa-hospital-user"></i> CANCER PATIENT TWIN
+            </div>
+            <div class="data-source-pill" style="top: 80px; left: 10px;">
+              <i class="fa-solid fa-vial"></i> GENOMIC FLAGS (BRCA/KRAS)
+            </div>
+
+            <!-- Radial SVG Connecting Rays -->
+            <svg class="radial-svg-canvas">
+              <circle cx="50%" cy="50%" r="80" stroke="rgba(0, 242, 254, 0.25)" stroke-width="1.5" fill="none"></circle>
+              <circle cx="50%" cy="50%" r="140" stroke="rgba(0, 102, 255, 0.2)" stroke-width="1.5" stroke-dasharray="3 3" fill="none"></circle>
+              
+              <!-- Ray to Intake Agent -->
+              <line x1="50%" y1="50%" x2="50%" y2="18%" class="radial-line-glow"></line>
+              <!-- Ray to Risk Agent -->
+              <line x1="50%" y1="50%" x2="82%" y2="50%" class="radial-line-glow"></line>
+              <!-- Ray to Tumor Board -->
+              <line x1="50%" y1="50%" x2="50%" y2="82%" class="radial-line-glow"></line>
+              <!-- Ray to Safety Agent -->
+              <line x1="50%" y1="50%" x2="18%" y2="50%" class="radial-line-glow"></line>
+            </svg>
+          </div>
+
+          <!-- Glowing EKG Heartbeat Graphic -->
+          <svg class="ekg-line" viewBox="0 0 300 40">
+            <path d="M0,20 L60,20 L70,8 L80,32 L90,12 L100,28 L110,20 L180,20 L190,4 L200,36 L210,10 L220,30 L230,20 L300,20" 
+                  fill="none" stroke="#00f2fe" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  filter="drop-shadow(0 0 6px #00f2fe)"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         SLIDE 6: SYSTEM ARCHITECTURE (CANCERTWIN 1-SLIDE ARCHITECTURE)
+         ========================================== -->
+    <div class="slide-frame" id="slide-6">
+      <div class="header-bar">
+        <div class="header-left">
+          <div class="main-title">System <span class="highlight">Architecture</span></div>
+          <div class="sub-title">1-Slide Explainable Control-Flow Architecture Diagram — From Web SPA to LangGraph Pipelines, Dual RAG &amp; Clinician Report</div>
+        </div>
+        <div class="header-tag">PRESENTER ARCHITECTURE</div>
+      </div>
+      <div class="canvas-body">
+        <div class="arch-container">
+          <!-- Col 1: User & Web UI -->
+          <div class="arch-col-left">
+            <div class="hud-card" style="padding: 10px 12px; text-align: center;">
+              <i class="fa-solid fa-hospital-user" style="font-size: 22px; color: var(--accent-cyan); margin-bottom: 3px;"></i>
+              <div style="font-family: 'Outfit'; font-weight: 800; font-size: 12.5px; color: #fff;">User / Clinician</div>
+              <div style="font-size: 9px; color: var(--text-gray);">Patient • Oncologist • Tumor Board</div>
+            </div>
+
+            <div style="text-align: center; color: var(--accent-cyan); font-size: 10px;">
+              <i class="fa-solid fa-arrow-down-up"></i>
+              <div style="font-size: 8px; color: var(--text-gray);">Profile Payload / Synthesis Report</div>
+            </div>
+
+            <div class="hud-card" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; border-color: var(--accent-sky);">
+              <div>
+                <div style="display: flex; align-items: center; gap: 6px; font-family: 'Outfit'; font-weight: 800; font-size: 12.5px; color: #fff; margin-bottom: 3px;">
+                  <i class="fa-solid fa-desktop" style="color: var(--accent-pink);"></i> Web SPA / FastAPI
+                </div>
+                <div style="font-size: 9px; color: var(--accent-cyan);">web/index.html • src/api/app.py</div>
+              </div>
+
+              <!-- UI Mockup Graphic -->
+              <div style="background: #040711; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 6px; padding: 7px; font-size: 8px; margin: 6px 0;">
+                <div style="display: flex; gap: 4px; margin-bottom: 5px;">
+                  <span style="width: 5px; height: 5px; border-radius: 50%; background: #f43f5e;"></span>
+                  <span style="width: 5px; height: 5px; border-radius: 50%; background: #f59e0b;"></span>
+                  <span style="width: 5px; height: 5px; border-radius: 50%; background: #10b981;"></span>
+                </div>
+                <div style="color: var(--text-gray); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 3px; margin-bottom: 3px;">
+                  18-Parameter Twin Sliders &amp; Cohorts
+                </div>
+                <div style="background: rgba(0, 102, 255, 0.2); color: var(--accent-cyan); padding: 3px 5px; border-radius: 4px;">
+                  Smoking: 30 pack-yrs • Radon: 4.0 pCi/L
+                </div>
+              </div>
+
+              <div style="font-size: 8.5px; color: var(--text-gray); text-align: center;">
+                Pydantic v2 Schema Validation • CORS Gateway
+              </div>
+            </div>
+          </div>
+
+          <!-- Col 2: LangGraph Orchestrator & 3 Core Pipelines -->
+          <div class="arch-col-mid">
+            <!-- Orchestrator Header -->
+            <div style="background: radial-gradient(circle, #0e2a66 0%, #081533 100%); border: 1.5px solid var(--accent-cyan); border-radius: 8px; padding: 7px 14px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 0 15px rgba(0, 242, 254, 0.25);">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-brain" style="font-size: 18px; color: var(--accent-cyan);"></i>
+                <div>
+                  <div style="font-family: 'Outfit'; font-size: 12.5px; font-weight: 800; color: #fff;">LangGraph Orchestrator</div>
+                  <div style="font-size: 8.5px; color: var(--accent-cyan);">StateGraph • Prevention DAG &amp; Cyclical Tumor Board Debate</div>
+                </div>
+              </div>
+              <div style="font-size: 9px; color: var(--text-gray);">Routes strongly typed payloads across parallel specialist tiers</div>
+            </div>
+
+            <!-- Pipeline 1: Intake & Risk Modeling -->
+            <div class="arch-agent-row">
+              <div class="arch-agent-badge">
+                <i class="fa-solid fa-chart-pie"></i>
+                <div class="name">Intake &amp; Risk Agent</div>
+                <div class="tech">intake_agent.py • risk_agent.py</div>
+              </div>
+              <div class="arch-sources-grid">
+                <div class="source-box"><i class="fa-solid fa-id-card"></i> DigitalTwinState</div>
+                <div class="source-box"><i class="fa-solid fa-calculator"></i> Gail/Bach Models</div>
+                <div class="source-box"><i class="fa-solid fa-code"></i> raw_guidelines/</div>
+                <div class="source-box" style="border-color: var(--accent-cyan);"><i class="fa-solid fa-database" style="color: var(--accent-cyan);"></i> ChromaDB</div>
+              </div>
+            </div>
+
+            <!-- Pipeline 2: Simulation & Safety Staging -->
+            <div class="arch-agent-row">
+              <div class="arch-agent-badge">
+                <i class="fa-solid fa-sliders"></i>
+                <div class="name">Simulator &amp; Safety</div>
+                <div class="tech">simulation_agent.py • feasibility.py</div>
+              </div>
+              <div class="arch-sources-grid">
+                <div class="source-box"><i class="fa-solid fa-chart-line"></i> 30-Yr Curves</div>
+                <div class="source-box"><i class="fa-solid fa-shield-virus"></i> DDI Shield</div>
+                <div class="source-box"><i class="fa-solid fa-gauge"></i> Friction 0-10</div>
+                <div class="source-box" style="border-color: var(--accent-cyan);"><i class="fa-solid fa-calendar-check" style="color: var(--accent-cyan);"></i> Phase 1 &amp; 2</div>
+              </div>
+            </div>
+
+            <!-- Pipeline 3: Virtual Tumor Board & Scientific Skeptic -->
+            <div class="arch-agent-row">
+              <div class="arch-agent-badge">
+                <i class="fa-solid fa-users-viewfinder"></i>
+                <div class="name">Tumor Board &amp; Skeptic</div>
+                <div class="tech">tumor_board_graph.py • trial_appraisal.py</div>
+              </div>
+              <div class="arch-sources-grid">
+                <div class="source-box"><i class="fa-solid fa-scissors"></i> Surg Oncologist</div>
+                <div class="source-box"><i class="fa-solid fa-pills"></i> Med Oncologist</div>
+                <div class="source-box"><i class="fa-solid fa-radiation"></i> Rad Oncologist</div>
+                <div class="source-box" style="border-color: var(--accent-cyan);"><i class="fa-solid fa-microscope" style="color: var(--accent-cyan);"></i> PubMed Tool</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Col 3: Twin Coordinator Agent & Loop Back -->
+          <div class="arch-col-right">
+            <div class="hud-card" style="height: 100%; display: flex; flex-direction: column; justify-content: center; text-align: center; border-color: var(--accent-emerald); background: rgba(7, 24, 18, 0.88);">
+              <i class="fa-solid fa-clipboard-check" style="font-size: 30px; color: var(--accent-emerald); margin-bottom: 6px;"></i>
+              <div style="font-family: 'Outfit'; font-size: 13.5px; font-weight: 800; color: #fff;">Twin Coordinator Agent</div>
+              <div style="font-size: 9px; color: #34d399; margin: 3px 0 8px;">coordinator.py • Gemini 2.5 Flash</div>
+              <p style="font-size: 9.5px; color: var(--text-sub); line-height: 1.4;">
+                Collatest 5-cancer trajectory curves, verifies consensus math from the Tumor Board, enforces token budget limits, and synthesizes the final clinical report.
+              </p>
+              <div style="margin-top: 12px; background: rgba(0, 242, 254, 0.1); border: 1px dashed var(--accent-cyan); border-radius: 6px; padding: 5px; font-size: 8.5px; color: var(--accent-cyan); font-weight: 700;">
+                <i class="fa-solid fa-arrow-left"></i> Loop-back response displayed in Web SPA
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         SLIDE 7: WORKFLOW (CANCERTWIN FLOWCHART)
+         ========================================== -->
+    <div class="slide-frame" id="slide-7">
+      <div class="header-bar">
+        <div class="header-left">
+          <div class="main-title">Work<span class="highlight">flow</span></div>
+          <div class="sub-title">Hierarchical Query Processing Flowchart — End-to-End Execution Sequence</div>
+        </div>
+        <div class="header-tag">PROCESSING FLOW</div>
+      </div>
+      <div class="canvas-body" style="align-items: center; justify-content: center;">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; width: 680px;">
+          <!-- Node 1 -->
+          <div style="width: 270px; background: #0b1428; border: 1.5px solid #fff; border-radius: 8px; padding: 9px; text-align: center;">
+            <i class="fa-solid fa-user-doctor" style="font-size: 15px; margin-bottom: 3px; display: block; color: var(--accent-cyan);"></i>
+            <div style="font-weight: 800; font-size: 11px; color: #fff;">USER / CLINICIAN INTAKE</div>
+            <div style="font-size: 9px; color: var(--text-gray);">18 Biomarkers &amp; Counterfactual Interventions</div>
+          </div>
+          <div style="color: var(--accent-cyan); font-size: 11px;"><i class="fa-solid fa-arrow-down"></i></div>
+
+          <!-- Node 2 -->
+          <div style="width: 270px; background: #0b1428; border: 1.5px solid #fff; border-radius: 8px; padding: 9px; text-align: center;">
+            <i class="fa-solid fa-window-maximize" style="font-size: 15px; margin-bottom: 3px; display: block; color: var(--accent-pink);"></i>
+            <div style="font-weight: 800; font-size: 11px; color: #fff;">FASTAPI WEB INTERFACE</div>
+            <div style="font-size: 9px; color: var(--text-gray);">Schema Validation &amp; Payload Gateway</div>
+          </div>
+          <div style="color: var(--accent-cyan); font-size: 11px;"><i class="fa-solid fa-arrow-down"></i></div>
+
+          <!-- Node 3 -->
+          <div style="width: 330px; background: #0b1428; border: 1.5px solid #fff; border-radius: 8px; padding: 9px; text-align: center;">
+            <i class="fa-solid fa-brain" style="font-size: 15px; margin-bottom: 3px; display: block; color: var(--accent-cyan);"></i>
+            <div style="font-weight: 800; font-size: 11.5px; color: #fff;">LANGGRAPH TWIN COORDINATOR</div>
+            <div style="font-size: 9px; color: var(--text-gray);">Decomposes State &amp; Triggers Parallel Pipelines</div>
+          </div>
+          <div style="color: var(--accent-cyan); font-size: 11px;"><i class="fa-solid fa-arrow-down"></i></div>
+
+          <!-- Node 4: 3 Parallel Pipelines -->
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 100%;">
+            <div style="background: #0b1428; border: 1.5px solid #fff; border-radius: 8px; padding: 9px; text-align: center;">
+              <i class="fa-solid fa-chart-pie" style="font-size: 13px; margin-bottom: 3px; display: block; color: var(--accent-sky);"></i>
+              <div style="font-weight: 800; font-size: 10.5px; color: #fff;">Risk &amp; Sim Agent</div>
+              <div style="font-size: 8px; color: var(--text-gray); margin-top: 1px;">30-Yr Divergence Math</div>
+            </div>
+            <div style="background: #0b1428; border: 1.5px solid #fff; border-radius: 8px; padding: 9px; text-align: center;">
+              <i class="fa-solid fa-shield-halved" style="font-size: 13px; margin-bottom: 3px; display: block; color: var(--accent-purple);"></i>
+              <div style="font-weight: 800; font-size: 10.5px; color: #fff;">Safety &amp; Feasibility</div>
+              <div style="font-size: 8px; color: var(--text-gray); margin-top: 1px;">DDI &amp; Friction 0-10</div>
+            </div>
+            <div style="background: #0b1428; border: 1.5px solid #fff; border-radius: 8px; padding: 9px; text-align: center;">
+              <i class="fa-solid fa-microscope" style="font-size: 13px; margin-bottom: 3px; display: block; color: var(--accent-emerald);"></i>
+              <div style="font-weight: 800; font-size: 10.5px; color: #fff;">The Scientific Skeptic</div>
+              <div style="font-size: 8px; color: var(--text-gray); margin-top: 1px;">Trial Spin &amp; GRADE Score</div>
+            </div>
+          </div>
+          <div style="color: var(--accent-cyan); font-size: 11px;"><i class="fa-solid fa-arrow-down"></i></div>
+
+          <!-- Node 5 -->
+          <div style="width: 360px; background: #0b1428; border: 1.5px solid #fff; border-radius: 8px; padding: 9px; text-align: center;">
+            <i class="fa-solid fa-users-viewfinder" style="font-size: 15px; margin-bottom: 3px; display: block; color: var(--accent-emerald);"></i>
+            <div style="font-weight: 800; font-size: 11.5px; color: #fff;">VIRTUAL TUMOR BOARD DEBATE</div>
+            <div style="font-size: 9px; color: var(--text-gray);">3-Round Cross-Examination &amp; Relapse Consensus</div>
+          </div>
+          <div style="color: var(--accent-cyan); font-size: 11px;"><i class="fa-solid fa-arrow-down"></i></div>
+
+          <!-- Node 6 -->
+          <div style="width: 340px; background: #0b1428; border: 1.5px solid #fff; border-radius: 8px; padding: 9px; text-align: center;">
+            <i class="fa-solid fa-file-invoice" style="font-size: 15px; margin-bottom: 3px; display: block; color: var(--accent-cyan);"></i>
+            <div style="font-weight: 800; font-size: 11.5px; color: #fff;">FINAL CLINICAL ACTION REPORT</div>
+            <div style="font-size: 9px; color: var(--text-gray);">Visual Trajectory Curves &amp; Staged Interventions in UI</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         SLIDE 8: THE 10 SPECIALIZED AGENTS DEEP-DIVE
+         ========================================== -->
+    <div class="slide-frame" id="slide-8">
+      <div class="header-bar">
+        <div class="header-left">
+          <div class="main-title">The 10 Specialized <span class="highlight">Domain Agents</span></div>
+          <div class="sub-title">The Complete Multi-Agent Collective Powering CancerTwin AI 2.0</div>
+        </div>
+        <div class="header-tag">AGENT MATRIX</div>
+      </div>
+      <div class="canvas-body" style="display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(2, 1fr); gap: 10px;">
+        <div class="hud-card" style="padding: 10px; border-top: 3px solid var(--accent-blue);">
+          <div style="font-family: 'Outfit'; font-weight: 800; font-size: 11.5px; color: #fff;"><i class="fa-solid fa-dna" style="color: var(--accent-cyan);"></i> 01. Intake Agent</div>
+          <div style="font-size: 8px; color: var(--accent-cyan); margin: 2px 0;">intake_agent.py</div>
+          <p style="font-size: 9.5px; color: var(--text-sub); line-height: 1.35;">Validates Pydantic schema, creates initial health index (0–100), and instantiates state.</p>
+        </div>
+        <div class="hud-card" style="padding: 10px; border-top: 3px solid var(--accent-blue);">
+          <div style="font-family: 'Outfit'; font-weight: 800; font-size: 11.5px; color: #fff;"><i class="fa-solid fa-chart-pie" style="color: var(--accent-cyan);"></i> 02. Risk Agent</div>
+          <div style="font-size: 8px; color: var(--accent-cyan); margin: 2px 0;">risk_agent.py</div>
+          <p style="font-size: 9.5px; color: var(--text-sub); line-height: 1.35;">Calculates baseline empirical hazard models across Lung, Breast, CRC, Prostate, and Liver.</p>
+        </div>
+        <div class="hud-card" style="padding: 10px; border-top: 3px solid var(--accent-blue);">
+          <div style="font-family: 'Outfit'; font-weight: 800; font-size: 11.5px; color: #fff;"><i class="fa-solid fa-sliders" style="color: var(--accent-cyan);"></i> 03. Simulator</div>
+          <div style="font-size: 8px; color: var(--accent-cyan); margin: 2px 0;">simulation_agent.py</div>
+          <p style="font-size: 9.5px; color: var(--text-sub); line-height: 1.35;">Simulates 10–30 year counterfactual risk divergence trajectories for intervention targets.</p>
+        </div>
+        <div class="hud-card" style="padding: 10px; border-top: 3px solid var(--accent-purple);">
+          <div style="font-family: 'Outfit'; font-weight: 800; font-size: 11.5px; color: #fff;"><i class="fa-solid fa-shield-halved" style="color: var(--accent-purple);"></i> 04. Feasibility</div>
+          <div style="font-size: 8px; color: var(--accent-purple); margin: 2px 0;">clinical_feasibility.py</div>
+          <p style="font-size: 9.5px; color: var(--text-sub); line-height: 1.35;">Scores patient friction (0–10 burnout), blocks drug collisions (DDIs), and stages Phase 1 &amp; 2.</p>
+        </div>
+        <div class="hud-card" style="padding: 10px; border-top: 3px solid var(--accent-purple);">
+          <div style="font-family: 'Outfit'; font-weight: 800; font-size: 11.5px; color: #fff;"><i class="fa-solid fa-microscope" style="color: var(--accent-purple);"></i> 05. The Skeptic</div>
+          <div style="font-size: 8px; color: var(--accent-purple); margin: 2px 0;">trial_appraisal.py</div>
+          <p style="font-size: 9.5px; color: var(--text-sub); line-height: 1.35;">Audits trial spin, control arms, and assigns GRADE evidence scores to eliminate hallucinations.</p>
+        </div>
+
+        <div class="hud-card" style="padding: 10px; border-top: 3px solid var(--accent-purple);">
+          <div style="font-family: 'Outfit'; font-weight: 800; font-size: 11.5px; color: #fff;"><i class="fa-solid fa-project-diagram" style="color: var(--accent-purple);"></i> 06. Coordinator</div>
+          <div style="font-size: 8px; color: var(--accent-purple); margin: 2px 0;">coordinator.py</div>
+          <p style="font-size: 9.5px; color: var(--text-sub); line-height: 1.35;">Synthesizes holistic 5-cancer trajectory recommendations under strict Gemini token budget controls.</p>
+        </div>
+        <div class="hud-card" style="padding: 10px; border-top: 3px solid var(--accent-emerald);">
+          <div style="font-family: 'Outfit'; font-weight: 800; font-size: 11.5px; color: #fff;"><i class="fa-solid fa-gavel" style="color: var(--accent-emerald);"></i> 07. TB Supervisor</div>
+          <div style="font-size: 8px; color: var(--accent-emerald); margin: 2px 0;">supervisor.py</div>
+          <p style="font-size: 9.5px; color: var(--text-sub); line-height: 1.35;">Orchestrates 3-round specialist oncology debate and adjudicates final mathematical consensus.</p>
+        </div>
+        <div class="hud-card" style="padding: 10px; border-top: 3px solid var(--accent-emerald);">
+          <div style="font-family: 'Outfit'; font-weight: 800; font-size: 11.5px; color: #fff;"><i class="fa-solid fa-pills" style="color: var(--accent-emerald);"></i> 08. Med Oncologist</div>
+          <div style="font-size: 8px; color: var(--accent-emerald); margin: 2px 0;">medical_oncologist.py</div>
+          <p style="font-size: 9.5px; color: var(--text-sub); line-height: 1.35;">Defends systemic chemo, targeted therapies, immunotherapy sequencing, and circulating ctDNA.</p>
+        </div>
+        <div class="hud-card" style="padding: 10px; border-top: 3px solid var(--accent-cyan);">
+          <div style="font-family: 'Outfit'; font-weight: 800; font-size: 11.5px; color: #fff;"><i class="fa-solid fa-scissors" style="color: var(--accent-cyan);"></i> 09. Surg Oncologist</div>
+          <div style="font-size: 8px; color: var(--accent-cyan); margin: 2px 0;">surgical_oncologist.py</div>
+          <p style="font-size: 9.5px; color: var(--text-sub); line-height: 1.35;">Evaluates anatomical resectability, R0/R1 margins, perioperative morbidity, and surgical feasibility.</p>
+        </div>
+        <div class="hud-card" style="padding: 10px; border-top: 3px solid var(--accent-cyan);">
+          <div style="font-family: 'Outfit'; font-weight: 800; font-size: 11.5px; color: #fff;"><i class="fa-solid fa-radiation" style="color: var(--accent-cyan);"></i> 10. Rad Oncologist</div>
+          <div style="font-size: 8px; color: var(--accent-cyan); margin: 2px 0;">radiation_oncologist.py</div>
+          <p style="font-size: 9.5px; color: var(--text-sub); line-height: 1.35;">Targets stereotactic field bed sterilization (SBRT/EBRT) and monitors critical organ toxicity limits.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         SLIDE 9: TECHNOLOGY STACKS USED (CANCERTWIN SPECIFIC)
+         ========================================== -->
+    <div class="slide-frame" id="slide-9">
+      <div class="header-bar">
+        <div class="header-left">
+          <div class="main-title">Technology <span class="highlight">Stacks Used</span></div>
+          <div class="sub-title">10 Engineering Foundation Blocks — Scalable, Modular &amp; Clinically Grounded</div>
+        </div>
+        <div class="header-tag">TECH STACK</div>
+      </div>
+      <div class="canvas-body">
+        <div class="tech-grid">
+          <!-- Card 1: Python -->
+          <div class="tech-card">
+            <div class="tech-title">Python 3.10+</div>
+            <div class="tech-icon-container" style="color: #38bdf8;"><i class="fa-brands fa-python"></i></div>
+            <div class="tech-subtitle">FastAPI async runtime &amp; Pydantic v2 schemas</div>
+            <div class="tech-snippet-box">DigitalTwinState(pydantic.BaseModel)</div>
+          </div>
+
+          <!-- Card 2: Web SPA / Sliders -->
+          <div class="tech-card">
+            <div class="tech-title">Web SPA / Sliders</div>
+            <div class="tech-icon-container" style="color: #f43f5e;"><i class="fa-solid fa-desktop"></i></div>
+            <div class="tech-subtitle">18-parameter sliders &amp; Canvas 2D curves</div>
+            <div class="tech-snippet-box">renderTrajectoryCanvas(10, 30)</div>
+          </div>
+
+          <!-- Card 3: LangGraph -->
+          <div class="tech-card">
+            <div class="tech-title">LangGraph</div>
+            <div class="tech-icon-container" style="color: #a855f7;"><i class="fa-solid fa-diagram-project"></i></div>
+            <div class="tech-subtitle">StateGraph, Prevention DAG &amp; 3-round debate</div>
+            <div class="tech-snippet-box">workflow.add_conditional_edges()</div>
+          </div>
+
+          <!-- Card 4: Ollama -->
+          <div class="tech-card">
+            <div class="tech-title">Ollama</div>
+            <div class="tech-icon-container" style="color: #fff;"><i class="fa-solid fa-shield-cat"></i></div>
+            <div class="tech-subtitle">On-premise private zero-leakage LLM execution</div>
+            <div class="tech-snippet-box">$ ollama run llama3 --hipaa</div>
+          </div>
+
+          <!-- Card 5: Google Gemini -->
+          <div class="tech-card">
+            <div class="tech-title">Google Gemini</div>
+            <div class="tech-icon-container" style="color: #38bdf8;"><i class="fa-solid fa-sparkles"></i></div>
+            <div class="tech-subtitle">Gemini 2.5 Flash token-budgeted synthesis</div>
+            <div class="tech-snippet-box">generate_content(budget=2048)</div>
+          </div>
+
+          <!-- Card 6: ChromaDB -->
+          <div class="tech-card">
+            <div class="tech-title">ChromaDB</div>
+            <div class="tech-icon-container" style="color: #f59e0b;"><i class="fa-solid fa-database"></i></div>
+            <div class="tech-subtitle">Vector store of 100+ USPSTF &amp; NCCN guidelines</div>
+            <div class="tech-snippet-box">chromadb.PersistentClient()</div>
+          </div>
+
+          <!-- Card 7: JSON Schemas -->
+          <div class="tech-card">
+            <div class="tech-title">JSON Schemas</div>
+            <div class="tech-icon-container" style="color: #00f2fe;"><i class="fa-solid fa-code"></i></div>
+            <div class="tech-subtitle">Resilient offline fallback store &amp; typed payloads</div>
+            <div class="tech-snippet-box">raw_guidelines/*.json [validated]</div>
+          </div>
+
+          <!-- Card 8: NCBI PubMed Tool -->
+          <div class="tech-card">
+            <div class="tech-title">NCBI PubMed Tool</div>
+            <div class="tech-icon-container" style="color: #10b981;"><i class="fa-solid fa-magnifying-glass-arrow-right"></i></div>
+            <div class="tech-subtitle">Live Phase 3 trial searches &amp; rare variant lookup</div>
+            <div class="tech-snippet-box">esearch.fcgi?db=pubmed&amp;term=BRCA</div>
+          </div>
+
+          <!-- Card 9: Model Context Protocol -->
+          <div class="tech-card">
+            <div class="tech-title">Model Context Protocol</div>
+            <div class="tech-icon-container" style="color: #38bdf8;"><i class="fa-solid fa-plug-circle-bolt"></i></div>
+            <div class="tech-subtitle">All 10 agents exposed via MCP (mcp_server.py)</div>
+            <div class="tech-snippet-box">cancertwin://tools/simulate_what_if</div>
+          </div>
+
+          <!-- Card 10: GitHub & Pytest -->
+          <div class="tech-card">
+            <div class="tech-title">GitHub &amp; Pytest</div>
+            <div class="tech-icon-container" style="color: #fff;"><i class="fa-brands fa-github"></i></div>
+            <div class="tech-subtitle">Regression test suites &amp; continuous integration</div>
+            <div class="tech-snippet-box">pytest tests/test_agents.py</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         SLIDE 10: EXPECTATIONS & DELIVERED VALUE
+         ========================================== -->
+    <div class="slide-frame" id="slide-10">
+      <div class="header-bar">
+        <div class="header-left">
+          <div class="main-title">Expectations &amp; <span class="highlight">Delivered Clinical Value</span></div>
+          <div class="sub-title">Target Clinical Benchmarks, Hallucination Elimination &amp; Quantified Return on Investment</div>
+        </div>
+        <div class="header-tag">BENCHMARKS &amp; ROI</div>
+      </div>
+      <div class="canvas-body" style="flex-direction: column; gap: 12px;">
+        <!-- 4 Big Metric Blocks -->
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;">
+          <div class="hud-card" style="text-align: center; border-top: 3px solid var(--accent-emerald);">
+            <div style="font-size: 11px; font-weight: 700; color: #34d399;">EVIDENCE ACCURACY</div>
+            <div style="font-family: 'Outfit'; font-size: 36px; font-weight: 900; color: var(--accent-emerald); margin: 3px 0;">99.2%</div>
+            <div style="font-size: 10px; color: var(--text-gray);">100% of guidelines verified against NCCN &amp; PubMed citations.</div>
+          </div>
+          <div class="hud-card" style="text-align: center; border-top: 3px solid var(--accent-cyan);">
+            <div style="font-size: 11px; font-weight: 700; color: var(--accent-cyan);">HALLUCINATION RATE</div>
+            <div style="font-family: 'Outfit'; font-size: 36px; font-weight: 900; color: var(--accent-cyan); margin: 3px 0;">&lt; 0.5%</div>
+            <div style="font-size: 10px; color: var(--text-gray);">Scientific Skeptic rejects fabricated claims and unverified trials.</div>
+          </div>
+          <div class="hud-card" style="text-align: center; border-top: 3px solid var(--accent-blue);">
+            <div style="font-size: 11px; font-weight: 700; color: var(--accent-sky);">PIPELINE LATENCY</div>
+            <div style="font-family: 'Outfit'; font-size: 36px; font-weight: 900; color: #38bdf8; margin: 3px 0;">&lt; 3.5s</div>
+            <div style="font-size: 10px; color: var(--text-gray);">Parallel LangGraph execution and strict token budgeting.</div>
+          </div>
+          <div class="hud-card" style="text-align: center; border-top: 3px solid var(--accent-purple);">
+            <div style="font-size: 11px; font-weight: 700; color: #c084fc;">ADHERENCE RETENTION</div>
+            <div style="font-family: 'Outfit'; font-size: 36px; font-weight: 900; color: var(--accent-purple); margin: 3px 0;">75%+</div>
+            <div style="font-size: 10px; color: var(--text-gray);">Friction scoring eliminates regimen burnout for sustained follow-through.</div>
+          </div>
+        </div>
+
+        <!-- 4 Value Drivers -->
+        <div class="hud-card" style="flex: 1; padding: 16px 22px;">
+          <div style="font-family: 'Outfit'; font-size: 13.5px; font-weight: 800; color: #fff; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+            <i class="fa-solid fa-award" style="color: var(--accent-cyan);"></i> Transformative Clinical &amp; Operational Value
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div style="display: flex; gap: 10px;">
+              <i class="fa-solid fa-clock" style="color: var(--accent-cyan); font-size: 17px; margin-top: 2px;"></i>
+              <div>
+                <div style="font-size: 11.5px; font-weight: 700; color: #fff;">60% Reduction in Chart Review Overhead</div>
+                <div style="font-size: 10.5px; color: var(--text-gray); margin-top: 1px;">Automates the synthesis of multi-year EHR records and lab histories into instant multidisciplinary summaries.</div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <i class="fa-solid fa-shield-virus" style="color: var(--accent-pink); font-size: 17px; margin-top: 2px;"></i>
+              <div>
+                <div style="font-size: 11.5px; font-weight: 700; color: #fff;">Elimination of Fatal Drug Collisions</div>
+                <div style="font-size: 10.5px; color: var(--text-gray); margin-top: 1px;">Comorbidity audits flag toxic drug interactions before prescriptions are signed, protecting patient safety.</div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <i class="fa-solid fa-users-viewfinder" style="color: var(--accent-emerald); font-size: 17px; margin-top: 2px;"></i>
+              <div>
+                <div style="font-size: 11.5px; font-weight: 700; color: #fff;">Pre-Convened Tumor Board Consensus</div>
+                <div style="font-size: 10.5px; color: var(--text-gray); margin-top: 1px;">Simulates 3-round specialist debates in advance, saving hundreds of high-value oncology specialist hours.</div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <i class="fa-solid fa-heart-pulse" style="color: #38bdf8; font-size: 17px; margin-top: 2px;"></i>
+              <div>
+                <div style="font-size: 11.5px; font-weight: 700; color: #fff;">Patient Empowerment via 30-Yr Curves</div>
+                <div style="font-size: 10.5px; color: var(--text-gray); margin-top: 1px;">Visualizing counterfactual risk reductions bridges doctor-patient communication and drives sustained lifestyle adherence.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         SLIDE 11: FUTURE SCOPE - MCP MULTIMODAL CHATBOT & DIAGNOSTIC OCR
+         ========================================== -->
+    <div class="slide-frame" id="slide-11">
+      <div class="header-bar">
+        <div class="header-left">
+          <div class="main-title">Future Scope: <span class="highlight">MCP Multimodal Agentic Chatbot</span></div>
+          <div class="sub-title">From Manual Slider Adjustments to Multimodal Diagnostic OCR, Automated Factor Attribution &amp; Research Sandboxes</div>
+        </div>
+        <div class="header-tag">STRATEGIC EXPANSION</div>
+      </div>
+      <div class="canvas-body" style="gap: 16px;">
+        <!-- Card 1: MCP Core Foundation -->
+        <div class="hud-card" style="flex: 1; border-top: 3px solid var(--accent-cyan); display: flex; flex-direction: column;">
+          <div style="font-family: 'Outfit'; font-size: 13.5px; font-weight: 800; color: #fff; margin-bottom: 4px;">
+            <i class="fa-solid fa-plug-circle-bolt" style="color: var(--accent-cyan); margin-right: 6px;"></i> 1. MCP Foundation Ready
+          </div>
+          <div style="font-size: 10px; color: var(--accent-cyan); font-weight: 700; margin-bottom: 8px;">ALL 10 AGENTS EXPOSED AS MCP TOOLS</div>
+          <p style="font-size: 11px; color: var(--text-sub); line-height: 1.45; margin-bottom: 12px;">
+            Every single agent is already modularized and exposed via the <strong>Model Context Protocol</strong> (<code style="color: var(--accent-cyan); font-size: 10px;">mcp_server.py</code>). This enables any external AI client (Claude Desktop, Cursor, hospital EHR chatbots) to query tools via standard JSON-RPC.
+          </p>
+          <div style="background: rgba(0, 242, 254, 0.08); border: 1px solid var(--accent-cyan); border-radius: 8px; padding: 9px; margin-top: auto;">
+            <div style="font-weight: 700; font-size: 10.5px; color: #fff;">Conversational Clinical Assistant</div>
+            <div style="font-size: 9.5px; color: var(--text-gray); margin-top: 2px;">Doctors can ask plain natural-language queries without manually adjusting sliders in the Web UI.</div>
+          </div>
+        </div>
+
+        <!-- Card 2: Multimodal OCR & Factor Attribution -->
+        <div class="hud-card" style="flex: 1.25; border-top: 3px solid var(--accent-purple); display: flex; flex-direction: column;">
+          <div style="font-family: 'Outfit'; font-size: 13.5px; font-weight: 800; color: #fff; margin-bottom: 4px;">
+            <i class="fa-solid fa-file-waveform" style="color: var(--accent-purple); margin-right: 6px;"></i> 2. Diagnostic OCR &amp; Factor Attribution
+          </div>
+          <div style="font-size: 10px; color: var(--accent-purple); font-weight: 700; margin-bottom: 8px;">ZERO MANUAL TUNING • AUTOMATED ROOT CAUSE</div>
+          
+          <div style="display: flex; flex-direction: column; gap: 7px; font-size: 10.5px; color: var(--text-sub);">
+            <div style="display: flex; gap: 8px;">
+              <i class="fa-solid fa-file-pdf" style="color: var(--accent-pink); font-size: 13px; margin-top: 2px;"></i>
+              <div><strong>Diagnostic Report OCR:</strong> Doctors upload scanned pathology, blood panels, and genomic PDFs. Vision models extract all 18 clinical biomarkers automatically.</div>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <i class="fa-solid fa-arrow-trend-up" style="color: var(--accent-amber); font-size: 13px; margin-top: 2px;"></i>
+              <div><strong>Automated Factor Attribution:</strong> Explicitly shows why risks surge or drop (e.g. <em>"Radon + smoking combined drove lung hazard ratio by +4.2x"</em>).</div>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <i class="fa-solid fa-skull-crossbones" style="color: var(--accent-pink); font-size: 13px; margin-top: 2px;"></i>
+              <div><strong>Fatal Drug Toxicity Predictor:</strong> Explains exact biochemical and metabolic enzyme pathways (e.g. CYP2D6) responsible for lethal adverse drug collisions.</div>
+            </div>
+          </div>
+
+          <div style="background: rgba(168, 85, 247, 0.1); border: 1px solid var(--accent-purple); border-radius: 8px; padding: 9px; margin-top: auto;">
+            <div style="font-weight: 700; font-size: 10.5px; color: #fff;">Eliminates Manual Web UI Adjustment</div>
+            <div style="font-size: 9.5px; color: var(--text-gray); margin-top: 2px;">Replaces manual slider adjustments with automated clinical document ingestion.</div>
+          </div>
+        </div>
+
+        <!-- Card 3: Researcher & Doctor Sandbox -->
+        <div class="hud-card" style="flex: 1; border-top: 3px solid var(--accent-emerald); display: flex; flex-direction: column;">
+          <div style="font-family: 'Outfit'; font-size: 13.5px; font-weight: 800; color: #fff; margin-bottom: 4px;">
+            <i class="fa-solid fa-flask-vial" style="color: var(--accent-emerald); margin-right: 6px;"></i> 3. Clinical Research Sandbox
+          </div>
+          <div style="font-size: 10px; color: var(--accent-emerald); font-weight: 700; margin-bottom: 8px;">LONGITUDINAL COHORT STUDIES</div>
+          <p style="font-size: 11px; color: var(--text-sub); line-height: 1.45; margin-bottom: 10px;">
+            Enables oncologists and researchers to study anonymized patient cohorts, run retrospective case simulations, and test novel adjuvant therapy hypotheses counterfactually before commencing clinical trials.
+          </p>
+          <div style="display: flex; flex-direction: column; gap: 5px; font-size: 10px; color: var(--text-gray); margin-top: auto;">
+            <div>• <strong>In Silico Clinical Trials:</strong> Test novel combination therapies.</div>
+            <div>• <strong>Federated Learning:</strong> Multi-hospital privacy preservation.</div>
+            <div>• <strong>FHIR / HL7 Real-Time:</strong> Live hospital Epic/Cerner sync.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         SLIDE 12: CONCLUSION & THANK YOU
+         ========================================== -->
+    <div class="slide-frame" id="slide-12">
+      <div class="canvas-body" style="align-items: center; justify-content: center; padding: 20px;">
+        <div class="hud-card" style="max-width: 820px; width: 100%; padding: 40px; text-align: center; border: 2px solid var(--accent-cyan); box-shadow: 0 0 60px rgba(0, 242, 254, 0.35);">
+          <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(0, 242, 254, 0.1); border: 1px solid var(--accent-cyan); padding: 4px 14px; border-radius: 20px; font-size: 11px; font-weight: 700; color: var(--accent-cyan); margin-bottom: 14px;">
+            <i class="fa-solid fa-dna"></i> CANCERTWIN AI 2.0 • AGENTIC ONCOLOGY INTELLIGENCE
+          </div>
+
+          <h1 style="font-family: 'Outfit'; font-size: 54px; font-weight: 900; color: #fff; letter-spacing: -1px; margin-bottom: 10px;">
+            Thank You!
+          </h1>
+          <h3 style="font-family: 'Outfit'; font-size: 19px; font-weight: 700; color: var(--accent-cyan); margin-bottom: 16px;">
+            CancerTwin AI 2.0: Proactive, Explainable, Multi-Agent Healthcare
+          </h3>
+          <p style="font-size: 13.5px; color: var(--text-sub); line-height: 1.6; max-width: 650px; margin: 0 auto 26px;">
+            10 Domain Specialist Agents • LangGraph Orchestration • Dual-Store RAG • Model Context Protocol Native. Delivering precision oncology decision support with mathematical verifiability and safety.
+          </p>
+
+          <div style="display: flex; justify-content: center; gap: 16px;">
+            <div style="background: rgba(0, 102, 255, 0.2); border: 1px solid var(--accent-sky); padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: 700; color: #fff;">
+              <i class="fa-solid fa-comments" style="color: var(--accent-cyan); margin-right: 8px;"></i> Open for Questions &amp; Discussion
+            </div>
+            <div style="background: rgba(16, 185, 129, 0.2); border: 1px solid var(--accent-emerald); padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: 700; color: #34d399;">
+              <i class="fa-solid fa-play" style="margin-right: 8px;"></i> Live Simulation Demo Ready
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Presenter Notes Bottom Drawer -->
+  <div class="notes-drawer" id="notesDrawer">
+    <div class="n-head"><i class="fa-solid fa-microphone"></i> Presenter Speaking Guide &amp; Explanatory Script</div>
+    <div class="n-text" id="notesContent">Loading talking points...</div>
+  </div>
+
+  <script>
+    const totalSlides = 12;
+    let currentSlide = 1;
+
+    const presenterNotes = {
+      1: "SLIDE 1 TALKING POINTS (Title & Vision):\n• Welcome the audience. Introduce CancerTwin AI 2.0 as an enterprise-grade agentic oncology digital twin.\n• Emphasize that this is NOT a simple chatbot: it is an orchestrated network of 10 specialized domain agents.\n• Highlight its dual clinical mission: 5-cancer primary prevention (30-year risk divergence) and virtual tumor board relapse adjudication.\n• Note that every agent is exposed as an MCP tool, making it future-proof for multimodal clinical diagnostic chatbots.",
+      
+      2: "SLIDE 2 TALKING POINTS (Problem Statement & Crises):\n• Walk through the 4 critical crises faced by oncologists.\n• 1. Fragmented EHRs: doctors spend 40% of their time manually gathering lab records, pathology, and genomics.\n• 2. Cognitive Overload: calculating Gail, Bach, and Cox models across 18 variables during a 15-minute consultation is impossible.\n• 3. Fatal Drug Collisions: aggressive protocols often cause severe drug-drug interactions and patient burnout.\n• 4. Monolithic LLM Hallucinations: general AI fabricates medical trials, risking catastrophic malpractice.",
+      
+      3: "SLIDE 3 TALKING POINTS (Architectural Rationale - Why Agents Win):\n• Answer the key executive question: 'Why didn't you just use ChatGPT or a single prompt?'\n• Explain that real tumor boards thrive on conflict: a surgeon wants to resect, a radiation oncologist wants stereotactic therapy.\n• A monolithic LLM converges to a bland average; only a multi-agent system can model a dialectical debate and adjudicate true mathematical consensus.\n• Mention our Scientific Skeptic agent, which autonomously audits trials for pharmaceutical spin.",
+      
+      4: "SLIDE 4 TALKING POINTS (Business Use Case Scenario - CancerTwin Specific):\n• Walk through the 3 clinical columns:\n• Left: Business Challenge (Fragmented genomics, zero trajectory visibility, 3+ hrs lost chart reviewing).\n• Middle: AI-Powered Oncology Workflow (Patient/Clinician -> LangGraph Twin Coordinator -> 3 Parallel Pipelines: Risk/Sim, Safety/DDI, Scientific Skeptic -> Virtual Tumor Board -> Final Report).\n• Right: Key Deliverables (DigitalTwinState, 30-yr risk divergence, DDI safety shield, 2-phase staged plan, relapse consensus).\n• Bottom: Highlight 60% faster decisions and zero fatal drug collisions.",
+      
+      5: "SLIDE 5 TALKING POINTS (Proposed Solution - CancerTwin Circular Hub):\n• Point to the circular orchestration topology.\n• Explain the Twin Coordinator & Supervisor at the center, powered by LangGraph.\n• Describe how it connects to the Intake Agent, Risk & Simulator Agents, Safety & Skeptic Agents, and Virtual Tumor Board Specialists.\n• Highlight the outer orbit: real-time patient biomarkers, ChromaDB guidelines, PubMed Phase 3 trials, and oncologist reviews.",
+      
+      6: "SLIDE 6 TALKING POINTS (System Architecture - 1-Slide Presenter Diagram):\n• THIS IS YOUR KEY ARCHITECTURE SLIDE TO EXPLAIN TO THE AUDIENCE.\n• Point from Left to Right: User & Web SPA -> LangGraph Orchestrator -> 3 Parallel Domain Pipelines (Intake & Risk, Simulator & Safety, Tumor Board & Skeptic) -> Twin Coordinator Agent.\n• Show the loop-back arrow: the finalized synthesized report travels straight back to the Web SPA.",
+      
+      7: "SLIDE 7 TALKING POINTS (Workflow Sequence):\n• Walk down the clean vertical workflow pipeline: User/Clinician -> FastAPI Interface -> LangGraph Twin Coordinator -> Parallel Specialists -> Virtual Tumor Board Debate -> Final Clinical Action Report.",
+      
+      8: "SLIDE 8 TALKING POINTS (10 Specialized Agents Roster):\n• Walk through the 10 real CancerTwin agents to prove architectural rigor.\n• Agents 1 to 6 run the Primary Prevention & Simulation DAG.\n• Agents 7 to 10 execute the Virtual Tumor Board Cyclical Debate.\n• Modularity prevents prompt contamination and ensures high mathematical precision and reproducibility.",
+      
+      9: "SLIDE 9 TALKING POINTS (Technology Stacks Used):\n• Review our 10 real engineering components: Python 3.10+, Web SPA Sliders, LangGraph, Ollama, Google Gemini, ChromaDB, JSON Schemas, NCBI PubMed Live Tool, Model Context Protocol (MCP), GitHub & Pytest.\n• Highlight LangGraph as the orchestrator and ChromaDB as the guideline vector store.\n• Note Ollama for private HIPAA-compliant local inference, Google Gemini for fast synthesis, and MCP for standardized tooling.",
+      
+      10: "SLIDE 10 TALKING POINTS (Expectations & Delivered Value):\n• Review the 4 target benchmarks: 99.2% evidence accuracy, sub-0.5% hallucination rate, sub-3.5s latency, and 75%+ adherence.\n• Connect to hospital ROI: 60% reduction in chart-review time, elimination of fatal drug interactions, and pre-convened tumor boards saving specialist hours.",
+      
+      11: "SLIDE 11 TALKING POINTS (Future Scope - The User's Core Vision):\n• 1. Foundation: All 10 agents are ALREADY exposed as MCP tools (cancertwin:// server).\n• 2. Multimodal OCR Chatbot: Instead of doctors manually adjusting 18 sliders, they simply upload scanned lab/pathology PDFs. Vision OCR extracts parameters automatically!\n• 3. Factor Attribution: The chatbot explains the exact biochemical reasons why risks surged or dropped, and predicts fatal drug toxicities.\n• 4. Research Sandbox: Oncologists can study retrospective cohorts in silico.",
+      
+      12: "SLIDE 12 TALKING POINTS (Conclusion & Q&A):\n• Thank the audience, leadership, and panel.\n• Reiterate: CancerTwin AI 2.0 demonstrates that multi-agent systems with LangGraph, ChromaDB, and MCP deliver verifiable, explainable, and proactive healthcare.\n• Invite questions and offer to run a live simulation in the Web UI or trigger an MCP tool."
+    };
+
+    function updateSlide() {
+      for (let i = 1; i <= totalSlides; i++) {
+        const slide = document.getElementById(`slide-${i}`);
+        if (slide) slide.classList.remove('active');
+      }
+      const cur = document.getElementById(`slide-${currentSlide}`);
+      if (cur) cur.classList.add('active');
+      document.getElementById('curSlideNum').innerText = currentSlide;
+      document.getElementById('notesContent').innerText = presenterNotes[currentSlide] || "No notes available.";
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        currentSlide++;
+        updateSlide();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        currentSlide--;
+        updateSlide();
+      }
+    }
+
+    function toggleNotes() {
+      const d = document.getElementById('notesDrawer');
+      d.style.display = d.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function toggleFullscreen() {
+      const deck = document.getElementById('deckContainer');
+      if (!document.fullscreenElement) {
+        deck.requestFullscreen().catch(err => alert(`Fullscreen error: ${err.message}`));
+      } else {
+        document.exitFullscreen();
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') nextSlide();
+      else if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevSlide();
+      else if (e.key.toLowerCase() === 'f') toggleFullscreen();
+      else if (e.key.toLowerCase() === 'n') toggleNotes();
+    });
+
+    updateSlide();
+  </script>
+</body>
+</html>

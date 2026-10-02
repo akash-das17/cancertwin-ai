@@ -1,0 +1,206 @@
+[
+  {
+    "id": "USPSTF-BRST-031",
+    "cancer_type": "Breast",
+    "title": "USPSTF Breast Cancer Screening Recommendations (2024 Final Update)",
+    "source": "US Preventive Services Task Force / JAMA 2024",
+    "summary": "The USPSTF recommends biennial screening mammography for women aged 40 to 74 years (Grade B), lowering the recommended starting age from 50 to 40 to avert more deaths from breast cancer across diverse demographics.",
+    "hazard_ratio": 1.7,
+    "evidence_level": "Grade B",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/38687799/",
+    "interventions": {
+      "biennial_mammography": {
+        "description": "Regular screening mammography starting at age 40 reduces breast cancer mortality by 19% to 22% through early-stage non-palpable detection.",
+        "relative_risk_reduction": 0.2
+      }
+    },
+    "risk_factors": [
+      "Age >= 40",
+      "First-degree relative with breast cancer",
+      "BRCA1/BRCA2 mutation",
+      "Extremely dense breast tissue",
+      "Early menarche (<12yo)"
+    ]
+  },
+  {
+    "id": "GAIL-MODEL-032",
+    "cancer_type": "Breast",
+    "title": "NCI Gail Model / Breast Cancer Risk Assessment Tool (BCRAT)",
+    "source": "Gail et al. / J Natl Cancer Inst / NCI Guidelines",
+    "summary": "Calculates 5-year and lifetime breast cancer probability based on age, age at menarche, age at first live birth, number of first-degree relatives with breast cancer, and prior benign breast biopsy findings.",
+    "hazard_ratio": 2.1,
+    "evidence_level": "Category 1",
+    "url": "https://bcrisktool.cancer.gov/",
+    "risk_factors": [
+      "Nulliparity / first birth >= 30yo",
+      "Atypical hyperplasia biopsy",
+      "First-degree affected relatives"
+    ]
+  },
+  {
+    "id": "OLYMPIA-NEJM-033",
+    "cancer_type": "Breast",
+    "title": "OlympiA Trial: Adjuvant Olaparib in Germline BRCA-Mutated High-Risk Early Breast Cancer",
+    "source": "Tutt et al. / N Engl J Med 2021 / NEJM 2022",
+    "summary": "In patients with germline BRCA1 or BRCA2 mutations and high-risk HER2-negative early breast cancer, 1 year of adjuvant olaparib significantly improved 4-year overall survival (89.8% vs 86.4%, HR 0.68) and invasive disease-free survival (HR 0.58).",
+    "hazard_ratio": 0.68,
+    "evidence_level": "Category 1",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa2105215",
+    "interventions": {
+      "adjuvant_olaparib": {
+        "description": "PARP inhibitor exploits synthetic lethality in homologous recombination DNA repair-deficient tumor cells.",
+        "relative_risk_reduction": 0.32
+      }
+    }
+  },
+  {
+    "id": "MONARCHE-LANCET-034",
+    "cancer_type": "Breast",
+    "title": "monarchE Trial: 5-Year Efficacy of Adjuvant Abemaciclib in High-Risk HR+/HER2- Early Breast Cancer",
+    "source": "Rastogi et al. / Lancet Oncol 2024 / J Clin Oncol",
+    "summary": "Adding abemaciclib (CDK4/6 inhibitor) to endocrine therapy for 2 years in patients with node-positive, high-risk HR+/HER2- early breast cancer sustained a 32% reduction in invasive disease recurrence hazard (HR 0.68) at 5 years.",
+    "hazard_ratio": 0.68,
+    "evidence_level": "Category 1",
+    "url": "https://www.thelancet.com/journals/lanonc/article/PIIS1470-2045(23)00570-3/fulltext",
+    "interventions": {
+      "adjuvant_abemaciclib": {
+        "description": "Suppresses CDK4/6-Rb pathway phosphorylation, arresting residual microscopic malignant cells in G1 phase.",
+        "relative_risk_reduction": 0.32
+      }
+    }
+  },
+  {
+    "id": "DESTINY-BRST04-035",
+    "cancer_type": "Breast",
+    "title": "DESTINY-Breast04: Trastuzumab Deruxtecan in Previously Treated HER2-Low Advanced Breast Cancer",
+    "source": "Modi et al. / N Engl J Med 2022",
+    "summary": "Antibody-drug conjugate trastuzumab deruxtecan resulted in significantly longer progression-free survival (9.9 vs 5.1 months, HR 0.50) and overall survival (23.4 vs 16.8 months, HR 0.64) than physician's choice chemotherapy in HER2-low breast cancer.",
+    "hazard_ratio": 0.5,
+    "evidence_level": "Category 1",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa2203690"
+  },
+  {
+    "id": "TAILORX-NEJM-036",
+    "cancer_type": "Breast",
+    "title": "TAILORx Trial: 21-Gene Oncotype DX Assay Guiding Chemotherapy in Node-Negative Breast Cancer",
+    "source": "Sparano et al. / N Engl J Med 2018 / 2019",
+    "summary": "Prospective trial of 10,273 women with HR+/HER2- node-negative breast cancer demonstrated that adjuvant endocrine therapy alone is non-inferior to chemoendocrine therapy in women with recurrence score 11 to 25, sparing 70% from toxic chemotherapy.",
+    "hazard_ratio": 1.08,
+    "evidence_level": "Level 1A",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa1804710"
+  },
+  {
+    "id": "RXPONDER-NEJM-037",
+    "cancer_type": "Breast",
+    "title": "RxPONDER Trial: 21-Gene Assay in Node-Positive (1-3 Nodes) HR+/HER2- Breast Cancer",
+    "source": "Kalinsky et al. / N Engl J Med 2021",
+    "summary": "Postmenopausal women with 1 to 3 positive lymph nodes and Oncotype recurrence score <= 25 did not benefit from adjuvant chemotherapy, whereas premenopausal women gained substantial invasive disease-free survival benefit (HR 0.60).",
+    "hazard_ratio": 0.6,
+    "evidence_level": "Level 1A",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa2108873"
+  },
+  {
+    "id": "KEYNOTE522-NEJM-038",
+    "cancer_type": "Breast",
+    "title": "KEYNOTE-522: Neoadjuvant Pembrolizumab in Early Triple-Negative Breast Cancer",
+    "source": "Schmid et al. / N Engl J Med 2020 / NEJM 2022",
+    "summary": "Adding pembrolizumab to platinum-taxane-anthracycline neoadjuvant chemotherapy followed by adjuvant pembrolizumab significantly prolonged event-free survival (84.5% vs 76.8%, HR 0.63) in early triple-negative breast cancer.",
+    "hazard_ratio": 0.63,
+    "evidence_level": "Category 1",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa2112651",
+    "interventions": {
+      "neoadjuvant_pembrolizumab_tnbc": {
+        "description": "Increases pathologic complete response rate (64.8% vs 51.2%) and reduces distant visceral recurrence.",
+        "relative_risk_reduction": 0.37
+      }
+    }
+  },
+  {
+    "id": "NCCN-HIGH-RISK-BRST-039",
+    "cancer_type": "Breast",
+    "title": "NCCN Guidelines: Genetic/Familial High-Risk Assessment - Breast, Ovarian, and Pancreatic (v1.2024)",
+    "source": "National Comprehensive Cancer Network 2024",
+    "summary": "Recommends annual breast MRI with contrast starting at age 25, alternating with annual mammography starting at age 30, for individuals with pathogenic variants in BRCA1, BRCA2, TP53, PTEN, PALB2, ATM, or CHEK2.",
+    "hazard_ratio": 5.0,
+    "evidence_level": "Category 1",
+    "url": "https://www.nccn.org/guidelines/guidelines-detail?category=2&id=1503"
+  },
+  {
+    "id": "SOFT-TEXT-NEJM-040",
+    "cancer_type": "Breast",
+    "title": "SOFT / TEXT Trials: Ovarian Suppression plus Exemestane in Premenopausal Breast Cancer",
+    "source": "Francis et al. / N Engl J Med 2018",
+    "summary": "In premenopausal women with HR-positive early breast cancer at high recurrence risk, ovarian function suppression (OFS) plus aromatase inhibitor exemestane significantly reduced 8-year disease recurrence hazard (HR 0.65) compared to tamoxifen alone.",
+    "hazard_ratio": 0.65,
+    "evidence_level": "Level 1A",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa1801640",
+    "interventions": {
+      "ovarian_suppression_aromatase": {
+        "description": "Complete estrogen deprivation through GnRH agonist plus exemestane lowers distant micro-recurrence in young high-risk patients.",
+        "relative_risk_reduction": 0.35
+      }
+    }
+  },
+  {
+    "id": "ATLAS-LANCET-041",
+    "cancer_type": "Breast",
+    "title": "ATLAS Trial: 10 Years vs 5 Years of Adjuvant Tamoxifen in ER-Positive Breast Cancer",
+    "source": "Davies et al. / Lancet 2013",
+    "summary": "Continuing tamoxifen for 10 years rather than stopping at 5 years produced a further 29% reduction in breast cancer recurrence (RR 0.71) and halved breast cancer mortality after year 10 (RR 0.71).",
+    "hazard_ratio": 0.71,
+    "evidence_level": "Level 1A",
+    "url": "https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(12)61963-1/fulltext"
+  },
+  {
+    "id": "IBIS2-LANCET-042",
+    "cancer_type": "Breast",
+    "title": "IBIS-II Prevention Trial: Anastrozole for Breast Cancer Prevention in High-Risk Postmenopausal Women",
+    "source": "Cuzick et al. / Lancet 2014 / Lancet 2020",
+    "summary": "5 years of anastrozole in postmenopausal women at high risk of breast cancer halved breast cancer incidence over 12 years of follow-up (HR 0.51), with no increase in deaths from other causes.",
+    "hazard_ratio": 0.51,
+    "evidence_level": "Level 1A",
+    "url": "https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(19)32955-1/fulltext",
+    "interventions": {
+      "anastrozole_chemoprevention": {
+        "description": "Inhibits peripheral aromatase conversion of androgens to estrogens, preventing ER+ primary oncogenesis.",
+        "relative_risk_reduction": 0.49
+      }
+    }
+  },
+  {
+    "id": "ASCO-CAP-HER2-043",
+    "cancer_type": "Breast",
+    "title": "ASCO / CAP Focused Update: Human Epidermal Growth Factor Receptor 2 Testing in Breast Cancer",
+    "source": "Wolff et al. / J Clin Oncol 2023",
+    "summary": "Standardizes IHC and in situ hybridization (ISH) scoring algorithms to identify HER2-positive (IHC 3+ or ISH amplified) and newly actionable HER2-low (IHC 1+ or IHC 2+/ISH-) status eligible for antibody-drug conjugates.",
+    "hazard_ratio": 1.0,
+    "evidence_level": "Category 1",
+    "url": "https://ascopubs.org/doi/10.1200/JCO.22.02864"
+  },
+  {
+    "id": "DENSE-NEJM-044",
+    "cancer_type": "Breast",
+    "title": "DENSE Trial: Supplemental MRI for Women with Extremely Dense Breast Tissue",
+    "source": "Bakker et al. / N Engl J Med 2019",
+    "summary": "Adding supplemental contrast-enhanced breast MRI to negative screening mammograms in women with extremely dense breasts significantly reduced interval breast cancers from 5.0 to 2.5 per 1,000 screenings (p < 0.001).",
+    "hazard_ratio": 0.5,
+    "evidence_level": "Level 1B",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa1903986",
+    "interventions": {
+      "supplemental_breast_mri": {
+        "description": "High spatial and contrast resolution MRI circumvents mammographic dense tissue masking.",
+        "relative_risk_reduction": 0.5
+      }
+    }
+  },
+  {
+    "id": "EBCTCG-PMRT-045",
+    "cancer_type": "Breast",
+    "title": "EBCTCG Meta-Analysis: Effect of Post-Mastectomy Radiotherapy on Locoregional Recurrence",
+    "source": "McGale et al. / Lancet 2014",
+    "summary": "In women with 1 to 3 positive lymph nodes after mastectomy and axillary clearance, post-mastectomy radiation therapy (PMRT) reduced 10-year locoregional recurrence from 20.3% to 3.8% and reduced 20-year breast cancer mortality (RR 0.80).",
+    "hazard_ratio": 0.8,
+    "evidence_level": "Level 1A",
+    "url": "https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(14)60488-8/fulltext"
+  }
+]

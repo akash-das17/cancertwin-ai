@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CancerTwin AI 2.0 — Complete Multi-Agent Workflow Slide</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <style>
+    :root {
+      --bg-base: #06080e;
+      --card-bg: #090e18;
+      --neon-cyan: #38bdf8;
+      --neon-purple: #c084fc;
+      --neon-emerald: #34d399;
+      --neon-amber: #fb923c;
+      --neon-rose: #fb7185;
+      --text-white: #ffffff;
+      --text-gray: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #030408;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text-white);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      overflow-x: hidden;
+    }
+
+    /* Fixed Floating Navigation Controls */
+    .slide-toolbar {
+      position: fixed;
+      top: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 1000;
+      background: rgba(13, 19, 33, 0.94);
+      backdrop-filter: blur(16px);
+      padding: 6px 16px;
+      border-radius: 9999px;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+    }
+
+    .btn-tool {
+      background: #0284c7;
+      color: #fff;
+      border: none;
+      padding: 6px 15px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-tool:hover {
+      background: #0369a1;
+      transform: translateY(-1px);
+    }
+
+    .btn-tool-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-tool-secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* 16:9 Presentation Slide Canvas */
+    .workflow-canvas {
+      width: 1440px;
+      height: 810px; /* Exact 16:9 presentation standard */
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #06080e;
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 36px 16px 36px;
+    }
+
+    /* Ambient Wine/Crimson Glow matching Reference */
+    .workflow-canvas::before {
+      content: '';
+      position: absolute;
+      top: -10%;
+      left: -10%;
+      width: 65%;
+      height: 75%;
+      background: radial-gradient(circle at 30% 30%, rgba(159, 18, 57, 0.42) 0%, rgba(136, 19, 55, 0.2) 40%, rgba(76, 5, 25, 0.06) 65%, transparent 80%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Subtle Cyan Right-side Accent Glow */
+    .workflow-canvas::after {
+      content: '';
+      position: absolute;
+      bottom: -15%;
+      right: -10%;
+      width: 55%;
+      height: 55%;
+      background: radial-gradient(circle at 70% 70%, rgba(14, 165, 233, 0.12) 0%, rgba(2, 132, 199, 0.04) 50%, transparent 75%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .slide-inner {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Header Section (Matches reference typography) */
+    .workflow-header {
+      text-align: center;
+      margin-bottom: 4px;
+    }
+
+    .workflow-header h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 38px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+      line-height: 1.1;
+    }
+
+    .workflow-header h1 span.cyan-highlight {
+      color: var(--neon-cyan);
+    }
+
+    .workflow-header p.subtitle {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--neon-cyan);
+      margin-top: 2px;
+      letter-spacing: 0.2px;
+    }
+
+    /* Pipeline Container */
+    .flow-pipeline-container {
+      width: 100%;
+      max-width: 1280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      flex: 1;
+      justify-content: center;
+      margin: 4px 0;
+    }
+
+    /* Flow Card Styles */
+    .flow-card {
+      background: #090e18;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transition: all 0.2s ease;
+      cursor: default;
+      position: relative;
+    }
+
+    .flow-card:hover {
+      transform: translateY(-1.5px);
+    }
+
+    .flow-card-wide {
+      width: 740px;
+      padding: 10px 20px;
+    }
+
+    .card-title-main {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .card-subtitle-pill {
+      font-size: 10px;
+      color: var(--text-gray);
+      margin-top: 2px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .agent-num-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 1px 5px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+
+    /* Card Border Colors */
+    .border-white {
+      border: 1.5px solid rgba(255, 255, 255, 0.85);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+    }
+
+    .border-cyan {
+      border: 2px solid var(--neon-cyan);
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.35), inset 0 0 10px rgba(56, 189, 248, 0.1);
+    }
+    .border-cyan .card-title-main { color: #f0f9ff; }
+
+    .border-purple {
+      border: 2px solid var(--neon-purple);
+      box-shadow: 0 0 18px rgba(192, 132, 252, 0.35), inset 0 0 10px rgba(192, 132, 252, 0.1);
+    }
+    .border-purple .card-title-main { color: #faf5ff; }
+
+    .border-emerald {
+      border: 2px solid var(--neon-emerald);
+      box-shadow: 0 0 18px rgba(52, 211, 153, 0.35), inset 0 0 10px rgba(52, 211, 153, 0.1);
+    }
+    .border-emerald .card-title-main { color: #ecfdf5; }
+
+    /* Downward Arrows */
+    .flow-arrow-down {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 16px;
+      color: #ffffff;
+      font-size: 10px;
+      position: relative;
+    }
+
+    .flow-arrow-down::before {
+      content: '';
+      width: 1.5px;
+      height: 7px;
+      background: #ffffff;
+      margin-bottom: -1px;
+    }
+
+    /* 4 Parallel Tracks Grid */
+    .parallel-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      width: 100%;
+      max-width: 1240px;
+      position: relative;
+    }
+
+    .parallel-col-card {
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: #090e18;
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 6px;
+      min-height: 132px;
+    }
+
+    .col-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .col-card-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .col-card-body {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .col-sub-item {
+      font-size: 10px;
+      color: #cbd5e1;
+      display: flex;
+      align-items: flex-start;
+      gap: 5px;
+      line-height: 1.3;
+      text-align: left;
+    }
+
+    .col-sub-item i {
+      font-size: 6px;
+      margin-top: 4px;
+      flex-shrink: 0;
+    }
+
+    .col-card-footer-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-align: center;
+      margin-top: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    /* Border Highlights for the 4 Tracks */
+    .track-sim {
+      border-color: rgba(56, 189, 248, 0.6);
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.2);
+    }
+    .track-sim .col-card-footer-badge {
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--neon-cyan);
+    }
+
+    .track-engines {
+      border-color: rgba(251, 146, 60, 0.7);
+      box-shadow: 0 0 16px rgba(251, 146, 60, 0.2);
+      background: linear-gradient(180deg, rgba(251, 146, 60, 0.05) 0%, #090e18 100%);
+    }
+    .track-engines .col-card-footer-badge {
+      background: rgba(251, 146, 60, 0.12);
+      border: 1px solid rgba(251, 146, 60, 0.35);
+      color: #fb923c;
+    }
+
+    .track-safety {
+      border-color: rgba(168, 85, 247, 0.6);
+      box-shadow: 0 0 16px rgba(168, 85, 247, 0.2);
+    }
+    .track-safety .col-card-footer-badge {
+      background: rgba(168, 85, 247, 0.12);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      color: #c084fc;
+    }
+
+    .track-skeptic {
+      border-color: rgba(251, 113, 133, 0.6);
+      box-shadow: 0 0 16px rgba(251, 113, 133, 0.2);
+    }
+    .track-skeptic .col-card-footer-badge {
+      background: rgba(251, 113, 133, 0.12);
+      border: 1px solid rgba(251, 113, 133, 0.3);
+      color: #fb7185;
+    }
+
+    /* SVG Connectors */
+    .svg-fork-4, .svg-join-4 {
+      width: 100%;
+      height: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Tumor Board Multi-Persona Sub-Grid */
+    .tb-personas-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      width: 100%;
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .tb-persona-pill {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 9.5px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: #f1f5f9;
+    }
+
+    .tb-persona-pill i {
+      font-size: 10px;
+    }
+
+    /* Bottom Closed Loop Feedback Track */
+    .bottom-feedback-strip {
+      width: 100%;
+      max-width: 1100px;
+      margin-top: 8px;
+      padding: 5px 16px;
+      border-radius: 9999px;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px dashed rgba(56, 189, 248, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 10px;
+      color: #94a3b8;
+    }
+
+    .feedback-pill-text {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--neon-cyan);
+      font-weight: 700;
+      font-size: 10.5px;
+    }
+
+    /* Slide Footer Bar */
+    .slide-footer-bar {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 8px;
+      font-size: 11px;
+      color: #64748b;
+    }
+
+    .footer-tags {
+      display: flex;
+      gap: 6px;
+    }
+
+    .footer-tag {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      color: #94a3b8;
+    }
+
+    @media print {
+      body { background: transparent; padding: 0; }
+      .slide-toolbar { display: none; }
+      .workflow-canvas { border: none; box-shadow: none; width: 100%; height: 100vh; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Navigation Controls -->
+  <div class="slide-toolbar">
+    <a href="view_architecture.html" class="btn-tool btn-tool-secondary">
+      <i class="fa-solid fa-arrow-left"></i> Atlas View
+    </a>
+    <button class="btn-tool" onclick="toggleFullscreen()">
+      <i class="fa-solid fa-expand"></i> Fullscreen 16:9
+    </button>
+    <button class="btn-tool btn-tool-secondary" onclick="window.print()">
+      <i class="fa-solid fa-print"></i> PDF Export
+    </button>
+  </div>
+
+  <!-- 16:9 Presentation Slide Canvas -->
+  <main class="workflow-canvas" id="slideCanvas">
+    <div class="slide-inner">
+
+      <!-- Header (Exact Match to User Reference) -->
+      <header class="workflow-header">
+        <h1>Work<span class="cyan-highlight">flow</span></h1>
+        <p class="subtitle">How every request moves through all 10 agents, specialized engines &amp; LangGraph pipelines</p>
+      </header>
+
+      <!-- Main Flow Pipeline -->
+      <div class="flow-pipeline-container">
+
+        <!-- 1. USER INPUT -->
+        <div class="flow-card flow-card-wide border-white">
+          <div class="card-title-main">
+            <i class="fa-solid fa-user-doctor" style="color:#38bdf8;"></i>
+            USER • Patient / Clinician Input
+          </div>
+          <div class="card-subtitle-pill">
+            Demographics (Age, Sex, Ancestry) • Exposures (Smoking, PM2.5, Radon) • Genetics (BRCA1/2, KRAS, Lynch, Stage)
+          </div>
+        </div>
+
+        <!-- Arrow Down -->
+        <div class="flow-arrow-down"><i class="fa-solid fa-chevron-down"></i></div>
+
+        <!-- 2. WEB SPA UI & API GATEWAY -->
+        <div class="flow-card flow-card-wide border-white">
+          <div class="card-title-main">
+            <i class="fa-solid fa-desktop" style="color:#818cf8;"></i>
+            WEB SPA UI &amp; FASTAPI GATEWAY
+          </div>
+          <div class="card-subtitle-pill">
+            18-Variable Intervention Sliders • Instant Cohort Presets • Real-Time Drug Collision (DDI) Guard • REST Endpoints
+          </div>
+        </div>
+
+        <!-- Arrow Down -->
+        <div class="flow-arrow-down"><i class="fa-solid fa-chevron-down"></i></div>
+
+        <!-- 3. AGENT 01: INTAKE & TWIN PROFILER -->
+        <div class="flow-card flow-card-wide border-cyan">
+          <div class="card-title-main">
+            <span class="agent-num-badge" style="background:#0284c7;">AGENT 01</span>
+            Intake &amp; Twin Profiler Agent + RAG Grounding
+          </div>
+          <div class="card-subtitle-pill" style="color:#bae6fd;">
+            Instantiates DigitalTwinState (Pydantic) • Health Score (0–100) • ChromaDB Vector NCCN Guidelines • Live NCBI PubMed API
+          </div>
+        </div>
+
+        <!-- Branching Fork Connectors (SVG with 4 Output Branches) -->
+        <div class="svg-fork-4">
+          <svg width="1020" height="20" viewBox="0 0 1020 20" fill="none">
+            <!-- Center Vertical Stem Down -->
+            <path d="M 510 0 L 510 9" stroke="#ffffff" stroke-width="1.8" />
+            <!-- Horizontal Split Bar Across 4 Columns -->
+            <path d="M 125 9 L 895 9" stroke="#ffffff" stroke-width="1.8" />
+            <!-- Branch 1 (Col 1) -->
+            <path d="M 125 9 L 125 18" stroke="#ffffff" stroke-width="1.8" />
+            <polygon points="121,14 125,19 129,14" fill="#ffffff" />
+            <!-- Branch 2 (Col 2: Engines) -->
+            <path d="M 380 9 L 380 18" stroke="#ffffff" stroke-width="1.8" />
+            <polygon points="376,14 380,19 384,14" fill="#ffffff" />
+            <!-- Branch 3 (Col 3) -->
+            <path d="M 640 9 L 640 18" stroke="#ffffff" stroke-width="1.8" />
+            <polygon points="636,14 640,19 644,14" fill="#ffffff" />
+            <!-- Branch 4 (Col 4) -->
+            <path d="M 895 9 L 895 18" stroke="#ffffff" stroke-width="1.8" />
+            <polygon points="891,14 895,19 899,14" fill="#ffffff" />
+          </svg>
+        </div>
+
+        <!-- 4. FOUR PARALLEL EXECUTION TRACKS: AGENTS + SPECIALIZED ENGINES -->
+        <div class="parallel-grid-4">
+          
+          <!-- Track 1: Agents 02 & 03 (Risk & What-If Simulation) -->
+          <div class="parallel-col-card track-sim">
+            <div class="col-card-header">
+              <div class="col-card-title">
+                <i class="fa-solid fa-chart-line" style="color:#38bdf8;"></i>
+                <span>Risk &amp; Simulation</span>
+              </div>
+              <span class="agent-num-badge" style="background:#0284c7;">02 &amp; 03</span>
+            </div>
+            <div class="col-card-body">
+              <div class="col-sub-item">
+                <i class="fa-solid fa-circle" style="color:#38bdf8;"></i>
+                <div><strong>02. Risk Assessment Agent:</strong> 5-Cancer baseline (Lung, Breast, CRC, Prostate, Pancreatic).</div>
+              </div>
+              <div class="col-sub-item">
+                <i class="fa-solid fa-circle" style="color:#38bdf8;"></i>
+                <div><strong>03. What-If Simulator Agent:</strong> 30-year counterfactual trajectories &amp; absolute risk drops.</div>
+              </div>
+            </div>
+            <div class="col-card-footer-badge">
+              <i class="fa-solid fa-chart-area"></i> 30-Year Trajectory Engine
+            </div>
+          </div>
+
+          <!-- Track 2: SPECIALIZED ENGINES (Metastasis Tracker & Pharmacology) -->
+          <div class="parallel-col-card track-engines">
+            <div class="col-card-header">
+              <div class="col-card-title">
+                <i class="fa-solid fa-route" style="color:#fb923c;"></i>
+                <span>Analytical Engines</span>
+              </div>
+              <span class="agent-num-badge" style="background:#ea580c;">ENGINES</span>
+            </div>
+            <div class="col-card-body">
+              <div class="col-sub-item">
+                <i class="fa-solid fa-dna" style="color:#fb923c;"></i>
+                <div><strong>Metastasis Tracker Engine:</strong> Seed-and-soil organotropism (Liver 0.88, Lung 0.48, Bone 0.85, Brain) &amp; lymphatic routes.</div>
+              </div>
+              <div class="col-sub-item">
+                <i class="fa-solid fa-pills" style="color:#fb923c;"></i>
+                <div><strong>Pharmacology &amp; Toxicity Engine:</strong> CYP3A4/2D6 drug collisions &amp; 5-yr Relapse-Free Survival (RFS).</div>
+              </div>
+            </div>
+            <div class="col-card-footer-badge">
+              <i class="fa-solid fa-microchip"></i> Organotropism + CYP450
+            </div>
+          </div>
+
+          <!-- Track 3: Agents 04 & 05 (Feasibility, Safety & Coordinator) -->
+          <div class="parallel-col-card track-safety">
+            <div class="col-card-header">
+              <div class="col-card-title">
+                <i class="fa-solid fa-shield-halved" style="color:#c084fc;"></i>
+                <span>Safety &amp; Staging</span>
+              </div>
+              <span class="agent-num-badge" style="background:#7c3aed;">04 &amp; 05</span>
+            </div>
+            <div class="col-card-body">
+              <div class="col-sub-item">
+                <i class="fa-solid fa-circle" style="color:#c084fc;"></i>
+                <div><strong>04. Feasibility &amp; Safety Agent:</strong> Friction score (0–10) &amp; Phase 1 (M1–6) vs Phase 2 (M6–24) staging.</div>
+              </div>
+              <div class="col-sub-item">
+                <i class="fa-solid fa-circle" style="color:#c084fc;"></i>
+                <div><strong>05. Twin Coordinator Agent:</strong> Collation of 5-cancer trajectory deltas &amp; comorbidity audits.</div>
+              </div>
+            </div>
+            <div class="col-card-footer-badge">
+              <i class="fa-solid fa-list-check"></i> Safety Pass &amp; Staging
+            </div>
+          </div>
+
+          <!-- Track 4: Agent 09 (The Scientific Skeptic / Trial Appraisal) -->
+          <div class="parallel-col-card track-skeptic">
+            <div class="col-card-header">
+              <div class="col-card-title">
+                <i class="fa-solid fa-microscope" style="color:#fb7185;"></i>
+                <span>Trial Appraisal</span>
+              </div>
+              <span class="agent-num-badge" style="background:#e11d48;">09</span>
+            </div>
+            <div class="col-card-body">
+              <div class="col-sub-item">
+                <i class="fa-solid fa-circle" style="color:#fb7185;"></i>
+                <div><strong>09. The Scientific Skeptic:</strong> Autonomous trial spin &amp; pharma funding conflict auditing.</div>
+              </div>
+              <div class="col-sub-item">
+                <i class="fa-solid fa-circle" style="color:#fb7185;"></i>
+                <div><strong>GRADE Evidence Scoring:</strong> Verifies control arm sizes, hazard ratio confidence &amp; bias flags.</div>
+              </div>
+            </div>
+            <div class="col-card-footer-badge">
+              <i class="fa-solid fa-stamp"></i> GRADE Evidence Stamp
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Converging Join Connectors (SVG Converging 4 Tracks Down) -->
+        <div class="svg-join-4">
+          <svg width="1020" height="20" viewBox="0 0 1020 20" fill="none">
+            <!-- 4 Inputs In -->
+            <path d="M 125 0 L 125 9" stroke="#ffffff" stroke-width="1.8" />
+            <path d="M 380 0 L 380 9" stroke="#ffffff" stroke-width="1.8" />
+            <path d="M 640 0 L 640 9" stroke="#ffffff" stroke-width="1.8" />
+            <path d="M 895 0 L 895 9" stroke="#ffffff" stroke-width="1.8" />
+            <!-- Horizontal Collecting Bar -->
+            <path d="M 125 9 L 895 9" stroke="#ffffff" stroke-width="1.8" />
+            <!-- Center Down Stem with Arrowhead -->
+            <path d="M 510 9 L 510 18" stroke="#ffffff" stroke-width="1.8" />
+            <polygon points="506,14 510,19 514,14" fill="#ffffff" />
+          </svg>
+        </div>
+
+        <!-- 5. VIRTUAL TUMOR BOARD + SUPERVISOR AGENT (Agents 06, 07, 08 & 10) -->
+        <div class="flow-card flow-card-wide border-purple" style="width: 820px; padding: 10px 22px;">
+          <div class="card-title-main">
+            <span class="agent-num-badge" style="background:#9333ea;">AGENTS 06, 07, 08 &amp; 10</span>
+            Virtual Tumor Board &amp; Supervisor Adjudication
+          </div>
+          <div class="card-subtitle-pill" style="color:#f3e8ff;">
+            3-Round Cross-Examination Debate • Relapse Consensus Adjudication • Gemini 2.5 Flash Synthesis
+          </div>
+
+          <!-- 4 Specialists in Tumor Board Strip -->
+          <div class="tb-personas-strip">
+            <div class="tb-persona-pill">
+              <i class="fa-solid fa-pills" style="color:#38bdf8;"></i>
+              <span><strong>06. Med Onc:</strong> Systemic &amp; PARP</span>
+            </div>
+            <div class="tb-persona-pill">
+              <i class="fa-solid fa-scissors" style="color:#fb923c;"></i>
+              <span><strong>07. Surg Onc:</strong> R0 Margins</span>
+            </div>
+            <div class="tb-persona-pill">
+              <i class="fa-solid fa-radiation" style="color:#c084fc;"></i>
+              <span><strong>08. Rad Onc:</strong> SBRT Fields</span>
+            </div>
+            <div class="tb-persona-pill">
+              <i class="fa-solid fa-gavel" style="color:#34d399;"></i>
+              <span><strong>10. Supervisor:</strong> Gemini Flash</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Arrow Down -->
+        <div class="flow-arrow-down"><i class="fa-solid fa-chevron-down"></i></div>
+
+        <!-- 6. FINAL CLINICAL ACTION REPORT -->
+        <div class="flow-card flow-card-wide border-emerald">
+          <div class="card-title-main">
+            <i class="fa-solid fa-file-medical-chart" style="color:#34d399;"></i>
+            Final Clinical Action Report &amp; Oncologist Review
+          </div>
+          <div class="card-subtitle-pill" style="color:#d1fae5;">
+            Interactive 30-Year Trajectory Dash • Metastasis Heatmap • Phase 1 &amp; 2 Roadmap • Clickable PMIDs • EHR Care Plan
+          </div>
+        </div>
+
+        <!-- Closed-Loop Feedback Track -->
+        <div class="bottom-feedback-strip">
+          <div class="feedback-pill-text">
+            <i class="fa-solid fa-arrows-spin fa-spin" style="--fa-animation-duration: 4s;"></i>
+            Closed-Loop Clinical Feedback:
+          </div>
+          <div>
+            <i class="fa-solid fa-chevron-left" style="color:#38bdf8;"></i>
+            <span style="color:#cbd5e1; margin: 0 4px;">Oncologist alters therapy/dosage &rarr; Real-time Twin re-simulation &amp; recalculation across all 10 agents</span>
+            <i class="fa-solid fa-chevron-left" style="color:#38bdf8;"></i>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Slide Footer Bar -->
+      <footer class="slide-footer-bar">
+        <div>
+          <span style="font-weight:700; color:#e2e8f0;">CancerTwin AI 2.0</span> • 16:9 Master Workflow Blueprint • 10 MCP Agents &amp; Specialized Engines
+        </div>
+        <div class="footer-tags">
+          <span class="footer-tag">LangGraph v0.2</span>
+          <span class="footer-tag">FastAPI</span>
+          <span class="footer-tag">Metastasis Tracker</span>
+          <span class="footer-tag">Pharmacology Engine</span>
+          <span class="footer-tag">Gemini 2.5 Flash</span>
+          <span class="footer-tag">ChromaDB</span>
+          <span class="footer-tag">10 MCP Tools</span>
+        </div>
+      </footer>
+
+    </div>
+  </main>
+
+  <script>
+    function toggleFullscreen() {
+      const elem = document.getElementById("slideCanvas");
+      if (!document.fullscreenElement) {
+        elem.requestFullscreen().catch(err => {
+          alert(`Error attempting to enable fullscreen: ${err.message}`);
+        });
+      } else {
+        document.exitFullscreen();
+      }
+    }
+  </script>
+</body>
+</html>

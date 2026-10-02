@@ -1,0 +1,201 @@
+[
+  {
+    "id": "USPSTF-CRC-016",
+    "cancer_type": "Colorectal",
+    "title": "USPSTF Colorectal Cancer Screening Recommendations (2021 Update)",
+    "source": "US Preventive Services Task Force / JAMA 2021",
+    "summary": "Screening for colorectal cancer is recommended in all adults aged 45 to 75 years (Grade A for ages 50-75; Grade B for ages 45-49). Screening strategies include colonoscopy every 10 years, annual FIT, or stool DNA-FIT every 3 years.",
+    "hazard_ratio": 2.5,
+    "evidence_level": "Grade A",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/34003218/",
+    "interventions": {
+      "colonoscopy_screening": {
+        "description": "Guideline-adherent colonoscopy with polypectomy confers a 68% to 88% reduction in colorectal cancer incidence and mortality.",
+        "relative_risk_reduction": 0.75
+      }
+    },
+    "risk_factors": [
+      "Age >= 45",
+      "Lynch syndrome / FAP",
+      "First-degree relative with CRC",
+      "Low fiber (<15g/day)",
+      "High red/processed meat"
+    ]
+  },
+  {
+    "id": "NORDICC-NEJM-017",
+    "cancer_type": "Colorectal",
+    "title": "NordICC Trial: Effect of Colonoscopy Screening on Risks of Colorectal Cancer and Related Death",
+    "source": "Bretthauer et al. / N Engl J Med 2022",
+    "summary": "In a randomized trial involving 84,585 European adults, invitation to colonoscopy screening reduced colorectal cancer risk at 10 years by 18% in the intention-to-treat group (RR 0.82) and by 31% among participants who underwent screening.",
+    "hazard_ratio": 0.69,
+    "evidence_level": "Level 1A",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa2208375"
+  },
+  {
+    "id": "KEYNOTE177-NEJM-018",
+    "cancer_type": "Colorectal",
+    "title": "KEYNOTE-177: Pembrolizumab in Microsatellite-Instability-High Metastatic Colorectal Cancer",
+    "source": "Andre et al. / N Engl J Med 2020",
+    "summary": "First-line pembrolizumab monotherapy doubled progression-free survival compared to chemotherapy (16.5 vs 8.2 months, HR 0.60) with significantly fewer treatment-related grade 3+ adverse events in MSI-H / dMMR metastatic CRC.",
+    "hazard_ratio": 0.6,
+    "evidence_level": "Category 1",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa2020248",
+    "interventions": {
+      "pembrolizumab_msih": {
+        "description": "Anti-PD-1 checkpoint inhibition unleashes immune-mediated clearance of neoantigen-rich hypermutated tumors.",
+        "relative_risk_reduction": 0.4
+      }
+    }
+  },
+  {
+    "id": "NICHE2-NEJM-019",
+    "cancer_type": "Colorectal",
+    "title": "NICHE-2 Trial: Neoadjuvant Nivolumab plus Ipilimumab in Locally Advanced dMMR Colon Cancer",
+    "source": "Chalabi et al. / N Engl J Med 2024 / ESMO 2022",
+    "summary": "Neoadjuvant dual checkpoint inhibition (nivolumab + ipilimumab for 4 weeks) in non-metastatic dMMR colon cancer achieved a 95% major pathological response rate and 67% pathological complete response without delaying surgery.",
+    "hazard_ratio": 0.1,
+    "evidence_level": "Level 1B",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa2312826",
+    "interventions": {
+      "neoadjuvant_dual_checkpoint": {
+        "description": "Short-course pre-operative dual immunotherapy yields near-universal pathologic regression in mismatch-repair-deficient tumors.",
+        "relative_risk_reduction": 0.9
+      }
+    }
+  },
+  {
+    "id": "IDEA-NEJM-020",
+    "cancer_type": "Colorectal",
+    "title": "IDEA Collaboration: Duration of Adjuvant Chemotherapy for Stage III Colon Cancer",
+    "source": "Grothey et al. / N Engl J Med 2018",
+    "summary": "Pooled analysis of 6 randomized trials (12,834 patients) established that 3 months of CAPOX is non-inferior to 6 months in low-risk Stage III colon cancer (T1-3, N1), dramatically reducing grade 3+ peripheral neuropathy (3% vs 16%).",
+    "hazard_ratio": 1.02,
+    "evidence_level": "Level 1A",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa1713709"
+  },
+  {
+    "id": "DYNAMIC-NEJM-021",
+    "cancer_type": "Colorectal",
+    "title": "DYNAMIC Trial: Circulating Tumor DNA Analysis Guiding Adjuvant Chemotherapy in Stage II Colon Cancer",
+    "source": "Tie et al. / N Engl J Med 2022",
+    "summary": "A ctDNA-guided approach nearly halved the proportion of stage II colon cancer patients receiving adjuvant chemotherapy (15% vs 28%) without compromising 2-year recurrence-free survival (93.5% vs 92.4%).",
+    "hazard_ratio": 0.96,
+    "evidence_level": "Level 1B",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa2202727",
+    "interventions": {
+      "ctdna_directed_adjuvant": {
+        "description": "Directs toxic oxaliplatin chemotherapy only to patients with detectable minimal residual disease.",
+        "relative_risk_reduction": 0.45
+      }
+    }
+  },
+  {
+    "id": "GALAXY-NATMED-022",
+    "cancer_type": "Colorectal",
+    "title": "GALAXY / CIRCULATE-Japan: Postoperative ctDNA Dynamics and Recurrence Risk in Colorectal Cancer",
+    "source": "Kotani et al. / Nature Medicine 2023",
+    "summary": "Prospective analysis of 1,033 stage II-IV resectable colorectal cancer patients revealed that post-surgical ctDNA positivity was the single most powerful prognosticator of recurrence (HR 10.0), and adjuvant chemotherapy cleared ctDNA in 68% of patients.",
+    "hazard_ratio": 10.0,
+    "evidence_level": "Level 1B",
+    "url": "https://www.nature.com/articles/s41591-022-02115-3"
+  },
+  {
+    "id": "WCRF-CRC-DIET-023",
+    "cancer_type": "Colorectal",
+    "title": "WCRF / AICR Colorectal Cancer Continuous Update Report on Diet and Physical Activity",
+    "source": "World Cancer Research Fund / American Institute for Cancer Research 2018",
+    "summary": "Consuming >= 30g daily dietary fiber reduces colorectal cancer risk by 17% per 90g whole grains. Daily consumption of 50g processed meat increases risk by 16% (IARC Group 1 carcinogen).",
+    "hazard_ratio": 1.25,
+    "evidence_level": "Grade A",
+    "url": "https://www.wcrf.org/diet-and-cancer/colorectal-cancer/",
+    "interventions": {
+      "dietary_fiber_optimization": {
+        "description": "High dietary fiber intake accelerates fecal transit, binding bile acids and promoting gut microbial butyrate synthesis.",
+        "relative_risk_reduction": 0.18
+      }
+    }
+  },
+  {
+    "id": "LYNCH-MSTF-024",
+    "cancer_type": "Colorectal",
+    "title": "US Multi-Society Task Force Guidelines on Genetic Evaluation and Management of Lynch Syndrome",
+    "source": "Giardiello et al. / Gastroenterology 2014 / Am J Gastroenterol",
+    "summary": "Individuals with confirmed Lynch syndrome (MLH1, MSH2, MSH6, PMS2 mutations) should undergo colonoscopy every 1 to 2 years beginning at ages 20 to 25 years, reducing colorectal mortality by >70%.",
+    "hazard_ratio": 8.0,
+    "evidence_level": "Grade A",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/25088360/"
+  },
+  {
+    "id": "PARADIGM-JAMA-025",
+    "cancer_type": "Colorectal",
+    "title": "PARADIGM Trial: Panitumumab vs Bevacizumab with mFOLFOX6 in RAS Wild-Type Metastatic CRC",
+    "source": "Watanabe et al. / JAMA 2023",
+    "summary": "In patients with untreated left-sided RAS wild-type metastatic colorectal cancer, panitumumab plus chemotherapy produced significantly longer overall survival than bevacizumab (37.9 vs 34.3 months, HR 0.82).",
+    "hazard_ratio": 0.82,
+    "evidence_level": "Category 1",
+    "url": "https://jamanetwork.com/journals/jama/fullarticle/2802619"
+  },
+  {
+    "id": "BEACON-NEJM-026",
+    "cancer_type": "Colorectal",
+    "title": "BEACON CRC: Encorafenib plus Cetuximab in BRAF V600E-Mutant Metastatic Colorectal Cancer",
+    "source": "Kopetz et al. / N Engl J Med 2019",
+    "summary": "Targeted doublet therapy with encorafenib (BRAF inhibitor) and cetuximab (EGFR inhibitor) resulted in significantly longer overall survival (9.3 vs 5.9 months, HR 0.61) than standard chemotherapy in refractory BRAF V600E CRC.",
+    "hazard_ratio": 0.61,
+    "evidence_level": "Category 1",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa1908077"
+  },
+  {
+    "id": "CAPP2-LANCET-027",
+    "cancer_type": "Colorectal",
+    "title": "CAPP2 Trial 10-Year Follow-up: Long-Term Aspirin Chemoprevention in Lynch Syndrome",
+    "source": "Burn et al. / Lancet 2020",
+    "summary": "Randomized double-blind trial demonstrated that daily aspirin (600mg) taken for a mean of 25 months halved colorectal cancer incidence (HR 0.58) in Lynch syndrome carriers over 10 to 20 years of follow-up.",
+    "hazard_ratio": 0.58,
+    "evidence_level": "Level 1A",
+    "url": "https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(20)30366-4/fulltext",
+    "interventions": {
+      "aspirin_chemoprevention": {
+        "description": "Inhibits cyclooxygenase-2 (COX-2) dependent prostaglandin synthesis and promotes programmed cell death in microsatellite-unstable crypts.",
+        "relative_risk_reduction": 0.42
+      }
+    }
+  },
+  {
+    "id": "ASCO-STAGE2-CRC-028",
+    "cancer_type": "Colorectal",
+    "title": "ASCO Guideline on Adjuvant Therapy for Stage II Colon Cancer",
+    "source": "Baxter et al. / J Clin Oncol 2022",
+    "summary": "Routine adjuvant chemotherapy is not recommended for average-risk stage II colon cancer; for patients with high-risk features (T4, <12 lymph nodes examined, bowel obstruction, perforation), single-agent fluoropyrimidine or oxaliplatin-based doublet should be offered based on dMMR/pMMR status.",
+    "hazard_ratio": 1.25,
+    "evidence_level": "Grade B",
+    "url": "https://ascopubs.org/doi/10.1200/JCO.21.02538"
+  },
+  {
+    "id": "UPF-BMJ-CRC-029",
+    "cancer_type": "Colorectal",
+    "title": "Ultra-Processed Food Consumption and Risk of Colorectal Cancer in Men and Women",
+    "source": "Wang et al. / BMJ 2022",
+    "summary": "Prospective cohort analysis of 200,000 health professionals found that men in the highest quintile of ultra-processed food consumption had a 29% higher risk of developing colorectal cancer (HR 1.29).",
+    "hazard_ratio": 1.29,
+    "evidence_level": "Level 2A",
+    "url": "https://www.bmj.com/content/378/bmj-2021-068921",
+    "interventions": {
+      "upf_restriction": {
+        "description": "Replacing ultra-processed foods with whole unprocessed foods attenuates inflammatory gut dysbiosis and dietary emulsifier exposure.",
+        "relative_risk_reduction": 0.22
+      }
+    }
+  },
+  {
+    "id": "NCCN-COLON-SURV-030",
+    "cancer_type": "Colorectal",
+    "title": "NCCN Colon Cancer Surveillance Guidelines (v1.2024)",
+    "source": "NCCN Clinical Practice Guidelines in Oncology 2024",
+    "summary": "Recommended surveillance following curative-intent resection includes clinical history and physical exam every 3-6 months for 2 years, serial CEA every 3-6 months for 5 years, contrast CT of chest/abdomen/pelvis every 6-12 months for 5 years, and colonoscopy at 1 year.",
+    "hazard_ratio": 1.0,
+    "evidence_level": "Category 2A",
+    "url": "https://www.nccn.org/guidelines/guidelines-detail?category=1&id=1428"
+  }
+]

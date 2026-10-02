@@ -1,0 +1,151 @@
+[
+  {
+    "id": "USPSTF-PROST-046",
+    "cancer_type": "Prostate",
+    "title": "USPSTF Prostate Cancer Screening Recommendations (Grade C Shared Decision-Making)",
+    "source": "US Preventive Services Task Force / JAMA 2018",
+    "summary": "For men aged 55 to 69 years, the decision to undergo periodic prostate-specific antigen (PSA) screening should be an individualized shared clinical discussion weighing the benefits of reducing metastatic prostate cancer against overdiagnosis and treatment complications.",
+    "hazard_ratio": 1.4,
+    "evidence_level": "Grade C",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/29742721/",
+    "interventions": {
+      "shared_decision_psa": {
+        "description": "Regular PSA screening in informed men aged 55-69 prevents approximately 1.3 deaths from prostate cancer per 1,000 screened over 13 years.",
+        "relative_risk_reduction": 0.25
+      }
+    },
+    "risk_factors": [
+      "Age >= 50",
+      "African ancestry (hazard ratio 1.7-2.0)",
+      "First-degree relative with prostate cancer",
+      "BRCA2 / HOXB13 mutation"
+    ]
+  },
+  {
+    "id": "PROTECT-NEJM-047",
+    "cancer_type": "Prostate",
+    "title": "ProtecT Trial: 15-Year Outcomes After Monitoring, Surgery, or Radiotherapy for Prostate Cancer",
+    "source": "Hamdy et al. / N Engl J Med 2023",
+    "summary": "At 15 years of follow-up in 1,643 men with localized prostate cancer, prostate-cancer specific mortality remained exceptionally low (approx 3%) across active monitoring, prostatectomy, and radiotherapy groups, though surgery and radiation halved metastases.",
+    "hazard_ratio": 0.52,
+    "evidence_level": "Level 1A",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa2214122"
+  },
+  {
+    "id": "STAMPEDE-LANCET-048",
+    "cancer_type": "Prostate",
+    "title": "STAMPEDE Trial: Abiraterone Acetate plus Prednisone in High-Risk Non-Metastatic Prostate Cancer",
+    "source": "Attard et al. / Lancet 2022",
+    "summary": "Adding 2 years of abiraterone acetate and prednisolone to standard androgen deprivation therapy (ADT) and radiotherapy in high-risk non-metastatic prostate cancer improved 6-year metastasis-free survival from 69% to 82% (HR 0.53) and overall survival (HR 0.60).",
+    "hazard_ratio": 0.53,
+    "evidence_level": "Level 1A",
+    "url": "https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(21)02437-5/fulltext",
+    "interventions": {
+      "abiraterone_adt_intensification": {
+        "description": "Cytochrome P450 17A1 (CYP17) enzyme inhibition abolishes testicular, adrenal, and intratumoral androgen synthesis.",
+        "relative_risk_reduction": 0.47
+      }
+    }
+  },
+  {
+    "id": "PROFOUND-NEJM-049",
+    "cancer_type": "Prostate",
+    "title": "PROfound Trial: Olaparib for Metastatic Castration-Resistant Prostate Cancer",
+    "source": "de Bono et al. / N Engl J Med 2020",
+    "summary": "In men with metastatic castration-resistant prostate cancer and alterations in BRCA1, BRCA2, or ATM, olaparib significantly extended imaging-based progression-free survival (7.4 vs 3.6 months, HR 0.34) and overall survival (19.1 vs 14.7 months, HR 0.69).",
+    "hazard_ratio": 0.34,
+    "evidence_level": "Category 1",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa1911440"
+  },
+  {
+    "id": "CHAARTED-NEJM-050",
+    "cancer_type": "Prostate",
+    "title": "CHAARTED Trial: Chemohormonal Therapy in Metastatic Hormone-Sensitive Prostate Cancer",
+    "source": "Sweeney et al. / N Engl J Med 2015",
+    "summary": "6 cycles of docetaxel added to ADT at the onset of metastatic hormone-sensitive prostate cancer resulted in significantly longer overall survival than ADT alone (57.6 vs 44.0 months, HR 0.61 in high-volume disease).",
+    "hazard_ratio": 0.61,
+    "evidence_level": "Level 1A",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa1503747"
+  },
+  {
+    "id": "ENZAMET-NEJM-051",
+    "cancer_type": "Prostate",
+    "title": "ENZAMET Trial: Overall Survival with Enzalutamide in Metastatic Hormone-Sensitive Prostate Cancer",
+    "source": "Davis et al. / Lancet Oncol 2023 / N Engl J Med 2019",
+    "summary": "Adding potent androgen-receptor antagonist enzalutamide to standard testosterone suppression improved 5-year overall survival from 57% to 67% (HR 0.70) in synchronous and metachronous metastatic prostate cancer.",
+    "hazard_ratio": 0.7,
+    "evidence_level": "Category 1",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa1903835"
+  },
+  {
+    "id": "PRECISION-NEJM-052",
+    "cancer_type": "Prostate",
+    "title": "PRECISION Trial: MRI-Targeted versus Standard Biopsy for Prostate-Cancer Diagnosis",
+    "source": "Kasivisvanathan et al. / N Engl J Med 2018",
+    "summary": "Multi-parametric MRI with targeted biopsy detected clinically significant prostate cancer in 38% of biopsy-naive men compared to 26% with standard 12-core TRUS biopsy, while decreasing overdiagnosis of insignificant indolent lesions by 13%.",
+    "hazard_ratio": 1.46,
+    "evidence_level": "Level 1A",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa1801993"
+  },
+  {
+    "id": "PEACE1-LANCET-053",
+    "cancer_type": "Prostate",
+    "title": "PEACE-1 Trial: Triplet Therapy (ADT + Docetaxel + Abiraterone) in De Novo Metastatic Prostate Cancer",
+    "source": "Fizazi et al. / Lancet 2022",
+    "summary": "Adding abiraterone to ADT and docetaxel significantly extended radiographic progression-free survival (4.5 vs 2.0 years, HR 0.54) and overall survival (HR 0.75) in de novo metastatic castrate-naive prostate cancer.",
+    "hazard_ratio": 0.54,
+    "evidence_level": "Category 1",
+    "url": "https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(22)00364-4/fulltext"
+  },
+  {
+    "id": "EMBARK-NEJM-054",
+    "cancer_type": "Prostate",
+    "title": "EMBARK Trial: Enzalutamide in High-Risk Biochemical Recurrence Prostate Cancer",
+    "source": "Freedland et al. / N Engl J Med 2023",
+    "summary": "In men with prostate cancer and high-risk biochemical recurrence with rapid PSA doubling time (<= 9 months), enzalutamide plus leuprolide reduced the risk of metastasis or death by 58% (HR 0.42) compared to leuprolide alone.",
+    "hazard_ratio": 0.42,
+    "evidence_level": "Category 1",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa2303974",
+    "interventions": {
+      "enzalutamide_biochemical_recurrence": {
+        "description": "Potent dual pathway androgen receptor signaling blockade halts micrometastatic proliferation during PSA relapse.",
+        "relative_risk_reduction": 0.58
+      }
+    }
+  },
+  {
+    "id": "AUA-ASTRO-EARLY-055",
+    "cancer_type": "Prostate",
+    "title": "AUA / ASTRO / SUO Guideline on Early Detection of Prostate Cancer (2023 Update)",
+    "source": "American Urological Association / American Society for Radiation Oncology 2023",
+    "summary": "Recommends offering baseline PSA screening at ages 40 to 45 for individuals with high-risk features (Black ancestry, germline BRCA1/2, or strong family history) and utilizing secondary biomarker panels (4Kscore, SelectMDx, prostate health index) before proceeding to biopsy.",
+    "hazard_ratio": 1.0,
+    "evidence_level": "Grade B",
+    "url": "https://www.auanet.org/guidelines-and-quality/guidelines/early-detection-of-prostate-cancer-guideline"
+  },
+  {
+    "id": "NCCN-PROSTATE-SURV-056",
+    "cancer_type": "Prostate",
+    "title": "NCCN Prostate Cancer Surveillance and Post-Treatment Monitoring Protocols (v1.2024)",
+    "source": "NCCN Guidelines Version 1.2024",
+    "summary": "Post-definitive prostatectomy surveillance requires ultrasensitive PSA every 3 months for 2 years, then every 6 months for 3 years; recurrence is defined as confirmed PSA >= 0.2 ng/mL. Following radiotherapy, biochemical recurrence is defined by the Phoenix criteria (nadir + 2.0 ng/mL).",
+    "hazard_ratio": 1.0,
+    "evidence_level": "Category 2A",
+    "url": "https://www.nccn.org/guidelines/guidelines-detail?category=1&id=1459"
+  },
+  {
+    "id": "AFRICAN-ANCESTRY-PROST-057",
+    "cancer_type": "Prostate",
+    "title": "Racial and Genetic Disparities in Prostate Cancer Incidence and Mortality",
+    "source": "Rebbeck et al. / CA Cancer J Clin 2023 / SEER Data",
+    "summary": "Men of African ancestry exhibit an 80% higher prostate cancer incidence rate and a 2.1-fold increased mortality compared with European ancestry men, driven by earlier onset, frequency of 8q24 risk variants, and socioeconomic screening disparities.",
+    "hazard_ratio": 2.1,
+    "evidence_level": "Level 1A",
+    "url": "https://acsjournals.onlinelibrary.wiley.com/doi/10.3322/caac.21800",
+    "risk_factors": [
+      "African ancestry",
+      "8q24 locus polymorphism",
+      "First-degree relative diagnosed <60yo"
+    ]
+  }
+]

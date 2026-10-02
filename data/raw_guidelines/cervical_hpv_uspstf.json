@@ -1,0 +1,131 @@
+[
+  {
+    "id": "USPSTF-CERV-058",
+    "cancer_type": "Cervical",
+    "title": "USPSTF Cervical Cancer Screening Recommendations (2018 Update / 2024 Reaffirmation)",
+    "source": "US Preventive Services Task Force / JAMA 2018",
+    "summary": "Screening for cervical cancer is recommended every 3 years with cervical cytology alone in women aged 21 to 29 years. For women aged 30 to 65 years, screening options include cytology every 3 years, hrHPV testing alone every 5 years, or hrHPV plus cytology co-testing every 5 years.",
+    "hazard_ratio": 3.2,
+    "evidence_level": "Grade A",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/30128532/",
+    "interventions": {
+      "pap_hpv_cotesting": {
+        "description": "Regular guideline-adherent cytology and hrHPV co-testing reduces cervical cancer incidence by over 80% through early detection and excision of CIN2+ lesions.",
+        "relative_risk_reduction": 0.82
+      },
+      "hpv_vaccination": {
+        "description": "Prophylactic 9-valent HPV vaccination administered prior to viral exposure confers 85-90% protection against high-risk HPV oncogenesis.",
+        "relative_risk_reduction": 0.88
+      }
+    },
+    "risk_factors": [
+      "Persistent hrHPV (types 16/18)",
+      "Screening non-adherence",
+      "Smoking",
+      "Immunosuppression (HIV/transplant)",
+      "Oral contraceptives >5 years"
+    ]
+  },
+  {
+    "id": "CDC-ACIP-HPV-059",
+    "cancer_type": "Cervical",
+    "title": "CDC / ACIP HPV Vaccination Recommendations and Age Indications",
+    "source": "Advisory Committee on Immunization Practices (ACIP) / MMWR 2020",
+    "summary": "Routine HPV vaccination is recommended at age 11 or 12 years (can start at age 9). Catch-up vaccination is recommended for all persons through age 26 years who are not adequately vaccinated. Clinical shared decision-making is recommended for adults aged 27 through 45 years.",
+    "hazard_ratio": 0.15,
+    "evidence_level": "Category 1",
+    "url": "https://www.cdc.gov/mmwr/volumes/68/wr/mm6832a3.htm"
+  },
+  {
+    "id": "ASCCP-CONSENSUS-060",
+    "cancer_type": "Cervical",
+    "title": "ASCCP Risk-Based Management Consensus Guidelines for Abnormal Cervical Cancer Screening Tests",
+    "source": "Perkins et al. / J Low Genit Tract Dis 2020",
+    "summary": "Management recommendations are based on an individual patient's immediate and 5-year risk of high-grade precancer (CIN 3+). An immediate CIN3+ risk >= 4.0% warrants colposcopy; immediate risk >= 25% or >= 60% indicates expedited treatment (loop electrosurgical excision).",
+    "hazard_ratio": 2.8,
+    "evidence_level": "Grade A",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/32243307/"
+  },
+  {
+    "id": "KEYNOTE826-NEJM-061",
+    "cancer_type": "Cervical",
+    "title": "KEYNOTE-826: Pembrolizumab for Persistent, Recurrent, or Metastatic Cervical Cancer",
+    "source": "Colombo et al. / N Engl J Med 2021",
+    "summary": "Adding pembrolizumab to platinum-based chemotherapy with or without bevacizumab significantly extended overall survival (HR 0.67 in PD-L1 CPS >= 1) and progression-free survival in persistent, recurrent, or metastatic cervical cancer.",
+    "hazard_ratio": 0.67,
+    "evidence_level": "Category 1",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa2112435",
+    "interventions": {
+      "pembrolizumab_cervical": {
+        "description": "PD-1 blockade restores cytotoxic T-lymphocyte destruction of HPV E6/E7 viral oncoprotein expressing tumor cells.",
+        "relative_risk_reduction": 0.33
+      }
+    }
+  },
+  {
+    "id": "INTERLACE-LANCET-062",
+    "cancer_type": "Cervical",
+    "title": "INTERLACE Trial: Induction Chemotherapy Followed by Chemoradiation in Locally Advanced Cervical Cancer",
+    "source": "McCormack et al. / ESMO 2023 / Lancet 2024",
+    "summary": "6 weeks of pre-treatment induction chemotherapy with carboplatin and paclitaxel prior to standard chemoradiotherapy significantly improved 5-year progression-free survival (73% vs 64%, HR 0.65) and 5-year overall survival (80% vs 72%, HR 0.67).",
+    "hazard_ratio": 0.65,
+    "evidence_level": "Level 1A",
+    "url": "https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(24)00834-1/fulltext"
+  },
+  {
+    "id": "SOLO1-LANCET-063",
+    "cancer_type": "Ovarian",
+    "title": "SOLO-1 Trial 7-Year Follow-up: Maintenance Olaparib in Newly Diagnosed Advanced BRCA-Mutated Ovarian Cancer",
+    "source": "DiSilvestro et al. / J Clin Oncol 2023 / N Engl J Med 2018",
+    "summary": "Maintenance olaparib following first-line platinum chemotherapy in newly diagnosed stage III-IV BRCA-mutated advanced ovarian cancer resulted in median overall survival of not reached vs 75.2 months with placebo (HR 0.55), with 67% surviving at 7 years.",
+    "hazard_ratio": 0.55,
+    "evidence_level": "Category 1",
+    "url": "https://ascopubs.org/doi/10.1200/JCO.22.01549",
+    "interventions": {
+      "maintenance_olaparib_ovarian": {
+        "description": "Two years of adjuvant maintenance PARP inhibitor therapy produces long-term durable remissions and cure potential in BRCA+ ovarian carcinoma.",
+        "relative_risk_reduction": 0.45
+      }
+    }
+  },
+  {
+    "id": "PAOLA1-NEJM-064",
+    "cancer_type": "Ovarian",
+    "title": "PAOLA-1 / ENGOT-ov25: Olaparib plus Bevacizumab as First-Line Maintenance in Ovarian Cancer",
+    "source": "Ray-Coquard et al. / N Engl J Med 2019 / Ann Oncol 2023",
+    "summary": "Combining olaparib with bevacizumab maintenance improved 5-year overall survival to 65.5% vs 48.4% in homologous recombination deficiency (HRD)-positive tumors including those without BRCA mutations (HR 0.60).",
+    "hazard_ratio": 0.6,
+    "evidence_level": "Category 1",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa1911361"
+  },
+  {
+    "id": "RUBY-NEJM-065",
+    "cancer_type": "Endometrial",
+    "title": "RUBY Trial: Dostarlimab plus Chemotherapy in Advanced or Recurrent Endometrial Cancer",
+    "source": "Mirza et al. / N Engl J Med 2023",
+    "summary": "Adding anti-PD-1 dostarlimab to carboplatin-paclitaxel in dMMR / MSI-H primary advanced or recurrent endometrial cancer reduced disease progression or death hazard by 72% (HR 0.28) and significantly prolonged 24-month progression-free survival (61.4% vs 15.7%).",
+    "hazard_ratio": 0.28,
+    "evidence_level": "Category 1",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa2216334"
+  },
+  {
+    "id": "KEYNOTE775-NEJM-066",
+    "cancer_type": "Endometrial",
+    "title": "KEYNOTE-775: Lenvatinib plus Pembrolizumab in Previously Treated Advanced Endometrial Cancer",
+    "source": "Makker et al. / N Engl J Med 2022",
+    "summary": "The combination of multi-kinase inhibitor lenvatinib plus pembrolizumab significantly improved overall survival (18.3 vs 11.4 months, HR 0.62) and progression-free survival compared to chemotherapy in mismatch repair-proficient (pMMR) advanced endometrial cancer.",
+    "hazard_ratio": 0.62,
+    "evidence_level": "Category 1",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa2108330"
+  },
+  {
+    "id": "SGO-ASCO-GYN-GENETIC-067",
+    "cancer_type": "Ovarian",
+    "title": "SGO / ASCO Clinical Practice Guideline on Germline and Somatic Genetic Testing in Ovarian Cancer",
+    "source": "Konstantinopoulos et al. / J Clin Oncol 2020",
+    "summary": "All women with epithelial ovarian, fallopian tube, or primary peritoneal cancer should undergo germline multigene panel genetic testing (BRCA1, BRCA2, RAD51C, RAD51D, BRIP1, Lynch genes) and tumor testing for HRD irrespective of family history.",
+    "hazard_ratio": 1.0,
+    "evidence_level": "Grade A",
+    "url": "https://ascopubs.org/doi/10.1200/JCO.19.02960"
+  }
+]

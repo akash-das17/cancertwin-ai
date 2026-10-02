@@ -1,0 +1,23 @@
+# Secret environment variables (CRITICAL: Do not upload API keys)
+.env
+
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Environments
+.venv/
+env/
+venv/
+ENV/
+
+# IDE files & scratchpad
+.vscode/
+scratch/
+.idea/
+
+# OS artifacts
+.DS_Store
+Thumbs.db

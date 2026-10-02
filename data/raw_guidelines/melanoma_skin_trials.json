@@ -1,0 +1,84 @@
+[
+  {
+    "id": "CHECKMATE067-JCO-076",
+    "cancer_type": "Melanoma",
+    "title": "CheckMate 067: 7.5-Year Overall Survival with Nivolumab plus Ipilimumab in Advanced Melanoma",
+    "source": "Wolchok et al. / J Clin Oncol 2022 / N Engl J Med 2019",
+    "summary": "Dual checkpoint blockade with nivolumab and ipilimumab sustained a median overall survival of 72.1 months vs 19.9 months with ipilimumab alone (HR 0.52), achieving a landmark 7.5-year survival of 48% in advanced metastatic melanoma.",
+    "hazard_ratio": 0.52,
+    "evidence_level": "Level 1A",
+    "url": "https://ascopubs.org/doi/10.1200/JCO.21.02229",
+    "interventions": {
+      "dual_checkpoint_melanoma": {
+        "description": "Synergistic CTLA-4 and PD-1 pathway inhibition yields long-term durable immune control and treatment-free survival.",
+        "relative_risk_reduction": 0.48
+      }
+    }
+  },
+  {
+    "id": "COMBI-AD-NEJM-077",
+    "cancer_type": "Melanoma",
+    "title": "COMBI-AD Trial: Adjuvant Dabrafenib plus Trametinib in Resected Stage III BRAF-Mutated Melanoma",
+    "source": "Long et al. / N Engl J Med 2017 / J Clin Oncol 2020",
+    "summary": "12 months of adjuvant dabrafenib plus trametinib in resected stage III BRAF V600E/K melanoma sustained a 5-year relapse-free survival of 52% vs 36% with placebo (HR 0.51) and significantly lowered distant metastasis risk (HR 0.55).",
+    "hazard_ratio": 0.51,
+    "evidence_level": "Category 1",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa1708539"
+  },
+  {
+    "id": "KEYNOTE054-NEJM-078",
+    "cancer_type": "Melanoma",
+    "title": "KEYNOTE-054: Adjuvant Pembrolizumab in Resected High-Risk Stage III Cutaneous Melanoma",
+    "source": "Eggermont et al. / N Engl J Med 2018 / Lancet Oncol 2021",
+    "summary": "Adjuvant pembrolizumab for 1 year in patients with completely resected high-risk stage III melanoma yielded significantly longer recurrence-free survival (HR 0.57) and sustained distant metastasis-free survival across both BRAF-mutant and BRAF wild-type tumors.",
+    "hazard_ratio": 0.57,
+    "evidence_level": "Category 1",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa1802357"
+  },
+  {
+    "id": "CHECKMATE76K-NATMED-079",
+    "cancer_type": "Melanoma",
+    "title": "CheckMate 76K: Adjuvant Nivolumab in Completely Resected Stage IIB and IIC Melanoma",
+    "source": "Long et al. / Nature Medicine 2023",
+    "summary": "Adjuvant nivolumab reduced the risk of recurrence or death by 58% (HR 0.42) compared with placebo in patients with completely resected high-risk stage IIB and IIC cutaneous melanoma at 12 months.",
+    "hazard_ratio": 0.42,
+    "evidence_level": "Category 1",
+    "url": "https://www.nature.com/articles/s41591-023-02484-9"
+  },
+  {
+    "id": "ASCO-SSO-MELANOMA-080",
+    "cancer_type": "Melanoma",
+    "title": "ASCO / SSO Guideline on Sentinel Lymph Node Biopsy in Cutaneous Melanoma",
+    "source": "Wong et al. / J Clin Oncol 2018",
+    "summary": "Sentinel lymph node biopsy is recommended for intermediate-thickness melanomas (Breslow thickness 1.0 to 4.0 mm) and high-risk thin melanomas (Breslow 0.8 to 1.0 mm or ulcerated), providing crucial staging and adjuvant therapy eligibility.",
+    "hazard_ratio": 1.0,
+    "evidence_level": "Grade A",
+    "url": "https://ascopubs.org/doi/10.1200/JCO.2017.75.7724"
+  },
+  {
+    "id": "RELATIVITY047-NEJM-081",
+    "cancer_type": "Melanoma",
+    "title": "RELATIVITY-047: Relatlimab and Nivolumab versus Nivolumab in Untreated Advanced Melanoma",
+    "source": "Tawbi et al. / N Engl J Med 2022",
+    "summary": "Fixed-dose combination of LAG-3 inhibitor relatlimab plus nivolumab doubled median progression-free survival compared to nivolumab monotherapy (10.1 vs 4.6 months, HR 0.75) in previously untreated metastatic or unresectable melanoma.",
+    "hazard_ratio": 0.75,
+    "evidence_level": "Category 1",
+    "url": "https://www.nejm.org/doi/full/10.1056/NEJMoa2109970"
+  },
+  {
+    "id": "IARC-UV-MELANOMA-082",
+    "cancer_type": "Melanoma",
+    "title": "IARC Monograph 100D: Ultraviolet Radiation and Sun Protection in Melanoma Prevention",
+    "source": "World Health Organization / IARC 2012",
+    "summary": "Solar ultraviolet radiation (UVA and UVB) and indoor tanning bed usage are classified as Group 1 human carcinogens. Daily broad-spectrum SPF 30+ sunscreen and avoidance of severe blistering childhood sunburns reduces melanoma incidence by 50%.",
+    "hazard_ratio": 1.75,
+    "evidence_level": "Grade A",
+    "url": "https://www.iarc.who.int/news-events/iarc-indoor-tanning-classified-as-group-1-carcinogen/",
+    "interventions": {
+      "sun_protection_photoprotection": {
+        "description": "Daily broad-spectrum sunscreen application prevents UV-induced cyclobutane pyrimidine dimer DNA mutations.",
+        "relative_risk_reduction": 0.5
+      }
+    }
+  }
+]

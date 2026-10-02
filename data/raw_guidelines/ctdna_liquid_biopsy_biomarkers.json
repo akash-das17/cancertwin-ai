@@ -1,0 +1,82 @@
+[
+  {
+    "id": "TRACERX-NATURE-083",
+    "cancer_type": "Liquid Biopsy / ctDNA",
+    "title": "TRACERx Study: Tracking Non-Small-Cell Lung Cancer Evolution Through ctDNA Liquid Biopsy",
+    "source": "Abbosh et al. / Nature 2023",
+    "summary": "Longitudinal personalized ctDNA profiling detected post-surgical minimal residual disease and relapse with a median lead time of 158 days before standard clinical or radiological imaging recurrence in early-stage NSCLC.",
+    "hazard_ratio": 11.2,
+    "evidence_level": "Level 1A",
+    "url": "https://www.nature.com/articles/s41586-023-05776-4"
+  },
+  {
+    "id": "BESPOKE-CRC-JCO-084",
+    "cancer_type": "Liquid Biopsy / ctDNA",
+    "title": "BESPOKE CRC Study: Clinical Utility of Circulating Tumor DNA in Stage II/III Colorectal Cancer",
+    "source": "Paschke et al. / J Clin Oncol 2024 / ASCO GI 2024",
+    "summary": "Patients with post-operative ctDNA-positive status who received adjuvant chemotherapy had significantly prolonged disease-free survival compared to untreated ctDNA-positive patients (HR 0.38), whereas ctDNA-negative patients had excellent 2-year DFS (>90%) without chemotherapy.",
+    "hazard_ratio": 0.38,
+    "evidence_level": "Level 1B",
+    "url": "https://ascopubs.org/doi/10.1200/JCO.2024.42.3_suppl.9"
+  },
+  {
+    "id": "IMVIGOR010-NATURE-085",
+    "cancer_type": "Liquid Biopsy / ctDNA",
+    "title": "IMvigor010 ctDNA Analysis: Atezolizumab in Muscle-Invasive Urothelial Carcinoma",
+    "source": "Powles et al. / Nature 2021",
+    "summary": "In patients with resected muscle-invasive bladder cancer, ctDNA-positive patients derived profound overall survival benefit from adjuvant atezolizumab compared to observation (HR 0.59), whereas ctDNA-negative patients experienced no benefit.",
+    "hazard_ratio": 0.59,
+    "evidence_level": "Level 1B",
+    "url": "https://www.nature.com/articles/s41586-021-03642-9"
+  },
+  {
+    "id": "BRST-CTDNA-LEADTIME-086",
+    "cancer_type": "Liquid Biopsy / ctDNA",
+    "title": "Detection of Circulating Tumor DNA for Early Breast Cancer Molecular Relapse Lead Time",
+    "source": "Garcia-Murillas et al. / JAMA Oncol 2019",
+    "summary": "Serial post-operative plasma ctDNA surveillance in early breast cancer detected molecular recurrence with a median lead time of 10.7 months prior to clinical anatomical recurrence, demonstrating 99% specificity for impending metastatic relapse.",
+    "hazard_ratio": 25.2,
+    "evidence_level": "Level 1B",
+    "url": "https://jamanetwork.com/journals/jamaoncology/fullarticle/2747372"
+  },
+  {
+    "id": "ASCO-CAP-CTDNA-REVIEW-087",
+    "cancer_type": "Liquid Biopsy / ctDNA",
+    "title": "ASCO / CAP Joint Review on Circulating Tumor DNA and Liquid Biopsy in Clinical Oncology",
+    "source": "Merker et al. / J Clin Oncol 2018",
+    "summary": "Reviews the clinical validity of cell-free DNA assays for somatic mutation detection, therapy selection in EGFR/KRAS/BRAF-altered solid tumors, and defines standards for analytical sensitivity and variant allele frequency (VAF) interpretation.",
+    "hazard_ratio": 1.0,
+    "evidence_level": "Grade A",
+    "url": "https://ascopubs.org/doi/10.1200/JCO.2017.76.8671"
+  },
+  {
+    "id": "CTDNA-KINETICS-IO-088",
+    "cancer_type": "Liquid Biopsy / ctDNA",
+    "title": "Early ctDNA Dynamics Predict Sustained Response and Progression-Free Survival with Immunotherapy",
+    "source": "Bratman et al. / Nature Cancer 2020",
+    "summary": "Rapid ctDNA clearance by week 6 to 9 of immune checkpoint blockade strongly correlates with radiographic durable response and superior progression-free survival (HR 0.17) across multiple solid tumor histologies.",
+    "hazard_ratio": 0.17,
+    "evidence_level": "Level 1B",
+    "url": "https://www.nature.com/articles/s43018-020-0096-5"
+  },
+  {
+    "id": "SIGNATERA-VALIDATION-089",
+    "cancer_type": "Liquid Biopsy / ctDNA",
+    "title": "Validation of Tumor-Informed Personalized PCR-NGS Assay for Minimal Residual Disease Monitoring",
+    "source": "Reinert et al. / JAMA Oncol 2019",
+    "summary": "Tumor-informed multiplex PCR next-generation sequencing targeting 16 patient-specific somatic single-nucleotide variants achieves analytical sensitivity detecting mutant alleles down to 0.01% VAF with >99% specificity.",
+    "hazard_ratio": 8.5,
+    "evidence_level": "Category 1",
+    "url": "https://jamanetwork.com/journals/jamaoncology/fullarticle/2732890"
+  },
+  {
+    "id": "MRD-CONSENSUS-ESMO-090",
+    "cancer_type": "Liquid Biopsy / ctDNA",
+    "title": "ESMO Clinical Recommendations on the Use of Circulating Tumour DNA in Solid Tumours",
+    "source": "Pascual et al. / Ann Oncol 2022",
+    "summary": "European Society for Medical Oncology recommendations endorse routine plasma ctDNA genotyping when tissue is scarce and define criteria for incorporating MRD detection into prospective risk-adaptive clinical trial designs.",
+    "hazard_ratio": 1.0,
+    "evidence_level": "Level 1A",
+    "url": "https://www.annalsofoncology.org/article/S0923-7534(22)01723-5/fulltext"
+  }
+]

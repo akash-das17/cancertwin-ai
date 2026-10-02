@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CancerTwin AI 2.0 — Agentic Clinical Digital Twin Platform</title>
+  <meta name="description" content="Personalized oncology digital twin: 5-cancer risk modeling, 3-agent virtual tumor board, metastasis tracker, and 30-year high-definition What-If simulation.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css?v=3.2">
+</head>
+<body>
+  <div class="background-glows">
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+    <div class="glow glow-3"></div>
+  </div>
+
+  <!-- Main Header -->
+  <header class="app-header">
+    <div class="header-left">
+      <div class="logo-symbol">
+        <img src="/static/logo.png" alt="CancerTwin AI Ribbon Logo" class="brand-logo-img">
+      </div>
+      <div>
+        <h1 class="brand-title">CancerTwin AI</h1>
+        <p class="brand-subtitle">A virtual Twin Cancer Simulation Tracker</p>
+      </div>
+    </div>
+
+    <!-- Center Navigation Tabs for Seamless In-Page SPA (No Reloads, No External Tabs) -->
+    <nav class="spa-nav" id="spaNav">
+      <button type="button" class="nav-tab active" data-view="viewPrevention" id="tabPrevention">
+        Prevention & Risk Agent
+      </button>
+      <button type="button" class="nav-tab" data-view="viewTumorBoard" id="tabTumorBoard">
+        Relapse & Tumor Board Agent
+      </button>
+      <button type="button" class="nav-tab" data-view="viewMetastasis" id="tabMetastasis">
+        Metastasis Tracker Agent
+      </button>
+      <button type="button" class="nav-tab" data-view="viewSimulation" id="tabSimulation">
+        Prevention What-If Simulation
+      </button>
+      <button type="button" class="nav-tab" data-view="viewTherapeuticSim" id="tabTherapeuticSim" style="display: none !important;">
+        Therapeutic & Toxicity Simulator
+      </button>
+    </nav>
+
+    <div class="header-right">
+    </div>
+  </header>
+
+  <!-- Digital Twin Active Parameters Ribbon / Carousel (Full Data Input Display) -->
+  <div class="twin-parameters-bar" id="twinParametersBar">
+    <div class="params-bar-header">
+      <span class="params-bar-icon" id="twinParamsIcon">🧬</span>
+      <div class="params-bar-meta">
+        <span class="params-bar-title" id="twinParamsTitle">Active Digital Twin Profile</span>
+        <span class="params-count-badge" id="twinParamsCountBadge">18 Parameters Loaded</span>
+      </div>
+    </div>
+    <div class="carousel-nav-wrap">
+      <button type="button" class="carousel-arrow-btn" id="btnScrollTwinLeft" aria-label="Scroll Parameters Left" title="Scroll Left">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+      <div class="twin-params-track" id="twinParamsTrack">
+        <!-- Rendered dynamically by renderTwinParametersBar() with all digital twin input values -->
+      </div>
+      <button type="button" class="carousel-arrow-btn" id="btnScrollTwinRight" aria-label="Scroll Parameters Right" title="Scroll Right">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <main class="spa-container">
+
+    <!-- ========================================== -->
+    <!-- VIEW 1: PRIMARY PREVENTION & 5-CANCER RISK -->
+    <!-- ========================================== -->
+    <section class="spa-view active-view" id="viewPrevention">
+      <div class="view-grid">
+        <!-- LEFT: Patient Demographics, Diet, Environment, Genetics -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title-wrap">
+              <svg class="panel-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <h2>Digital Twin Baseline Profiler</h2>
+            </div>
+            <span class="badge badge-accent" id="twinIdBadge">TWIN-READY</span>
+          </div>
+
+          <div class="twin-avatar-card">
+            <!-- Modern SVG Circular Gauge for Health Score (Generous Clearance, Full Hover Visibility) -->
+            <div class="modern-gauge-card" id="avatarGaugeWrap">
+              <div class="svg-gauge-wrap">
+                <svg class="circular-chart" viewBox="0 0 120 120" width="124" height="124">
+                  <circle class="circle-bg" cx="60" cy="60" r="48" stroke-width="7" />
+                  <circle class="circle-bar" id="avatarGaugeCircle" cx="60" cy="60" r="48" stroke-width="7" 
+                    stroke="var(--accent-emerald)"
+                    stroke-dasharray="301.59" 
+                    stroke-dashoffset="45.24" 
+                    stroke-linecap="round" />
+                </svg>
+                <div class="gauge-center-content">
+                  <span class="gauge-percentage" id="overallHealthScore" style="color:var(--accent-emerald);">85</span>
+                  <div class="gauge-sublabel" title="Digital Twin Health Index: Deterministic baseline score (0-100)">
+                    <span class="sublabel-default">Health Index</span>
+                    <span class="sublabel-full">Baseline Health Index</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="avatar-details">
+              <h3 id="patientDisplayTitle">Patient: PT-DEMO-001</h3>
+              <p id="patientSummaryMeta">52yo Female &bull; Non-smoker &bull; BMI 24.5 &bull; PM2.5: 18 μg/m³</p>
+              <div class="vulnerability-tags" id="vulnerabilityTags">
+                <span class="tag tag-normal">5-Cancer Screening Engine</span>
+              </div>
+            </div>
+          </div>
+
+          <form id="profileForm" class="profile-form">
+            <!-- Demographics & Ancestry -->
+            <div class="form-section-title">Demographics & Genetic Ancestry</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="inputAge">Age (Years)</label>
+                <input type="number" id="inputAge" min="18" max="95" value="52">
+              </div>
+              <div class="form-group">
+                <label for="inputSex">Biological Sex</label>
+                <select id="inputSex">
+                  <option value="female" selected>Female</option>
+                  <option value="male">Male</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="selectAncestry">Geographic / Genetic Ancestry</label>
+                <select id="selectAncestry">
+                  <option value="general" selected>General Population</option>
+                  <option value="ashkenazi_jewish">Ashkenazi Jewish (1 in 40 BRCA founder)</option>
+                  <option value="african">African Ancestry (1.75x Prostate Hazard)</option>
+                  <option value="east_asian">East Asian (EGFR Adenocarcinoma Predisposition)</option>
+                  <option value="caucasian">Caucasian</option>
+                  <option value="hispanic">Hispanic / Latino</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Germline Gene Mutations</label>
+                <div class="inline-checkboxes">
+                  <label class="custom-checkbox">
+                    <input type="checkbox" id="checkBrca"> BRCA1/2
+                  </label>
+                  <label class="custom-checkbox">
+                    <input type="checkbox" id="checkLynch"> Lynch (HNPCC)
+                  </label>
+                  <label class="custom-checkbox">
+                    <input type="checkbox" id="checkEgfr"> EGFR/KRAS
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group" style="grid-column: 1 / -1;">
+                <label for="inputOtherGenomics">
+                  🧬 Additional Somatic / Genomic Alterations 
+                  <span class="badge" style="font-size:0.7rem; padding: 2px 6px; margin-left: 6px; background: rgba(59,130,246,0.15); color: #60a5fa; border: 1px solid rgba(59,130,246,0.3);">Live PubMed + Precision Catalog</span>
+                </label>
+                <input type="text" id="inputOtherGenomics" placeholder="e.g. NTRK1 fusion, BRAF V600E, RET fusion, KRAS G12C, HER2 exon 20" title="Enter any novel or rare oncogenic alteration to trigger real-time PubMed retrieval">
+                <small style="color: var(--text-muted); font-size: 0.76rem; display: block; margin-top: 4px;">
+                  Queries live NCBI PubMed E-Utilities if mutation has low confidence or is absent from local guidelines.
+                </small>
+              </div>
+            </div>
+
+            <!-- Lifestyle & Food Habits -->
+            <div class="form-section-title">Food Habit & Lifestyle Factors</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="selectSmoking">Smoking History</label>
+                <select id="selectSmoking">
+                  <option value="never" selected>Never Smoked</option>
+                  <option value="current">Current Smoker</option>
+                  <option value="former">Former Smoker</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="inputPackYears">Pack-Years Smoked</label>
+                <input type="number" id="inputPackYears" min="0" max="100" step="0.5" value="0">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="inputBmi">BMI (kg/m²)</label>
+                <input type="number" id="inputBmi" min="15" max="55" step="0.1" value="24.5">
+              </div>
+              <div class="form-group">
+                <label for="inputAlcohol">Alcohol (Drinks/Week)</label>
+                <input type="number" id="inputAlcohol" min="0" max="50" step="1" value="2">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="inputFiber">Dietary Fiber (g/day)</label>
+                <input type="number" id="inputFiber" min="5" max="60" value="18">
+              </div>
+              <div class="form-group">
+                <label for="inputUpf">Ultra-Processed Food (% Calories)</label>
+                <input type="number" id="inputUpf" min="0" max="100" value="25">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="inputMedDiet">Mediterranean Diet Score (0-10)</label>
+                <input type="number" id="inputMedDiet" min="0" max="10" value="6">
+              </div>
+              <div class="form-group">
+                <label for="inputExercise">Aerobic Exercise (Hours/Week)</label>
+                <input type="number" id="inputExercise" min="0" max="25" step="0.5" value="2.5">
+              </div>
+            </div>
+
+            <!-- Environmental & Geographical Pollution -->
+            <div class="form-section-title">Geographical Location & Pollution Data</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="inputPm25">Regional PM2.5 Air Pollution (μg/m³)</label>
+                <input type="number" id="inputPm25" min="2" max="200" step="1" value="18" placeholder="e.g. Rural=10, Urban=35, Industrial=75">
+              </div>
+              <div class="form-group">
+                <label for="selectRadon">Residential Radon Zone</label>
+                <select id="selectRadon">
+                  <option value="low" selected>Low Zone (<2 pCi/L)</option>
+                  <option value="moderate">Moderate Zone (2-4 pCi/L)</option>
+                  <option value="high">High Zone (>4 pCi/L Action Level)</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="custom-checkbox">
+                <input type="checkbox" id="checkOccupational">
+                Occupational Carcinogen Exposure (Asbestos, Silica, Diesel Exhaust, Solvents)
+              </label>
+            </div>
+
+            <!-- Vaccines & Screening Adherence -->
+            <div class="form-section-title">Vaccine & Routine Cancer Screenings</div>
+            <div class="form-row" id="rowScreeningCervical">
+              <div class="form-group">
+                <label class="custom-checkbox">
+                  <input type="checkbox" id="checkHpvVaccine">
+                  HPV Vaccinated (Gardasil 9 / Cervarix)
+                </label>
+              </div>
+              <div class="form-group">
+                <label for="inputLastPap">Years Since Last Pap / hrHPV Co-test</label>
+                <input type="number" id="inputLastPap" min="0" max="20" step="0.5" value="2.0">
+              </div>
+            </div>
+            <div class="form-row" id="rowScreeningProstate">
+              <div class="form-group">
+                <label for="inputLastPsa">Years Since Last PSA Test (Men)</label>
+                <input type="number" id="inputLastPsa" min="0" max="20" step="0.5" value="1.0">
+              </div>
+              <div class="form-group">
+                <label for="inputBaselinePsa">Serum PSA Level (ng/mL)</label>
+                <input type="number" id="inputBaselinePsa" min="0" max="100" step="0.1" value="1.1">
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" id="btnUpdateTwinAndRecs" class="btn btn-primary" style="width: 100%; justify-content: center;">
+                Update Digital Twin & Generate Baseline recommendations
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- RIGHT: Immediate Pre-Simulation Guideline Recommendations -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title-wrap">
+              <svg class="panel-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <h2>Personalized Clinical Recommendations</h2>
+            </div>
+          </div>
+
+          <div class="rec-intro-box">
+            <p><strong>Guideline-Directed Risk Attenuation:</strong> Evidence-based interventions synthesized directly from your clinical parameters before running counterfactual simulations. Adhere to these protocols to minimize oncologic hazards.</p>
+          </div>
+
+          <div class="recommendations-container" id="recommendationsContainer">
+            <div class="empty-state">Enter profile details or select a preset and click "Generate Baseline Guidance" to see tailored recommendations across Screenings, Dietary changes, and Environmental mitigations.</div>
+          </div>
+
+          <div class="nav-next-step-box">
+            <div class="next-step-content">
+              <h4>Ready to Simulate Counterfactual Outcomes?</h4>
+              <p>Explore how smoking cessation, dietary shifts, HEPA filtration, and strict screening adherence diverge risk curves over 5 to 30 years.</p>
+            </div>
+            <button type="button" class="btn btn-primary" id="btnProceedToSimulation">
+              Proceed to What-If Simulation &rarr;
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================= -->
+    <!-- VIEW 2: PRIOR CANCER RELAPSE & 3-AGENT VIRTUAL TUMOR BOARD -->
+    <!-- ======================================================= -->
+    <section class="spa-view" id="viewTumorBoard">
+      <div class="view-grid">
+        <!-- LEFT: Prior Cancer Diagnosis & History Inputs -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title-wrap">
+              <svg class="panel-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              <h2>Prior Cancer Diagnosis & Oncology Profile</h2>
+            </div>
+            <span class="badge" id="priorCancerBadge">SURVIVOR STATUS</span>
+          </div>
+
+          <form id="priorCancerForm" class="profile-form">
+            <div class="control-box">
+              <div class="control-header">
+                <label for="togglePriorCancer" class="control-label">Patient Has Prior Confirmed Cancer Diagnosis</label>
+                <input type="checkbox" id="togglePriorCancer" class="toggle-switch" checked>
+              </div>
+              <p class="control-desc">Activates clinical staging, treatment procedure analysis, biomarkers, and the 3-Agent Virtual Tumor Board debate.</p>
+            </div>
+
+            <div id="priorCancerDetailsFields">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="selectPrimaryCancer">Primary Cancer Type</label>
+                  <select id="selectPrimaryCancer">
+                    <option value="Colorectal" selected>Colorectal Adenocarcinoma</option>
+                    <option value="Breast">Invasive Breast Carcinoma</option>
+                    <option value="Lung">Non-Small Cell Lung Carcinoma (NSCLC)</option>
+                    <option value="Prostate">Prostate Adenocarcinoma</option>
+                    <option value="Cervical">Cervical Squamous Cell Carcinoma</option>
+                    <option value="Melanoma">Cutaneous Malignant Melanoma</option>
+                    <option value="Other">Other Primary Neoplasm</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="selectStage">TNM Stage at Diagnosis</label>
+                  <select id="selectStage">
+                    <option value="Stage I">Stage I (Localized, Node-Negative)</option>
+                    <option value="Stage II">Stage II (Locally Advanced, T3-T4 N0)</option>
+                    <option value="Stage III" selected>Stage III (Regional Nodal Metastasis N+)</option>
+                    <option value="Stage IV">Stage IV (Oligometastatic / Distant)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="inputYearsSinceDiag">Years Since Initial Diagnosis</label>
+                  <input type="number" id="inputYearsSinceDiag" min="0" max="30" step="0.5" value="3.0">
+                </div>
+                <div class="form-group">
+                  <label for="inputYearsRemission">Years in Disease-Free Remission</label>
+                  <input type="number" id="inputYearsRemission" min="0" max="30" step="0.5" value="2.0">
+                </div>
+              </div>
+
+              <div class="form-section-title">Therapeutic Procedures Performed</div>
+              <div class="checkbox-group">
+                <label class="custom-checkbox">
+                  <input type="checkbox" id="checkChemo" checked>
+                  Chemotherapy Received (Adjuvant / Neoadjuvant)
+                </label>
+                <div class="sub-input-row" id="chemoDetailsWrap">
+                  <input type="text" id="inputChemoDetails" placeholder="Regimen (e.g. FOLFOX 12 cycles, AC-T, Cisplatin)" value="FOLFOX 12 cycles completed">
+                </div>
+
+                <label class="custom-checkbox">
+                  <input type="checkbox" id="checkSurgery" checked>
+                  Primary Surgical Resection Performed
+                </label>
+                <div class="form-row" id="surgeryMarginWrap">
+                  <div class="form-group">
+                    <label for="selectSurgicalMargin">Resection Margin Status</label>
+                    <select id="selectSurgicalMargin">
+                      <option value="R0">R0 — Microscopically Negative (>1mm clearance)</option>
+                      <option value="R1" selected>R1 — Microscopically Positive (Residual tumor)</option>
+                      <option value="R2">R2 — Gross / Macroscopic Residual Disease</option>
+                    </select>
+                  </div>
+                </div>
+
+                <label class="custom-checkbox">
+                  <input type="checkbox" id="checkRadiation">
+                  Radiation Therapy Received
+                </label>
+                <div class="sub-input-row" id="radSiteWrap">
+                  <input type="text" id="inputRadSite" placeholder="Irradiated Field (e.g. Pelvis, Thorax, Breast Bed)">
+                </div>
+
+                <label class="custom-checkbox">
+                  <input type="checkbox" id="checkImmunotherapy">
+                  T-Cell / CAR-T / Immune Checkpoint Therapy (PD-1/PD-L1)
+                </label>
+              </div>
+
+              <div class="form-section-title">Antigens & Tumor Biomarkers</div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="inputSurvPsa">Serum PSA (ng/mL)</label>
+                  <input type="number" id="inputSurvPsa" min="0" max="100" step="0.01" placeholder="Normal < 4.0">
+                </div>
+                <div class="form-group">
+                  <label for="inputSurvCea">Serum CEA (ng/mL)</label>
+                  <input type="number" id="inputSurvCea" min="0" max="100" step="0.1" value="6.8" placeholder="Normal < 3.0">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="inputSurvCa125">Serum CA-125 (U/mL)</label>
+                  <input type="number" id="inputSurvCa125" min="0" max="500" step="0.5" placeholder="Normal < 35">
+                </div>
+                <div class="form-group">
+                  <label for="selectCtdna">ctDNA Minimal Residual Disease</label>
+                  <select id="selectCtdna">
+                    <option value="positive" selected>Positive (Persistent MRD Detected)</option>
+                    <option value="negative">Negative (Undetected ctDNA)</option>
+                    <option value="unknown">Unknown / Not Tested</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group" style="grid-column: 1 / -1;">
+                  <label for="inputTbGenomics">
+                    🧬 Somatic / Actionable Genomic Alterations 
+                    <span class="badge" style="font-size:0.7rem; padding: 2px 6px; margin-left: 6px; background: rgba(59,130,246,0.15); color: #60a5fa; border: 1px solid rgba(59,130,246,0.3);">Live PubMed + Precision Catalog</span>
+                  </label>
+                  <input type="text" id="inputTbGenomics" placeholder="e.g. BRAF V600E, KRAS G12C, RET fusion, NTRK1 fusion, HER2 exon 20" title="Enter any novel or rare oncogenic alteration to trigger real-time PubMed retrieval during deliberation">
+                  <small style="color: var(--text-muted); font-size: 0.76rem; display: block; margin-top: 4px;">
+                    Triggers live PubMed search if variant has low confidence or is absent from local relapse guidelines.
+                  </small>
+                </div>
+              </div>
+
+              <div class="form-section-title">Current Medications (Manual Input)</div>
+              <div class="form-group">
+                <label for="inputCurrentMeds">Medications Currently Being Taken</label>
+                <input type="text" id="inputCurrentMeds" value="Capecitabine 1000mg BID, Low-dose Aspirin 81mg" placeholder="e.g. Tamoxifen 20mg daily, Metformin 500mg, Atorvastatin">
+              </div>
+
+              <div class="form-group">
+                <label class="custom-checkbox">
+                  <input type="checkbox" id="checkSurveillanceAdherent" checked>
+                  Compliant with Recommended Surveillance Scans & Bloodwork Intervals
+                </label>
+              </div>
+            </div>
+
+            <button type="button" id="btnRunTumorBoard" class="btn btn-primary pulse-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              Convene 3-Agent Virtual Tumor Board Debate
+            </button>
+          </form>
+        </div>
+
+        <!-- RIGHT: 3-Agent Debate Arena & Supervisor Consensus Card -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title-wrap">
+              <svg class="panel-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+              <h2>Virtual Tumor Board Deliberation Arena</h2>
+            </div>
+            <span class="badge badge-accent" id="tumorBoardStatusBadge">3 Specialists Ready</span>
+          </div>
+
+          <div class="tumor-board-arena" id="tumorBoardArena">
+            <div class="empty-state">
+              Click <strong>"Convene 3-Agent Virtual Tumor Board Debate"</strong> to initiate multidisciplinary deliberation among the Medical Oncologist, Surgical Oncologist, and Radiation/Surveillance Oncologist, adjudicated by the Tumor Board Supervisor.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================= -->
+    <!-- VIEW 3: METASTASIS VS SECOND PRIMARY CANCER TRACKER     -->
+    <!-- ======================================================= -->
+    <section class="spa-view" id="viewMetastasis">
+      <div class="view-grid">
+        <!-- LEFT: Cancer Travel Query Inputs -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title-wrap">
+              <svg class="panel-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+              <h2>Cancer Travel & Clonal Origin Query</h2>
+            </div>
+            <span class="badge badge-accent">Seed-and-Soil Model</span>
+          </div>
+
+          <div class="rec-intro-box">
+            <p><strong>Clinical Diagnostic Question:</strong> When a patient with a cured primary cancer develops a new neoplastic lesion in another organ, is it a traveling metastatic recurrence or an independent de novo second primary?</p>
+          </div>
+
+          <form id="metastasisForm" class="profile-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="selectMetPrimary">Prior Cured Primary Cancer</label>
+                <select id="selectMetPrimary">
+                  <option value="Colorectal" selected>Colorectal Adenocarcinoma</option>
+                  <option value="Breast">Invasive Breast Carcinoma</option>
+                  <option value="Lung">Non-Small Cell Lung Cancer</option>
+                  <option value="Prostate">Prostate Adenocarcinoma</option>
+                  <option value="Cervical">Cervical Carcinoma</option>
+                  <option value="Melanoma">Malignant Melanoma</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="selectMetPriorStage">Prior Primary Stage</label>
+                <select id="selectMetPriorStage">
+                  <option value="Stage I">Stage I</option>
+                  <option value="Stage II">Stage II</option>
+                  <option value="Stage III" selected>Stage III</option>
+                  <option value="Stage IV">Stage IV</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="selectNewLesionSite">Newly Detected Lesion Anatomical Site</label>
+                <select id="selectNewLesionSite">
+                  <option value="Liver" selected>Liver (Hepatic Parenchyma)</option>
+                  <option value="Lungs">Lungs (Pulmonary Nodules)</option>
+                  <option value="Bone">Bone (Axial / Appendicular Skeleton)</option>
+                  <option value="Brain">Brain (Cerebral Cortex / Cerebellum)</option>
+                  <option value="Peritoneum">Peritoneum / Omentum</option>
+                  <option value="Pelvic Nodes">Pelvic / Retroperitoneal Lymph Nodes</option>
+                  <option value="Adrenals">Adrenal Glands</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="inputDfiYears">Disease-Free Latency Interval (Years)</label>
+                <input type="number" id="inputDfiYears" min="0.1" max="25" step="0.5" value="1.5">
+              </div>
+            </div>
+
+            <div class="form-section-title">Molecular Concordance & Treatment Field History</div>
+            <div class="form-group">
+              <label for="inputPriorRadField">Prior Radiotherapy Field (if any)</label>
+              <input type="text" id="inputPriorRadField" placeholder="e.g. Left Chest Wall, Pelvis, None" value="">
+            </div>
+
+            <div class="checkbox-group">
+              <label class="custom-checkbox">
+                <input type="checkbox" id="checkMetElevatedMarker" checked>
+                Elevated Primary Tumor Marker (e.g. Elevated CEA, PSA, or CA-125)
+              </label>
+              <label class="custom-checkbox">
+                <input type="checkbox" id="checkMetCtdna" checked>
+                Circulating Tumor DNA (ctDNA) Detectable in Plasma
+              </label>
+            </div>
+
+            <button type="button" id="btnAnalyzeMetastasis" class="btn btn-primary pulse-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              Analyze Cancer Travel & Clonal Origin Probability
+            </button>
+          </form>
+        </div>
+
+        <!-- RIGHT: Organotropism Pathway Diagram & Diagnostic Recommendations -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title-wrap">
+              <svg class="panel-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+              <h2>Cancer Travel Pathway & Diagnostic Analysis</h2>
+            </div>
+            <span class="badge badge-accent" id="metProbSplitBadge">Probability Split</span>
+          </div>
+
+          <div class="metastasis-result-box" id="metastasisResultBox">
+            <div class="empty-state">
+              Submit a travel query to visualize the biological seed-and-soil organotropism affinity score, vascular dissemination routes, and recommended molecular confirmation workup.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================= -->
+    <!-- VIEW 4: 30-YEAR WHAT-IF SIMULATION & RESULTS            -->
+    <!-- ======================================================= -->
+    <section class="spa-view" id="viewSimulation">
+      <div class="sim-dashboard-grid">
+        <!-- TOP: Extended 30-Year Intervention Controls -->
+        <div class="panel sim-controls-panel">
+          <div class="panel-header">
+            <div class="panel-title-wrap">
+              <svg class="panel-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path></svg>
+              <h2>Counterfactual What-If Simulation Controls (Up to 30 Years)</h2>
+            </div>
+            <span class="badge badge-accent">Multi-Cancer Trajectory Engine</span>
+          </div>
+
+          <div class="sim-controls-horizontal">
+            <!-- Col 1: Lifestyle Levers -->
+            <div class="control-column">
+              <div class="control-box">
+                <div class="control-header">
+                  <label for="toggleSmokingCessation" class="control-label">Smoking Cessation</label>
+                  <input type="checkbox" id="toggleSmokingCessation" class="toggle-switch">
+                </div>
+                <p class="control-desc">Continuous tobacco abstinence modeled with exponential lung risk decay.</p>
+              </div>
+
+              <div class="control-box">
+                <div class="slider-header">
+                  <label for="sliderTargetBmi">Target Body Mass Index (BMI)</label>
+                  <span class="slider-val" id="valTargetBmi">22.5</span>
+                </div>
+                <input type="range" id="sliderTargetBmi" min="19" max="35" step="0.5" value="22.5">
+              </div>
+
+              <div class="control-box">
+                <div class="slider-header">
+                  <label for="sliderExercise">Target Aerobic Exercise</label>
+                  <span class="slider-val" id="valExercise">3.5 hrs</span>
+                </div>
+                <input type="range" id="sliderExercise" min="0" max="10" step="0.5" value="3.5">
+              </div>
+            </div>
+
+            <!-- Col 2: Food Habit & Environmental Levers -->
+            <div class="control-column">
+              <div class="control-box">
+                <div class="slider-header">
+                  <label for="sliderTargetFiber">Target Dietary Fiber</label>
+                  <span class="slider-val" id="valTargetFiber">32 g/day</span>
+                </div>
+                <input type="range" id="sliderTargetFiber" min="15" max="50" step="1" value="32">
+              </div>
+
+              <div class="control-box">
+                <div class="slider-header">
+                  <label for="sliderTargetUpf">Max Ultra-Processed Food %</label>
+                  <span class="slider-val" id="valTargetUpf">15%</span>
+                </div>
+                <input type="range" id="sliderTargetUpf" min="5" max="50" step="5" value="15">
+              </div>
+
+              <div class="control-box">
+                <div class="control-header">
+                  <label for="toggleHepa" class="control-label">Indoor HEPA PM2.5 Filtration</label>
+                  <input type="checkbox" id="toggleHepa" class="toggle-switch" checked>
+                </div>
+                <p class="control-desc">Reduces ambient inhalable microparticulate exposure by 50%.</p>
+              </div>
+            </div>
+
+            <!-- Col 3: Screenings, Vaccines & 30-Year Horizon -->
+            <div class="control-column">
+              <div class="control-box">
+                <div class="control-header">
+                  <label for="toggleScreeningAdherence" class="control-label">Adhere to USPSTF Screenings</label>
+                  <input type="checkbox" id="toggleScreeningAdherence" class="toggle-switch" checked>
+                </div>
+                <p class="control-desc">LDCT for Lung, Colonoscopy, Mammography, Pap/hrHPV, PSA.</p>
+              </div>
+
+              <div class="control-box" id="boxHpvCatchup">
+                <div class="control-header">
+                  <label for="toggleHpvCatchup" class="control-label">HPV Catch-Up Vaccination</label>
+                  <input type="checkbox" id="toggleHpvCatchup" class="toggle-switch">
+                </div>
+                <p class="control-desc">9-valent HPV vaccine protection for cervical risk mitigation.</p>
+              </div>
+
+              <div class="control-box highlight-box">
+                <div class="slider-header">
+                  <label for="sliderTimeHorizon"><strong>Simulation Horizon: 5 to 30 Years</strong></label>
+                  <span class="slider-val highlight-val" id="valTimeHorizon">15 Years</span>
+                </div>
+                <input type="range" id="sliderTimeHorizon" min="5" max="30" step="5" value="15">
+              </div>
+            </div>
+          </div>
+
+          <button type="button" id="btnRunSimulation" class="btn btn-primary pulse-btn btn-full">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+            Execute Agentic What-If Simulation
+          </button>
+        </div>
+
+        <!-- 5-Cancer Risk Grid -->
+        <div class="risk-cards-grid-5">
+          <!-- Lung -->
+          <div class="risk-card" id="cardLung">
+            <div class="risk-card-head">
+              <span class="cancer-label">Lung Cancer</span>
+              <span class="risk-pill" id="pillLung">--</span>
+            </div>
+            <div class="risk-stat-group">
+              <div class="stat-col"><span class="stat-caption">Baseline</span><span class="stat-value" id="baseRiskLung">--%</span></div>
+              <div class="stat-arrow">&rarr;</div>
+              <div class="stat-col"><span class="stat-caption">Simulated</span><span class="stat-value highlight-green" id="simRiskLung">--%</span></div>
+            </div>
+            <div class="reduction-badge" id="reductionLung">--</div>
+          </div>
+
+          <!-- Colorectal -->
+          <div class="risk-card" id="cardColorectal">
+            <div class="risk-card-head">
+              <span class="cancer-label">Colorectal</span>
+              <span class="risk-pill" id="pillColorectal">--</span>
+            </div>
+            <div class="risk-stat-group">
+              <div class="stat-col"><span class="stat-caption">Baseline</span><span class="stat-value" id="baseRiskColorectal">--%</span></div>
+              <div class="stat-arrow">&rarr;</div>
+              <div class="stat-col"><span class="stat-caption">Simulated</span><span class="stat-value highlight-green" id="simRiskColorectal">--%</span></div>
+            </div>
+            <div class="reduction-badge" id="reductionColorectal">--</div>
+          </div>
+
+          <!-- Breast -->
+          <div class="risk-card" id="cardBreast">
+            <div class="risk-card-head">
+              <span class="cancer-label">Breast</span>
+              <span class="risk-pill" id="pillBreast">--</span>
+            </div>
+            <div class="risk-stat-group">
+              <div class="stat-col"><span class="stat-caption">Baseline</span><span class="stat-value" id="baseRiskBreast">--%</span></div>
+              <div class="stat-arrow">&rarr;</div>
+              <div class="stat-col"><span class="stat-caption">Simulated</span><span class="stat-value highlight-green" id="simRiskBreast">--%</span></div>
+            </div>
+            <div class="reduction-badge" id="reductionBreast">--</div>
+          </div>
+
+          <!-- Cervical -->
+          <div class="risk-card" id="cardCervical">
+            <div class="risk-card-head">
+              <span class="cancer-label">Cervical</span>
+              <span class="risk-pill" id="pillCervical">--</span>
+            </div>
+            <div class="risk-stat-group">
+              <div class="stat-col"><span class="stat-caption">Baseline</span><span class="stat-value" id="baseRiskCervical">--%</span></div>
+              <div class="stat-arrow">&rarr;</div>
+              <div class="stat-col"><span class="stat-caption">Simulated</span><span class="stat-value highlight-green" id="simRiskCervical">--%</span></div>
+            </div>
+            <div class="reduction-badge" id="reductionCervical">--</div>
+          </div>
+
+          <!-- Prostate -->
+          <div class="risk-card" id="cardProstate">
+            <div class="risk-card-head">
+              <span class="cancer-label">Prostate</span>
+              <span class="risk-pill" id="pillProstate">--</span>
+            </div>
+            <div class="risk-stat-group">
+              <div class="stat-col"><span class="stat-caption">Baseline</span><span class="stat-value" id="baseRiskProstate">--%</span></div>
+              <div class="stat-arrow">&rarr;</div>
+              <div class="stat-col"><span class="stat-caption">Simulated</span><span class="stat-value highlight-green" id="simRiskProstate">--%</span></div>
+            </div>
+            <div class="reduction-badge" id="reductionProstate">--</div>
+          </div>
+        </div>
+
+        <!-- FULL-WIDTH EXPANSIVE HIGH-DEFINITION TRAJECTORY CHART STAGE -->
+        <div class="chart-stage-fullwidth">
+          <div class="chart-header">
+            <div class="chart-title-group">
+              <h4>Cumulative Risk Trajectory (Full 30-Year Projection)</h4>
+              <div class="cancer-curve-selector">
+                <label for="selectChartCancer">Select Cancer Axis:</label>
+                <select id="selectChartCancer">
+                  <option value="Lung" selected>Lung Cancer</option>
+                  <option value="Colorectal">Colorectal Cancer</option>
+                  <option value="Breast">Breast Cancer</option>
+                  <option value="Cervical">Cervical Cancer</option>
+                  <option value="Prostate">Prostate Cancer</option>
+                </select>
+              </div>
+            </div>
+            <div class="chart-legend">
+              <span class="legend-item"><span class="legend-dot baseline-dot"></span> Baseline Cumulative Risk</span>
+              <span class="legend-item"><span class="legend-dot simulated-dot"></span> What-If Intervention Curve</span>
+            </div>
+          </div>
+          <div class="canvas-container">
+            <canvas id="trajectoryCanvas" width="1200" height="340"></canvas>
+          </div>
+        </div>
+
+        <!-- BALANCED BOTTOM SECTION: Clinical Narrative & Traces -->
+        <div class="sim-bottom-split">
+          <div class="clinical-narrative-box">
+            <div class="panel-header" style="margin-bottom:0.75rem; padding-bottom:0.5rem; border-bottom:1px solid var(--border-light);">
+              <div class="panel-title-wrap">
+                <svg class="panel-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                <h4>Clinical Executive Twin Synthesis</h4>
+              </div>
+            </div>
+            <p id="clinicalNarrativeText">Click "Execute Agentic What-If Simulation" to synthesize personalized trajectory projections and clinical narratives.</p>
+          </div>
+
+          <div class="traces-container-box">
+            <div class="panel-header trace-subhead">
+              <div class="panel-title-wrap">
+                <svg class="panel-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                <h5>Multi-Agent Reasoning & LangGraph Execution Traces</h5>
+              </div>
+              <span class="badge" id="traceCountBadge">0 Steps</span>
+            </div>
+            <div class="traces-scroll" id="agentTraceContainer">
+              <div class="empty-state">Multi-agent execution log will stream here during simulation...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SEPARATE DEDICATED SECTION WITH PROPER GAP & HEADING FOR KNOWLEDGE BASE ARTICLES -->
+        <div class="evidence-grounding-section">
+          <div class="panel-header evidence-section-header">
+            <div class="panel-title-wrap">
+              <svg class="panel-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+              </svg>
+              <div>
+                <h4>Retrieved Clinical Guidelines & Evidence Base (ChromaDB / PubMed)</h4>
+                <p class="panel-subtitle-desc">Peer-reviewed oncology trials, USPSTF recommendations, and NCCN guideline extracts cited by the Digital Twin</p>
+              </div>
+            </div>
+            <span class="badge badge-accent" id="evidenceCountBadge">0 Guidelines Grounded</span>
+          </div>
+          <div class="evidence-list-grid" id="evidenceListContainer">
+            <div class="empty-state">Clinical citations retrieved from ChromaDB will display here.</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================== -->
+    <!-- VIEW 5: DEDICATED THERAPEUTIC & TOXICITY SIMULATOR (TUMOR BOARD) [HIDDEN] -->
+    <!-- ========================================================== -->
+    <section class="spa-view" id="viewTherapeuticSim" style="display: none !important;">
+      <div class="therapeutic-grid">
+        <!-- LEFT: Therapeutic Levers & Active Rx Checklist -->
+        <div class="therapeutic-levers-box">
+          <div class="panel-header">
+            <div class="panel-title-wrap">
+              <svg class="panel-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.5 20.5l10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7z"></path><line x1="8.5" y1="8.5" x2="15.5" y2="15.5"></line></svg>
+              <h2>Therapeutic Levers & Pharmacology</h2>
+            </div>
+            <span class="badge badge-accent" id="therapeuticProfileBadge">Stage III Colorectal</span>
+          </div>
+
+          <p class="control-desc" style="margin-bottom: 1rem;">
+            Test how surgical margin re-excision, stereotactic radiation boost, and targeted cancer drugs interact with active patient medications from Store 3 to model survival gains vs lethal adverse toxicity.
+          </p>
+
+          <form id="therapeuticSimForm" class="profile-form">
+            <!-- Locoregional Modality Levers -->
+            <div class="form-section-title">Locoregional Margin Control</div>
+            <div class="control-box" style="margin-bottom: 0.75rem;">
+              <div class="control-header">
+                <label for="checkTherapeuticReExcision" class="control-label">Surgical Margin Re-Excision</label>
+                <input type="checkbox" id="checkTherapeuticReExcision" class="toggle-switch">
+              </div>
+              <p class="control-desc">Re-operates on primary bed to achieve microscopic clear margins (R1 &rarr; R0 clearance).</p>
+            </div>
+
+            <div class="control-box" style="margin-bottom: 0.75rem;">
+              <div class="control-header">
+                <label for="checkTherapeuticSbrt" class="control-label">SBRT Radiotherapy Bed Boost</label>
+                <input type="checkbox" id="checkTherapeuticSbrt" class="toggle-switch">
+              </div>
+              <p class="control-desc">Delivers stereotactic ablative field boost to sterilize residual tumor cells without surgery delay.</p>
+            </div>
+
+            <!-- Systemic Oncology Therapy Lever -->
+            <div class="form-section-title">Systemic Regimen Selection</div>
+            <div class="form-group" style="margin-bottom: 1rem;">
+              <label for="selectTherapeuticSystemic">Adjuvant Cancer Drug / Biological Regimen</label>
+              <select id="selectTherapeuticSystemic">
+                <option value="Targeted TKI (Selpercatinib / RET inhibitor)" selected>Targeted TKI (Selpercatinib / RET-fusion Inhibitor)</option>
+                <option value="Targeted TKI (Osimertinib / EGFR inhibitor)">Targeted TKI (Osimertinib / EGFR-mutant Inhibitor)</option>
+                <option value="Adjuvant Chemotherapy (FOLFOX 12 cycles / CAPOX)">Adjuvant Chemotherapy (FOLFOX 12 cycles / Fluoropyrimidines)</option>
+                <option value="Immune Checkpoint Blockade (Pembrolizumab)">Immune Checkpoint Blockade (Pembrolizumab / Anti-PD-1)</option>
+                <option value="None / Active Surveillance Only">None / Active Clinical Surveillance Only</option>
+              </select>
+            </div>
+
+            <!-- Active Co-administered Medications Checklist (Store 3) -->
+            <div class="form-section-title form-section-title-flex">
+              <span>Active Prescriptions (Store 3 Patient Meds)</span>
+              <span class="badge badge-ddi-audit">DDI Collision Audit</span>
+            </div>
+            <div class="meds-checklist">
+              <label class="med-item-check">
+                <input type="checkbox" id="checkMedAmiodarone" checked>
+                <div class="med-info-wrap">
+                  <div class="med-main-line"><strong>Amiodarone (200mg daily)</strong> &bull; Antiarrhythmic</div>
+                  <span class="med-warning-tag">⚠️ CYP3A4 / QTc Collision</span>
+                </div>
+              </label>
+              <label class="med-item-check">
+                <input type="checkbox" id="checkMedWarfarin" checked>
+                <div class="med-info-wrap">
+                  <div class="med-main-line"><strong>Warfarin (5mg daily)</strong> &bull; Anticoagulant</div>
+                  <span class="med-warning-tag">⚠️ Severe Bleeding Hazard</span>
+                </div>
+              </label>
+              <label class="med-item-check">
+                <input type="checkbox" id="checkMedMetoprolol">
+                <div class="med-info-wrap">
+                  <div class="med-main-line"><strong>Metoprolol (50mg daily)</strong> &bull; Beta-Blocker</div>
+                </div>
+              </label>
+              <label class="med-item-check">
+                <input type="checkbox" id="checkMedAtorvastatin">
+                <div class="med-info-wrap">
+                  <div class="med-main-line"><strong>Atorvastatin (40mg daily)</strong> &bull; Statin</div>
+                </div>
+              </label>
+              <label class="med-item-check">
+                <input type="checkbox" id="checkMedOmeprazole">
+                <div class="med-info-wrap">
+                  <div class="med-main-line"><strong>Omeprazole (20mg daily)</strong> &bull; Proton Pump Inhibitor</div>
+                </div>
+              </label>
+            </div>
+
+            <button type="button" id="btnRunTherapeuticSim" class="btn btn-primary pulse-btn" style="margin-top: 1.25rem;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              Simulate Regimen Survival & Toxicity Curve
+            </button>
+          </form>
+        </div>
+
+        <!-- RIGHT: Dual Interactive Graphs & Lethal DDI Hazard Arena -->
+        <div class="dual-chart-stack">
+          <!-- Dynamic Lethal Warning Banner (Toggled when collision detected) -->
+          <div id="lethalDdiBanner" class="lethal-ddi-banner" style="display: none;">
+            <div class="lethal-banner-icon">&#9888;&#65039;</div>
+            <div class="lethal-banner-body">
+              <h4 id="lethalBannerTitle">CRITICAL: Life-Threatening Drug-Drug Interaction Detected</h4>
+              <p id="lethalBannerDesc">Co-administration of the proposed targeted kinase inhibitor with Amiodarone triggers severe QTc prolongation (&gt;520 ms) and CYP3A4 metabolic saturation, carrying an 79.5% cumulative Grade 3/4 cardiac toxicity hazard by Day 60.</p>
+            </div>
+          </div>
+
+          <!-- Top Chart: 5-Year Relapse-Free Survival Trajectory -->
+          <div class="chart-card-therapeutic">
+            <div class="chart-header-therapeutic">
+              <div>
+                <h4>Comparative 5-Year Relapse-Free Survival (RFS) Trajectory</h4>
+                <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.15rem;">Baseline natural history vs. Proposed multimodal therapeutic regimen</p>
+              </div>
+              <div style="display:flex; gap:0.5rem; align-items:center;">
+                <span class="badge" id="rfsGainBadge" style="background:#ecfdf5; color:#065f46; font-weight:700; border:1px solid #a7f3d0;">+0.0% RFS Gain</span>
+              </div>
+            </div>
+            <div class="chart-canvas-container">
+              <canvas id="rfsTrajectoryCanvas" width="900" height="250"></canvas>
+            </div>
+          </div>
+
+          <!-- Bottom Chart: 180-Day DDI & Toxicity Hazard Curve -->
+          <div class="chart-card-therapeutic">
+            <div class="chart-header-therapeutic">
+              <div>
+                <h4>Cumulative 180-Day Drug-Drug Adverse Interaction & Toxicity Hazard Curve</h4>
+                <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.15rem;">Pharmacokinetic CYP450 saturation, cardiac QTc prolongation & bleeding hazard</p>
+              </div>
+              <div style="display:flex; gap:0.5rem; align-items:center;">
+                <span class="badge" id="toxicityHazardBadge" style="background:#fee2e2; color:#991b1b; font-weight:700; border:1px solid #fecaca;">Toxicity: Normal</span>
+              </div>
+            </div>
+            <div class="chart-canvas-container">
+              <canvas id="ddiToxicityCanvas" width="900" height="250"></canvas>
+            </div>
+          </div>
+
+          <!-- Clinical Recommendations & Collision Details -->
+          <div class="clinical-narrative-box">
+            <h4>Oncology Board Pharmacological Recommendation</h4>
+            <p id="therapeuticRecText">Configure therapeutic levers and active medications, then click "Simulate Regimen Survival & Toxicity Curve".</p>
+            
+            <div class="ddi-cards-container" id="ddiCardsContainer">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="app-footer">
+    <p>CancerTwin AI &bull; A virtual Twin Cancer Simulation Tracker</p>
+  </footer>
+
+  <script src="/static/app.js?v=3.2"></script>
+</body>
+</html>
