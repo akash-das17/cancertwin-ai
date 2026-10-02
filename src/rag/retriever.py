@@ -3,7 +3,7 @@ from src.rag.vector_store import ChromaManager
 from src.models.risk_report import GuidelineEvidence
 from src.tools.pubmed_tool import PubMedTool
 
-CONFIDENCE_DISTANCE_THRESHOLD = 0.50
+CONFIDENCE_DISTANCE_THRESHOLD = 1.15
 
 class OncologyRetriever:
     """Retrieves clinical oncology guidelines from ChromaDB, with automatic PubMed live search on low confidence."""
