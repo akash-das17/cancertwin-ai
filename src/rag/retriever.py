@@ -64,6 +64,31 @@ class OncologyRetriever:
 
         return evidence_list
 
+    def retrieve_live_pubmed(
+        self,
+        query: str,
+        cancer_type: Optional[str] = None,
+        max_results: int = 2
+    ) -> List[GuidelineEvidence]:
+        """Directly retrieves real-time clinical trials and literature from NCBI PubMed."""
+        evidence_list = []
+        try:
+            pubmed_articles = self.pubmed_tool.search_pubmed(query, max_results=max_results)
+            for art in pubmed_articles:
+                evidence_list.append(GuidelineEvidence(
+                    id=art["id"],
+                    cancer_type=cancer_type or "Research Literature",
+                    title=art["title"],
+                    source=f"PubMed / {art['source']}",
+                    excerpt=art["summary"],
+                    hazard_ratio=None,
+                    evidence_level="PubMed Live Research",
+                    url=art["url"]
+                ))
+        except Exception as e:
+            print(f"[OncologyRetriever] Live PubMed retrieval error: {e}")
+        return evidence_list
+
     def get_risk_context_for_cancer(self, cancer_type: str, patient_summary: str) -> List[GuidelineEvidence]:
         """Specialized retrieval query for baseline cancer risk assessment."""
         query = f"Risk factors, hazard ratios, and screening criteria for {cancer_type} cancer: {patient_summary}"

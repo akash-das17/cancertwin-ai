@@ -73,8 +73,9 @@ KNOWN_VARIANT_CATALOG: Dict[str, Dict[str, Any]] = {
 class PubMedTool:
     """Tool that performs real-time queries to NCBI PubMed E-Utilities and genomic databases."""
 
-    def __init__(self, timeout_sec: float = 4.0):
+    def __init__(self, timeout_sec: float = 3.5):
         self.timeout = timeout_sec
+        self._cache: Dict[str, List[Dict[str, Any]]] = {}
 
     def _clean_search_term(self, query: str) -> str:
         """Sanitizes conversational queries into concise clinical PubMed search terms."""
@@ -115,6 +116,10 @@ class PubMedTool:
         Executes a real-time literature search via NCBI Entrez E-Utilities.
         Returns a list of articles with Title, Source, Year, PMID, and direct PubMed URL.
         """
+        cache_key = f"{query.strip().lower()}_{max_results}"
+        if cache_key in self._cache:
+            return list(self._cache[cache_key])
+
         results = []
         term_to_search = self._clean_search_term(query) or query
         try:
@@ -175,6 +180,8 @@ class PubMedTool:
         except Exception as e:
             print(f"[PubMedTool] Live search exception: {e}")
 
+        if results:
+            self._cache[cache_key] = results
         return results
 
     def lookup_variant_knowledge(self, gene: str, mutation: Optional[str] = None) -> Dict[str, Any]:

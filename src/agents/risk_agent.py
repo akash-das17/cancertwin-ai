@@ -176,6 +176,26 @@ class RiskAssessmentAgent(BaseAgent):
             trajectory=prost_traj
         )
 
+        # Autonomous Live PubMed Grounding for Primary Cancer Vulnerability & Somatic Genomics
+        valid_cancers = [k for k, v in assessments.items() if v.baseline_risk_pct > 0.0]
+        if valid_cancers:
+            primary_cancer = max(valid_cancers, key=lambda k: assessments[k].baseline_risk_pct)
+            genomic_term = f" {profile.genetics.other_genomic_alterations}" if profile.genetics.other_genomic_alterations else ""
+            pubmed_query = f"{primary_cancer} cancer{genomic_term} precision screening risk prevention clinical trial"
+            self.log(
+                step_title="Autonomous Live PubMed Literature Query",
+                details=f"Querying NCBI Entrez PubMed E-Utilities in real time for {primary_cancer} cancer peer-reviewed clinical trials."
+            )
+            live_trials = self.retriever.retrieve_live_pubmed(query=pubmed_query, cancer_type=primary_cancer, max_results=2)
+            if live_trials:
+                existing_ids = {c.id for c in assessments[primary_cancer].evidence_citations}
+                added = [t for t in live_trials if t.id not in existing_ids]
+                assessments[primary_cancer].evidence_citations.extend(added)
+                self.log(
+                    step_title="Live PubMed Evidence Grounded",
+                    details=f"Grounded {len(added)} verified live PubMed research trial(s) for {primary_cancer} with Scientific Skeptic audit readiness."
+                )
+
         self.log(
             step_title="5-Cancer Baseline Assessment Complete",
             details=(

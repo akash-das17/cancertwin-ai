@@ -186,13 +186,24 @@ def evidence_retrieval_node(state: TumorBoardDebateState) -> Dict[str, Any]:
             if ge.id not in existing_ids:
                 evidence.append(ge)
 
+    # Directly ground live PubMed precision trials for multidisciplinary review
+    pubmed_trials_live = retriever.retrieve_live_pubmed(
+        query=f"{history.primary_cancer_type} cancer {history.stage_at_diagnosis} {history.biomarkers.genomic_alterations or 'ctDNA'} relapse clinical trial",
+        cancer_type=history.primary_cancer_type,
+        max_results=2
+    )
+    existing_ids = {e.id for e in evidence}
+    for pt in pubmed_trials_live:
+        if pt.id not in existing_ids:
+            evidence.append(pt)
+
     traces.append(AgentTraceLog(
         agent_name="Tumor Board Supervisor Agent",
         step_title="Knowledge Base Query for Relapse & Adjuvant Evidence",
         details=f"Retrieved {len(evidence)} clinical trials and guidelines from ChromaDB / PubMed."
     ))
 
-    # Tag PubMed trials; detailed methodology audit remains instantly accessible on-demand via the 'Appraise Trial' button
+    # Tag PubMed trials; detailed methodology audit remains accessible for multidisciplinary review
     pubmed_trials = [e for e in evidence if e.id.startswith("PUBMED-")]
     for trial in pubmed_trials:
         if not trial.hazard_ratio:
@@ -201,7 +212,7 @@ def evidence_retrieval_node(state: TumorBoardDebateState) -> Dict[str, Any]:
         traces.append(AgentTraceLog(
             agent_name="Clinical Trial Appraisal Agent",
             step_title="Clinical Trial Evidence Grounded",
-            details=f"Grounded {len(pubmed_trials)} precision oncology trial(s) for multidisciplinary board review."
+            details=f"Grounded {len(pubmed_trials)} precision oncology trial(s) from live PubMed for multidisciplinary board review."
         ))
 
     return {"evidence": evidence, "traces": traces}
