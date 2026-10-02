@@ -39,6 +39,7 @@ def clean_markdown_artifacts(text: Optional[str]) -> str:
     cleaned = cleaned.replace("\u2018", "'").replace("\u2019", "'").replace("\u201c", '"').replace("\u201d", '"')
     cleaned = cleaned.replace("\u202f", " ").replace("\u00a0", " ")
     cleaned = cleaned.replace("\u2248", "~").replace("\u2265", ">=").replace("\u2264", "<=")
+    cleaned = cleaned.replace("\u00b2", "2").replace("\u00b3", "3")
     return cleaned.strip()
 
 class LLMClient:

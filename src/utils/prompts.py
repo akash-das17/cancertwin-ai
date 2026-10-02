@@ -199,11 +199,11 @@ def generate_clinical_narrative(patient_summary: dict, assessment_results: dict,
     interventions_str = ", ".join(applied_actions) if applied_actions else "lifestyle optimization and routine surveillance"
 
     user_prompt = (
-        f"In exactly 2 concise clinical sentences (under 50 words total), synthesize this patient report:\n"
+        f"Synthesize this oncology digital twin simulation into an actionable clinical recommendation (3-4 concise sentences, ~75-90 words):\n"
         f"- Patient: {age}-year-old {sex}, Health Index: {patient_summary.get('health_score', 80)}/100.\n"
-        f"- Primary Vulnerability: {highest_risk_cancer.capitalize() if highest_risk_cancer else 'General'} cancer ({max_risk:.1f}% 10-year risk).\n"
+        f"- Primary Vulnerability: {highest_risk_cancer.capitalize() if highest_risk_cancer else 'General'} cancer ({max_risk:.1f}% 10-year baseline risk).\n"
         f"- Simulated Interventions: {interventions_str}.\n"
-        f"State the primary risk, the projected risk reduction from the interventions, and the immediate guideline priority. "
+        f"Provide an actionable clinical action plan: explain the projected risk attenuation, provide concrete lifestyle prescriptions (dietary targets, physical activity minimums, environmental mitigations), and specify the exact guideline-directed screening protocols (NCCN/USPSTF intervals).\n"
         f"CRITICAL: Do NOT use markdown asterisks (**), bolding, bullet points, or titles. Plain clinical text only."
     )
 
